@@ -1,0 +1,35 @@
+// --------------------------------------------------------
+//    Credit Worthiness or Credit Score
+// --------------------------------------------------------
+import *;
+
+UseCaseData useCaseData = new UseCaseData(200,2000);
+
+// --------------------------------------------------------------------
+//    DEFAULT NOISE LEVELS (defined in the class UserType)
+// --------------------------------------------------------------------
+// UserType.addNoiseLevel("EX",new Double[] {1.0d, 3.0d, 7.5d, 10.0d});
+// UserType.addNoiseLevel("VG",new Double[] {1.0d, 3.0d, 6.0d, 10.0d});
+// UserType.addNoiseLevel("GD",new Double[] {1.0d, 3.0d, 4.0d, 8.0d});
+// UserType.addNoiseLevel("BD",new Double[] {1.0d, 3.0d, 7.5d, 10.0d});
+// UserType.addNoiseLevel("DN",new Double[] {1.0d, 4.5d, 9.0d, 13.5d});
+// --------------------------------------------------------------------
+
+// CLEAN DATA
+UserType.addNoiseLevel("EX",new Double[] {1.0d, 5.0d, 8.0d, 10.0d});
+UserType.addNoiseLevel("VG",new Double[] {1.0d, 2.5d, 6.0d, 10.0d});
+UserType.addNoiseLevel("GD",new Double[] {1.0d, 3.0d, 4.0d, 8.0d});
+UserType.addNoiseLevel("BD",new Double[] {1.0d, 3.0d, 7.5d, 10.0d});
+UserType.addNoiseLevel("DN",new Double[] {1.0d, 6.0d, 10.0d, 14.0d});
+
+//NOISY DATA
+UserType.addNoiseLevel("EX",new Double[] {0.5d, 1.5d, 3.0d, 4.0d});
+UserType.addNoiseLevel("VG",new Double[] {0.5d, 1.5d, 3.0d, 4.0d});
+UserType.addNoiseLevel("GD",new Double[] {0.5d, 1.5d, 3.0d, 4.0d});
+UserType.addNoiseLevel("BD",new Double[] {0.5d, 1.5d, 3.0d, 4.0d});
+UserType.addNoiseLevel("DN",new Double[] {0.5d, 1.5d, 3.0d, 4.0d});
+
+
+useCaseData.create(true);
+
+

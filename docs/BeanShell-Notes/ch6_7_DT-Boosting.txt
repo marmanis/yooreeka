@@ -1,0 +1,25 @@
+UserDataset ds = UserLoader.loadTrainingDataset();
+
+BoostingCreditClassifier arcx4 = new BoostingCreditClassifier(ds);
+
+arcx4.setClassifierType("decision tree");
+
+arcx4.setClassifierPopulation(1);
+        
+arcx4.setVerbose(false);
+  
+arcx4.train();
+
+UserDataset testDS = UserLoader.loadTestDataset();
+
+CreditErrorEstimator arcx4ee  = new CreditErrorEstimator(testDS, arcx4);
+
+arcx4ee.run();                                                                          
+
+arcx4.setClassifierPopulation(3);
+
+arcx4.train();
+
+arcx4ee  = new CreditErrorEstimator(testDS, arcx4);
+
+arcx4ee.run();

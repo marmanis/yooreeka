@@ -1,0 +1,63 @@
+//----------------------------------------------------------------
+// UserDataset ds = new UserDataset(UserLoader.loadUsers("C:\\iWeb2\\data\\ch06\\credit\\generated-training-users.txt"));
+//
+UserDataset ds = UserLoader.loadTrainingDataset();
+
+NNCreditClassifier neuralNet = new NNCreditClassifier(ds);
+
+neuralNet.setLearningRate(0.025);
+neuralNet.useDefaultAttributes();
+        
+neuralNet.train();
+
+//
+// Now, calculate error rate for test set
+//
+
+UserDataset testDS = UserLoader.loadTestDataset();
+
+CreditErrorEstimator nn_err = new CreditErrorEstimator(testDS, neuralNet);
+       
+nn_err.run();
+
+/*
+
+============================================================
+ Classification completed in 1.702 seconds.
+
+ Total test dataset txns: 20000
+    Classified correctly: 14330, Misclassified: 5670
+                Accuracy: 0.7165
+___________________________________________________________
+
+                CONFUSION MATRIX
+___________________________________________________________
+
+         EX     VG     GD     BD     DN
+  EX    498      0    372      0      0
+  VG     91      0   4100     23      0
+  GD      0      0   8804    897      0
+  BD      0      0     33   4175    147
+  DN      0      0      0      7    853
+  
+============================================================
+
+ Classification completed in 5.261 seconds.
+
+ Total test dataset txns: 75000
+    Classified correctly: 58698, Misclassified: 16302
+                Accuracy: 0.78264
+___________________________________________________________
+
+                CONFUSION MATRIX
+___________________________________________________________
+
+         EX     VG     GD     BD     DN
+  EX    473   2728     52      0      0
+  VG     80  10224   5580     12      0
+  GD      1   3779  29573   2991      0
+  BD      0      0    451  15273    595
+  DN      0      0      1     32   3155
+============================================================
+
+*/

@@ -1,0 +1,10 @@
+// Crawling for News 
+String rootDir = YooreekaConfigurator.getProperty(YooreekaConfigurator.CRAWL_DATA_DIR);
+
+NewsCrawler crawler = new NewsCrawler(rootDir, 2, 100);
+
+crawler.addSeedUrl("http://www.manning.com/");
+
+crawler.run();
+
+

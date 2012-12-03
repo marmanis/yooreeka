@@ -1,0 +1,118 @@
+// NOTE:
+// The following script assumes that you have already executed the previous steps
+// for each classifier.
+//
+
+//
+// For McNemar's test, we can use any combination of two classifiers. 
+//
+
+McNemarTest mnTest1 = new McNemarTest(nb_err.getResults(), nn_err.getResults());
+McNemarTest mnTest2 = new McNemarTest(nb_err.getResults(), dt_err.getResults());
+McNemarTest mnTest3 = new McNemarTest(dt_err.getResults(), nn_err.getResults());
+
+mnTest1.evaluate();
+mnTest2.evaluate();
+mnTest3.evaluate();
+
+//
+// For the difference of two proportions, we can use any combination of two classifiers. 
+//
+
+Diff2PropTest d2pTest1 = new Diff2PropTest(nb_err.getResults(), nn_err.getResults());
+Diff2PropTest d2pTest2 = new Diff2PropTest(nb_err.getResults(), dt_err.getResults());
+Diff2PropTest d2pTest3 = new Diff2PropTest(dt_err.getResults(), nn_err.getResults());
+
+d2pTest1.evaluate();
+d2pTest2.evaluate();
+d2pTest3.evaluate();
+
+
+CochransQTest cqTest = new CochransQTest(nb_err.getResults(), dt_err.getResults(), nn_err.getResults());
+
+cqTest.evaluate();
+
+FTest fTest = new FTest(nb_err.getResults(), dt_err.getResults(), nn_err.getResults());
+
+fTest.evaluate();
+
+/*
+________________________________________________________________________________________________________________
+
+
+
+bsh % McNemarTest mnTest1 = new McNemarTest(nb_err.getResults(), nn_err.getResults());
+McNemarTest mnTest2 = new McNemarTest(nb_err.getResults(), dt_err.getResults());
+McNemarTest mnTest3 = new McNemarTest(dt_err.getResults(), nn_err.getResults());
+bsh % bsh % bsh % mnTest1.evaluate();
+mnTest2.evaluate();
+mnTest3.evaluate();
+      _____________________________________________________
+      Evaluating classifiers NBCreditClassifier and NNCreditClassifier:
+      _____________________________________________________
+      NBCreditClassifier accuracy: 0.826
+      NNCreditClassifier accuracy: 0.7165
+      _____________________________________________________
+      N = 20000, n00=3050, n10=2620, n01=430, n11=13900
+      Chi2 = 1571.0560655737704
+      _____________________________________________________
+      The two classifiers are different: TRUE
+bsh %       _____________________________________________________
+      Evaluating classifiers NBCreditClassifier and DTCreditClassifier:
+      _____________________________________________________
+      NBCreditClassifier accuracy: 0.826
+      DTCreditClassifier accuracy: 0.8262
+      _____________________________________________________
+      N = 20000, n00=3252, n10=224, n01=228, n11=16296
+      Chi2 = 0.01991150442477876
+      _____________________________________________________
+      The two classifiers are different: FALSE
+bsh %       _____________________________________________________
+      Evaluating classifiers DTCreditClassifier and NNCreditClassifier:
+      _____________________________________________________
+      DTCreditClassifier accuracy: 0.8262
+      NNCreditClassifier accuracy: 0.7165
+      _____________________________________________________
+      N = 20000, n00=2872, n10=2798, n01=604, n11=13726
+      Chi2 = 1413.6534391534392
+      _____________________________________________________
+      The two classifiers are different: TRUE
+bsh % Diff2PropTest d2pTest1 = new Diff2PropTest(nb_err.getResults(), nn_err.getResults());
+Diff2PropTest d2pTest2 = new Diff2PropTest(nb_err.getResults(), dt_err.getResults());
+Diff2PropTest d2pTest3 = new Diff2PropTest(dt_err.getResults(), nn_err.getResults());
+
+d2pTest1.evaluate();
+d2pTest2.evaluate();
+d2pTest3.evaluate();
+bsh % bsh % bsh % bsh % 
+      _____________________________________________________
+      Evaluating classifiers NBCreditClassifier and NNCreditClassifier:
+      _____________________________________________________
+      NBCreditClassifier accuracy: 0.826
+      NNCreditClassifier accuracy: 0.7165
+      _____________________________________________________
+      z = 26.069696745398772
+      _____________________________________________________
+      The classifiers are different: TRUE
+bsh %       _____________________________________________________
+      Evaluating classifiers NBCreditClassifier and DTCreditClassifier:
+      _____________________________________________________
+      NBCreditClassifier accuracy: 0.826
+      DTCreditClassifier accuracy: 0.8262
+      _____________________________________________________
+      z = -0.05276718103090302
+      _____________________________________________________
+      The classifiers are different: FALSE
+bsh %       _____________________________________________________
+      Evaluating classifiers DTCreditClassifier and NNCreditClassifier:
+      _____________________________________________________
+      DTCreditClassifier accuracy: 0.8262
+      NNCreditClassifier accuracy: 0.7165
+      _____________________________________________________
+      z = 26.12132981820125
+      _____________________________________________________
+      The classifiers are different: TRUE
+bsh %
+________________________________________________________________________________________________________________
+
+*/

@@ -1,0 +1,24 @@
+// ------------------------------------------------------
+//   Collecting data and searching with Lucene
+// ------------------------------------------------------
+
+import *;
+
+//
+// -- Data (default URL list)
+//
+String yHome = YooreekaConfigurator.getHome();
+FetchAndProcessCrawler crawler = new FetchAndProcessCrawler(yHome+"/data/ch02",5,200);
+crawler.setDefaultUrls(); 
+crawler.run(); 
+
+//
+// -- Lucene
+//
+LuceneIndexer luceneIndexer = new LuceneIndexer(crawler.getRootDir());
+luceneIndexer.run(); 
+
+MySearcher oracle = new MySearcher(luceneIndexer.getLuceneDir());
+
+oracle.search("armstrong",5); 
+

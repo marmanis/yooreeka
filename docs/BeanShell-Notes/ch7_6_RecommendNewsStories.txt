@@ -1,0 +1,10 @@
+NewsDataset ds = new FileListNewsDataset("NewsDataset");
+ds.setDocumentDir("C:/iWeb2/data/ch07/all");
+ds.setTopTerms(25);
+ds.setUserAndRatingsFilename("c:/iWeb2/data/ch07/ratings/ratings.txt");
+ds.init();
+
+StoryRecommender delphi = new StoryRecommender(ds);
+delphi.calculateRecommendations();
+
+delphi.recommendStories("1");

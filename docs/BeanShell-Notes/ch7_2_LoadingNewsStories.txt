@@ -1,0 +1,17 @@
+// ---------
+//  Run indexing and search on the default pages(no crawling) 
+// ---------
+NewsDataset dataset = new FileListNewsDataset("DefaultDS");
+
+dataset.setDocumentDir("C:/iWeb2/data/ch07/all");
+dataset.setTopTerms(15);
+dataset.loadTopics();
+dataset.loadStories();
+
+NewsUI ui = new NewsUI(dataset);
+
+NewsUI.createAndShowUI(ui);
+
+
+        
+

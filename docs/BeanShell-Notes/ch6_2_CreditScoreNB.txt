@@ -1,0 +1,62 @@
+//----------------------------------------------------------------
+
+UserDataset ds = UserLoader.loadTrainingDataset();
+
+NBCreditClassifier naiveBayes = new NBCreditClassifier(ds);
+
+naiveBayes.useDefaultAttributes();
+
+naiveBayes.train();
+
+
+//
+// Now, calculate error rate for test set
+//
+
+UserDataset testDS = UserLoader.loadTestDataset();
+
+CreditErrorEstimator nb_err = new CreditErrorEstimator(testDS, naiveBayes);
+       
+nb_err.run();
+
+
+/*
+
+
+==================================================================
+ Classification completed in 1.575 seconds.
+
+ Total test dataset txns: 20000
+    Classified correctly: 16520, Misclassified: 3480
+                Accuracy: 0.826
+___________________________________________________________
+
+                CONFUSION MATRIX
+___________________________________________________________
+
+         EX     VG     GD     BD     DN
+  EX    828     24     18      0      0
+  VG    161   2149   1900      4      0
+  GD      1    418   8482    800      0
+  BD      0      0      0   4208    147
+  DN      0      0      0      7    853
+
+==================================================================
+ Classification completed in 20.622 seconds.
+
+ Total test dataset txns: 75000
+    Classified correctly: 61925, Misclassified: 13075
+                Accuracy: 0.8256666666666667
+___________________________________________________________
+
+                CONFUSION MATRIX
+___________________________________________________________
+
+         EX     VG     GD     BD     DN
+  EX   3160     39     54      0      0
+  VG    617   8131   7132     16      0
+  GD     12   1504  31756   3072      0
+  BD      0      0      1  15723    595
+  DN      0      0      0     33   3155
+
+*/

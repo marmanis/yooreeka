@@ -1,0 +1,61 @@
+// -------------------------------------------------------------
+//   Searching for results with a hybrid ranking + user clicks
+// -------------------------------------------------------------
+import *;
+
+//===========================================================================================
+//
+// -- Data (Business news URLs and 3 spam pages)
+//
+String yHome = YooreekaConfigurator.getHome();
+FetchAndProcessCrawler crawler = new FetchAndProcessCrawler(yHome+"/data/ch02",5,200);
+
+crawler.setUrls("biz"); 
+crawler.addDocSpam();
+
+// or use ALL the pages
+// crawler.setAllUrls(); 
+
+crawler.run(); 
+
+//
+// -- Lucene
+//
+LuceneIndexer luceneIndexer = new LuceneIndexer(crawler.getRootDir());
+luceneIndexer.run(); 
+MySearcher oracle = new MySearcher(luceneIndexer.getLuceneDir());
+
+//
+// -- PageRank
+//
+PageRank pageRank = new PageRank(crawler.getCrawlData());
+pageRank.setAlpha(0.9);
+pageRank.setEpsilon(0.00000001);
+pageRank.build();
+
+//
+// -- Load the user clicks
+//
+UserClick aux = new UserClick();
+UserClick[] clicks = (UserClick[]) aux.load(yHome+"/data/ch02/user-clicks.csv");
+TrainingSet tSet = new TrainingSet(clicks);
+
+//
+// -- Create the classifier and train it
+//
+NaiveBayes naiveBayes = new NaiveBayes("Naive Bayes", tSet);
+naiveBayes.trainOnAttribute("a-0");
+naiveBayes.trainOnAttribute("a-1");
+naiveBayes.trainOnAttribute("a-2");
+naiveBayes.train();
+
+oracle.setUserLearner(naiveBayes);
+
+//
+// -- Combined ranking
+//
+UserQuery babisQuery = new UserQuery("babis","google ads");
+oracle.search(babisQuery,5,pageRank); 
+
+UserQuery dmitryQuery = new UserQuery("dmitry","google ads");
+oracle.search(dmitryQuery,5,pageRank); 

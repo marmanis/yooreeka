@@ -1,0 +1,33 @@
+// ------------------------------------------------------
+//    Recommendations with Digg API
+// ------------------------------------------------------
+import *;
+
+String yHome = YooreekaConfigurator.getHome();
+
+// 0. Load data from Digg
+//    DiggData.loadDataFromDigg();
+//    DiggData.saveData(yHome+"/data/ch03/digg_stories.csv");
+//
+DiggData.loadData(yHome+"/data/ch03/digg_stories.csv");
+BaseDataset ds = DiggData.createDataset();
+
+
+// 2. Pick a user randomly or by username
+org.yooreeka.algos.reco.collab.model.User user = ds.getUser(1);
+
+// Or pick some specific user by username
+//DiggData.showUsers();
+//org.yooreeka.algos.reco.collab.model.User user = ds.findUserByName("<some name>");
+
+
+// 3. Show similar users
+Delphi delphiUC = new Delphi(ds,RecommendationType.USER_CONTENT_BASED);
+delphiUC.setVerbose(true);
+delphiUC.findSimilarUsers(user);
+
+// 4. Recommend items for user
+Delphi delphiUIC = new Delphi(ds,RecommendationType.USER_ITEM_CONTENT_BASED);
+delphiUIC.setVerbose(true);
+delphiUIC.recommend(user);
+

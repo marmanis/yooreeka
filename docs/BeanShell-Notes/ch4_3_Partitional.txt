@@ -1,0 +1,14 @@
+// --------------------------------------------------------
+//    Clustering based on partitional algorithms
+// --------------------------------------------------------
+import *;
+
+SFDataset ds = SFData.createDataset();
+
+DataPoint[] dps = ds.getData();
+
+KMeansAlgorithm kMeans = new KMeansAlgorithm(8, dps);
+
+kMeans.cluster();
+        
+kMeans.print();

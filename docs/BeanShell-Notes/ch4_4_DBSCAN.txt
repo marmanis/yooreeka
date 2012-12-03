@@ -1,0 +1,16 @@
+// --------------------------------------------------------
+//    Clustering forum articles (DBSCAN)
+// --------------------------------------------------------
+import *;
+
+MyDiggSpaceDataset ds = MyDiggSpaceData.createDataset(15);
+
+DataPoint[] dps = ds.getData();
+
+CosineDistance cosD = new CosineDistance();
+
+DBSCANAlgorithm dbscan = new DBSCANAlgorithm(dps, cosD, 0.8, 2, true);
+
+dbscan.cluster();
+
+

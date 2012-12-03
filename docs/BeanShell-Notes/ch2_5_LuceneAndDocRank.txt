@@ -1,0 +1,39 @@
+// ------------------------------------------------------
+//   Searching for results with a hybrid ranking 
+// ------------------------------------------------------
+import *;
+
+//
+// -- Data (Business news in Word document format and 3 spam documents)
+//
+String yHome = YooreekaConfigurator.getHome();
+FetchAndProcessCrawler c = new FetchAndProcessCrawler(yHome+"/data/ch02",5,200);
+c.setUrls("biz-docs"); 
+c.addDocSpam();
+c.run(); 
+
+//
+// -- Lucene
+//
+LuceneIndexer lidx = new LuceneIndexer(c.getRootDir());
+lidx.run(); 
+MySearcher oracle = new MySearcher(lidx.getLuceneDir());
+
+//
+// -- Lucene Index ranking only 
+//
+oracle.search("nvidia",5); 
+
+//
+// -- PageRank
+//
+DocRank dr = new DocRank(lidx.getLuceneDir(), 7);
+dr.setAlpha(0.9);
+dr.setEpsilon(0.00000001);
+dr.build();
+
+//
+// -- Combined ranking
+//
+oracle.search("nvidia",5,dr); 
+

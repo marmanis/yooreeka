@@ -1,0 +1,15 @@
+// --------------------------------------------------------
+//    Clustering forum articles (ROCK)
+// --------------------------------------------------------
+import *;
+
+MyDiggSpaceDataset ds = MyDiggSpaceData.createDataset(15);
+
+DataPoint[] dps = ds.getData();
+
+ROCKAlgorithm rock = new ROCKAlgorithm(dps, 5, 0.2);
+
+Dendrogram dnd = rock.cluster();
+
+dnd.print(21);
+

@@ -1,0 +1,22 @@
+// ------------------------------------------------------
+//  Collecting data and building the PageRank scores
+// ------------------------------------------------------
+
+import *;
+
+//
+// -- Data
+//
+String yHome = YooreekaConfigurator.getHome();
+FetchAndProcessCrawler crawler = new FetchAndProcessCrawler(yHome+"/data/ch02",5,200);
+crawler.setUrls("biz"); 
+crawler.run(); 
+
+//
+// -- PageRank
+//
+PageRank pageRank = new PageRank(crawler.getCrawlData());
+pageRank.setAlpha(0.85);
+pageRank.setEpsilon(0.0001);
+pageRank.build();
+

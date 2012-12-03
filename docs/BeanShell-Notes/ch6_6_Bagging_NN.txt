@@ -1,0 +1,75 @@
+UserDataset ds = UserLoader.loadTrainingDataset();
+
+BaggingCreditClassifier bagClassifier = new BaggingCreditClassifier(ds);
+        
+// set verbose level to true to see more details.
+// ATTENTION: If set to true then every classification will be reported
+bagClassifier.setVerbose(false);
+        
+//Adding ensemble members
+
+TrainingSet ts1 = bagClassifier.getBootstrapSet();
+NNCreditClassifier NN1 = new NNCreditClassifier(ts1);
+NN1.useDefaultAttributes();
+bagClassifier.addMember(NN1);
+bagClassifier.train();
+
+// -----------------------------------------------------------------------------
+
+UserDataset testDS = UserLoader.loadTestDataset();
+CreditErrorEstimator bagee1 = new CreditErrorEstimator(testDS, bagClassifier);
+bagee1.run();
+
+// -----------------------------------------------------------------------------
+
+TrainingSet ts2 = bagClassifier.getBootstrapSet();
+NNCreditClassifier NN2 = new NNCreditClassifier(ts2);
+NN2.useDefaultAttributes();
+bagClassifier.addMember(NN2);
+bagClassifier.train();
+
+// -----------------------------------------------------------------------------
+
+CreditErrorEstimator bagee2 = new CreditErrorEstimator(testDS, bagClassifier);
+bagee2.run();
+
+// -----------------------------------------------------------------------------
+
+TrainingSet ts3 = bagClassifier.getBootstrapSet();
+NNCreditClassifier NN3 = new NNCreditClassifier(ts3);
+NN3.useDefaultAttributes();
+bagClassifier.addMember(NN3);
+bagClassifier.train();
+
+// -----------------------------------------------------------------------------
+
+CreditErrorEstimator bagee3 = new CreditErrorEstimator(testDS, bagClassifier);
+bagee3.run();
+
+// -----------------------------------------------------------------------------
+
+TrainingSet ts4 = bagClassifier.getBootstrapSet();
+NNCreditClassifier NN4 = new NNCreditClassifier(ts4);
+NN4.useDefaultAttributes();
+bagClassifier.addMember(NN4);
+bagClassifier.train();
+
+// -----------------------------------------------------------------------------
+
+CreditErrorEstimator bagee4 = new CreditErrorEstimator(testDS, bagClassifier);
+bagee4.run();
+
+// -----------------------------------------------------------------------------
+
+TrainingSet ts5 = bagClassifier.getBootstrapSet();
+NNCreditClassifier NN5 = new NNCreditClassifier(ts5);
+NN5.useDefaultAttributes();
+bagClassifier.addMember(NN5);
+bagClassifier.train();
+
+// -----------------------------------------------------------------------------
+
+CreditErrorEstimator bagee5 = new CreditErrorEstimator(testDS, bagClassifier);
+bagee5.run();
+
+// -----------------------------------------------------------------------------

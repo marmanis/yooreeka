@@ -1,0 +1,148 @@
+UserDataset ds = UserLoader.loadTrainingDataset();
+
+BaggingCreditClassifier bagClassifier = new BaggingCreditClassifier(ds);
+        
+// set verbose level to true to see more details.
+// ATTENTION: If set to true then every classification will be reported
+bagClassifier.setVerbose(false);
+        
+//Adding ensemble members
+
+TrainingSet ts1 = bagClassifier.getBootstrapSet();
+DTCreditClassifier dt1 = new DTCreditClassifier(ts1);
+dt1.useDefaultAttributes();
+dt1.setPruneAfterTraining(true);
+bagClassifier.addMember(dt1);
+bagClassifier.train();
+
+// -----------------------------------------------------------------------------
+
+UserDataset testDS = UserLoader.loadTestDataset();
+CreditErrorEstimator bagee1 = new CreditErrorEstimator(testDS, bagClassifier);
+bagee1.run();
+
+// -----------------------------------------------------------------------------
+
+TrainingSet ts2 = bagClassifier.getBootstrapSet();
+DTCreditClassifier dt2 = new DTCreditClassifier(ts2);
+dt2.useDefaultAttributes();
+dt2.setPruneAfterTraining(true);
+bagClassifier.addMember(dt2);
+bagClassifier.train();
+
+// -----------------------------------------------------------------------------
+
+CreditErrorEstimator bagee2 = new CreditErrorEstimator(testDS, bagClassifier);
+bagee2.run();
+
+// -----------------------------------------------------------------------------
+
+TrainingSet ts3 = bagClassifier.getBootstrapSet();
+DTCreditClassifier dt3 = new DTCreditClassifier(ts3);
+dt3.useDefaultAttributes();
+dt3.setPruneAfterTraining(true);
+bagClassifier.addMember(dt3);
+bagClassifier.train();
+
+// -----------------------------------------------------------------------------
+
+CreditErrorEstimator bagee3 = new CreditErrorEstimator(testDS, bagClassifier);
+bagee3.run();
+
+// -----------------------------------------------------------------------------
+
+TrainingSet ts4 = bagClassifier.getBootstrapSet();
+DTCreditClassifier dt4 = new DTCreditClassifier(ts4);
+dt4.useDefaultAttributes();
+dt4.setPruneAfterTraining(true);
+bagClassifier.addMember(dt4);
+bagClassifier.train();
+
+// -----------------------------------------------------------------------------
+
+CreditErrorEstimator bagee4 = new CreditErrorEstimator(testDS, bagClassifier);
+bagee4.run();
+
+// -----------------------------------------------------------------------------
+
+TrainingSet ts5 = bagClassifier.getBootstrapSet();
+DTCreditClassifier dt5 = new DTCreditClassifier(ts5);
+dt5.useDefaultAttributes();
+dt5.setPruneAfterTraining(true);
+bagClassifier.addMember(dt5);
+bagClassifier.train();
+
+// -----------------------------------------------------------------------------
+
+CreditErrorEstimator bagee5 = new CreditErrorEstimator(testDS, bagClassifier);
+bagee5.run();
+
+// -----------------------------------------------------------------------------
+
+TrainingSet ts6 = bagClassifier.getBootstrapSet();
+DTCreditClassifier dt6 = new DTCreditClassifier(ts6);
+dt6.useDefaultAttributes();
+dt6.setPruneAfterTraining(true);
+bagClassifier.addMember(dt6);
+bagClassifier.train();
+
+// -----------------------------------------------------------------------------
+
+CreditErrorEstimator bagee6 = new CreditErrorEstimator(testDS, bagClassifier);
+bagee6.run();
+
+// -----------------------------------------------------------------------------
+
+TrainingSet ts7 = bagClassifier.getBootstrapSet();
+DTCreditClassifier dt7 = new DTCreditClassifier(ts7);
+dt7.useDefaultAttributes();
+dt7.setPruneAfterTraining(true);
+bagClassifier.addMember(dt7);
+bagClassifier.train();
+
+// -----------------------------------------------------------------------------
+
+CreditErrorEstimator bagee7 = new CreditErrorEstimator(testDS, bagClassifier);
+bagee7.run();
+
+// -----------------------------------------------------------------------------
+
+TrainingSet ts8 = bagClassifier.getBootstrapSet();
+DTCreditClassifier dt8 = new DTCreditClassifier(ts8);
+dt8.useDefaultAttributes();
+dt8.setPruneAfterTraining(true);
+bagClassifier.addMember(dt8);
+bagClassifier.train();
+
+// -----------------------------------------------------------------------------
+
+CreditErrorEstimator bagee8 = new CreditErrorEstimator(testDS, bagClassifier);
+bagee8.run();
+
+// -----------------------------------------------------------------------------
+
+TrainingSet ts9 = bagClassifier.getBootstrapSet();
+DTCreditClassifier dt9 = new DTCreditClassifier(ts9);
+dt9.useDefaultAttributes();
+dt9.setPruneAfterTraining(true);
+bagClassifier.addMember(dt9);
+bagClassifier.train();
+
+// -----------------------------------------------------------------------------
+
+CreditErrorEstimator bagee9 = new CreditErrorEstimator(testDS, bagClassifier);
+bagee9.run();
+
+// -----------------------------------------------------------------------------
+
+/*
+
+Finally, given adequately powerful constituent classifiers, there is a sweet 
+spot of training data size for which diversity through input variation is most 
+effective. For example, if there is too little data, the gains achieved via 
+a bagged ensemble cannot compensate for the decrease in accuracy of individual 
+models, each of which now sees an even smaller training set. On the other end, 
+if the data set is extremely large and computation time is not an issue, even 
+a single flexible classifier can be quite adequate
+
+*/

@@ -1,0 +1,9 @@
+// --------------------------------------------------------
+//    Clustering based on Array sorting
+// --------------------------------------------------------
+import *;
+
+SFDataset ds = SFData.createDataset();
+
+SortedArrayClustering.cluster(ds.getData());
+

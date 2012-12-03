@@ -1,0 +1,39 @@
+UserDataset ds = UserLoader.loadTrainingDataset();
+
+BaggingCreditClassifier bagClassifier = new BaggingCreditClassifier(ds);
+        
+bagClassifier.setVerbose(false);
+        
+TrainingSet ts1 = bagClassifier.getBootstrapSet();
+
+DTCreditClassifier dt1 = new DTCreditClassifier(ts1);
+
+dt1.useDefaultAttributes();
+
+dt1.setPruneAfterTraining(true);
+
+bagClassifier.addMember(dt1);
+
+bagClassifier.train();
+
+UserDataset testDS = UserLoader.loadTestDataset();
+
+CreditErrorEstimator bagee1 = new CreditErrorEstimator(testDS, bagClassifier);
+
+bagee1.run();
+
+TrainingSet ts2 = bagClassifier.getBootstrapSet();
+
+DTCreditClassifier dt2 = new DTCreditClassifier(ts2);
+
+dt2.useDefaultAttributes();
+
+dt2.setPruneAfterTraining(true);
+
+bagClassifier.addMember(dt2);
+
+bagClassifier.train();
+
+CreditErrorEstimator bagee2 = new CreditErrorEstimator(testDS, bagClassifier);
+
+bagee2.run();

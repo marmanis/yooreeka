@@ -1,0 +1,60 @@
+// -------------------------------------------------------------
+//    Identifying faudulent transactions with a Neural Network
+// -------------------------------------------------------------
+import *;
+
+TransactionDataset ds = TransactionLoader.loadTrainingDataset();
+
+ds.calculateUserStats();
+
+//
+//CREATE the classifier
+//
+
+NNFraudClassifier nnFraudClassifier = new NNFraudClassifier(ds);
+
+// Give it a name. 
+// It will be used later when we serialize the classifier
+
+nnFraudClassifier.setName("MyNeuralClassifier");
+
+//
+//TRAIN the classifier
+//
+
+// Configure classifier with attributes that will be used as inputs into NN
+
+nnFraudClassifier.useDefaultAttributes();
+
+// Set the number of training iterations
+
+nnFraudClassifier.setNTrainingIterations(10);
+
+// Start the training ...
+
+nnFraudClassifier.train();
+
+//
+// STORE the classifier
+//
+nnFraudClassifier.save();
+
+
+// You can load a previously saved classifier
+
+NNFraudClassifier nnClone = NNFraudClassifier.load(nnFraudClassifier.getName());
+
+// Classify a couple of samples from Training set
+
+// This should be a legitimate transaction
+nnClone.classify("1");
+
+// This should be a fraudulent transaction
+nnClone.classify("305");
+
+// Now, calculate error rate for test set
+TransactionDataset testDS = TransactionLoader.loadTestDataset();
+
+FraudErrorEstimator auditor = new FraudErrorEstimator(testDS, nnClone);
+
+auditor.run();

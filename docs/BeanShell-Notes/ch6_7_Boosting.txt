@@ -1,0 +1,56 @@
+UserDataset ds = UserLoader.loadTrainingDataset();
+
+BoostingCreditClassifier arcx4 = new BoostingCreditClassifier(ds);
+
+arcx4.setClassifierType("decision tree");
+arcx4.setClassifierPopulation(1);
+        
+// set verbose level to true to see more details.
+// ATTENTION: If set to true then every classification will be reported
+arcx4.setVerbose(false);
+  
+arcx4.train();
+
+UserDataset testDS = UserLoader.loadTestDataset();
+
+CreditErrorEstimator arcx4ee  = new CreditErrorEstimator(testDS, arcx4);
+
+arcx4ee.run();
+
+// Keep adding members
+arcx4.setClassifierPopulation(3);
+arcx4.train();
+CreditErrorEstimator arcx4ee  = new CreditErrorEstimator(testDS, arcx4);
+arcx4ee.run();
+
+arcx4.setClassifierPopulation(5);
+arcx4.train();
+CreditErrorEstimator arcx4ee  = new CreditErrorEstimator(testDS, arcx4);
+arcx4ee.run();
+
+arcx4.setClassifierPopulation(7);
+arcx4.train();
+CreditErrorEstimator arcx4ee  = new CreditErrorEstimator(testDS, arcx4);
+arcx4ee.run();
+
+arcx4.setClassifierPopulation(11);
+arcx4.train();
+CreditErrorEstimator arcx4ee  = new CreditErrorEstimator(testDS, arcx4);
+arcx4ee.run();
+
+arcx4.setClassifierPopulation(31);
+arcx4.train();
+CreditErrorEstimator arcx4ee  = new CreditErrorEstimator(testDS, arcx4);
+arcx4ee.run();
+
+arcx4.setClassifierPopulation(41);
+arcx4.train();
+CreditErrorEstimator arcx4ee  = new CreditErrorEstimator(testDS, arcx4);
+arcx4ee.run();
+
+arcx4.setClassifierPopulation(61);
+arcx4.train();
+CreditErrorEstimator arcx4ee  = new CreditErrorEstimator(testDS, arcx4);
+arcx4ee.run();
+
+      

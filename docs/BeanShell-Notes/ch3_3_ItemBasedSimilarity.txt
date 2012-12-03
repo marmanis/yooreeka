@@ -1,0 +1,32 @@
+// ------------------------------------------------------
+//    Recommendations based on item similarity 
+// ------------------------------------------------------
+import *;
+
+String yHome = YooreekaConfigurator.getHome();
+
+//
+// Load the dataset that we created before
+//
+BaseDataset ds = BaseDataset.load(yHome+"/data/ch03/dataset_script_3.ser");
+
+//
+// use Delphi with ITEM_BASED similarity
+//
+Delphi delphi = new Delphi(ds,RecommendationType.ITEM_BASED);
+delphi.setVerbose(true);
+
+//
+// Show me recommendations for user X (top 5)
+//
+MusicUser mu1 = (MusicUser)ds.pickUser("Bob");
+delphi.recommend(mu1);
+
+//
+// Show me items like X (top 5)
+//
+MusicItem mi = (MusicItem)ds.pickItem("La Bamba");
+delphi.findSimilarItems(mi);
+
+
+

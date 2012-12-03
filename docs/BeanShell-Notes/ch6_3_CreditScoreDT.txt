@@ -1,0 +1,63 @@
+//----------------------------------------------------------------
+// UserDataset ds = new UserDataset(UserLoader.loadUsers("C:\\iWeb2\\data\\ch06\\credit\\generated-training-users.txt"));
+//
+UserDataset ds = UserLoader.loadTrainingDataset();
+
+
+DTCreditClassifier decisionTree = new DTCreditClassifier(ds);
+
+decisionTree.useDefaultAttributes();
+
+decisionTree.train();
+
+//---> decisionTree.printTree();
+
+
+//
+// Now, calculate error rate for test set
+//
+
+UserDataset testDS = UserLoader.loadTestDataset();
+
+CreditErrorEstimator dt_err = new CreditErrorEstimator(testDS, decisionTree);
+       
+dt_err.run();
+
+/* 
+
+====================================================================
+ Total test dataset txns: 20000
+    Classified correctly: 16524, Misclassified: 3476
+                Accuracy: 0.8262
+___________________________________________________________
+
+                CONFUSION MATRIX
+___________________________________________________________
+
+         EX     VG     GD     BD     DN
+  EX    831     24     15      0      0
+  VG    164   2321   1725      4      0
+  GD      0    585   8319    797      0
+  BD      0      0      8   4200    147
+  DN      0      0      0      7    853
+
+====================================================================
+
+ Classification completed in 0.672 seconds.
+
+ Total test dataset txns: 75000
+    Classified correctly: 61890, Misclassified: 13110
+                Accuracy: 0.8252
+___________________________________________________________
+
+                CONFUSION MATRIX
+___________________________________________________________
+
+         EX     VG     GD     BD     DN
+  EX   3137     62     54      0      0
+  VG    595   8895   6391     15      0
+  GD     12   2280  30989   3063      0
+  BD      0      0     10  15714    595
+  DN      0      0      0     33   3155
+  
+*/

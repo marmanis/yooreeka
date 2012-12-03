@@ -1,0 +1,53 @@
+// ------------------------------------------------------
+//    Recommendations based on content similarity 
+// ------------------------------------------------------
+import *;
+
+BaseDataset ds = NewsData.createDataset();
+
+//
+// use Delphi with USER_CONTENT_BASED similarity
+//
+Delphi delphiUC = new Delphi(ds,RecommendationType.USER_CONTENT_BASED);
+delphiUC.setVerbose(true);
+
+//
+// Show me users like X (top 5)
+//
+org.yooreeka.algos.reco.collab.data.NewsUser nu1 = (NewsUser)ds.pickUser("Bob");
+delphiUC.findSimilarUsers(nu1);
+
+org.yooreeka.algos.reco.collab.data.NewsUser nu2 = (NewsUser)ds.pickUser("John");
+delphiUC.findSimilarUsers(nu2);
+
+//---------------------------------------------------------
+//
+// use Delphi with ITEM_CONTENT_BASED similarity
+//
+Delphi delphiIC = new Delphi(ds,RecommendationType.ITEM_CONTENT_BASED);
+delphiIC.setVerbose(true);
+
+//
+// Show me items like X (top 5)
+//
+ContentItem biz1 = ds.pickContentItem("biz-01.html");
+delphiIC.findSimilarItems(biz1);
+
+ContentItem usa1 = ds.pickContentItem("usa-01.html");
+delphiIC.findSimilarItems(usa1);
+
+ContentItem sport1 = ds.pickContentItem("sport-01.html");
+delphiIC.findSimilarItems(sport1);
+
+//---------------------------------------------------------
+//
+// use Delphi with USER_ITEM_CONTENT_BASED similarity
+//
+Delphi delphiUIC = new Delphi(ds,RecommendationType.USER_ITEM_CONTENT_BASED);
+delphiUIC.setVerbose(true);
+
+
+//
+// Show me recommendations for user X (top 5)
+//
+delphiUIC.recommend(nu1);

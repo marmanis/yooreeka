@@ -1,0 +1,30 @@
+// --------------------------------------------------------
+//    Clustering based on agglomerative algorithms
+// --------------------------------------------------------
+import *;
+
+SFDataset ds = SFData.createDataset();
+
+DataPoint[] dps = ds.getData();
+
+double[][] adjMatrix = ds.getAdjacencyMatrix();
+
+SingleLinkAlgorithm sla = new SingleLinkAlgorithm(dps,adjMatrix);
+
+Dendrogram dendroSLA = sla.cluster();
+
+dendroSLA.print(4);
+
+MSTSingleLinkAlgorithm sla2 = new MSTSingleLinkAlgorithm(dps,adjMatrix);
+
+Dendrogram dendroSLA2 = sla2.cluster();
+
+dendroSLA2.print(4);
+
+AverageLinkAlgorithm ala = new AverageLinkAlgorithm(dps,adjMatrix);
+
+Dendrogram dendroALA = ala.cluster();
+
+dendroALA.print(4);
+
+

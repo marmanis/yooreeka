@@ -1,0 +1,21 @@
+// --------------------------------------------------------
+//    Movie Recommendations based on the MovieLens data
+// --------------------------------------------------------
+import *;
+
+// Create the dataset
+MovieLensDataset ds = MovieLensData.createDataset();
+
+// Create the recommender
+MovieLensDelphi delphi = new MovieLensDelphi(ds);
+
+// Pick users and create recommendations
+org.yooreeka.algos.reco.collab.model.User u1 = ds.getUser(1);
+delphi.recommend(u1);
+
+org.yooreeka.algos.reco.collab.model.User u155 = ds.getUser(155);
+delphi.recommend(u155);
+
+org.yooreeka.algos.reco.collab.model.User u876 = ds.getUser(876);
+delphi.recommend(u876);
+

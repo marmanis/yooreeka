@@ -1,0 +1,22 @@
+// --------------------------------------------------------
+//    Evaluation of Recommendations
+// --------------------------------------------------------
+import *;
+
+//
+// Create the dataset but reserve 100000 ratings for testing
+// Change that to 10000, if you are using the small dataset
+//
+MovieLensDataset ds = MovieLensData.createDataset(10000);
+
+// Create an instance of our recommender
+MovieLensDelphi delphi = new MovieLensDelphi(ds);
+        
+// Create an instance of the RMSE estimator
+RMSEEstimator rmseEstimator = new RMSEEstimator();
+        
+// Calculate the RMSE
+rmseEstimator.calculateRMSE(delphi);
+
+// Compare RMSEs 
+rmseEstimator.compareRMSEs(delphi);

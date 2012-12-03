@@ -1,0 +1,11 @@
+NewsDataset ds = new FileListNewsDataset("Cluster-DS");
+ds.setDocumentDir("C:/iWeb2/data/ch07/all");
+ds.init();
+
+NewsProcessor newsProcessor = new NewsProcessor();
+newsProcessor.createClusters(ds);
+
+NewsUI ui = new NewsUI(ds);
+ui.showClustersOnly(true);
+NewsUI.createAndShowUI(ui);
+
