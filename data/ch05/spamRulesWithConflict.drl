@@ -1,0 +1,48 @@
+package demo;
+ 
+import iweb2.ch5.usecase.email.data.Email;
+import iweb2.ch5.classification.rules.ClassificationResult;
+
+global ClassificationResult classificationResult;
+
+rule "Rule 1: Tests for viagra in subject"
+salience 100
+# no-loop true
+# lock-on-active true
+when
+    email: Email( $s : subject )
+	eval( classificationResult.isSimilar($s, "viagra" ) )
+then
+    email.setRuleFired(1);
+    classificationResult.setSpamEmail(true);
+    # update(email);    	
+end
+
+
+rule "Rule 2: Tests for 'drugs' in subject"
+# no-loop true
+# lock-on-active true
+salience 100
+when
+    email: Email( $s : subject )
+    eval( classificationResult.isSimilar($s, "drugs" ) )
+then
+     email.setRuleFired(2);
+#     email.setSubject("processed");
+#     email.setFrom("processed");     
+     classificationResult.setSpamEmail(true);   
+#     update(email); 
+end
+
+rule "Rule 3: Tests for known sender address"
+# no-loop true
+# lock-on-active true
+salience 10
+when
+    email: Email( $sender : from )
+    eval( classificationResult.isSimilar($sender, "friend@senderhost" ) )
+then
+    email.setRuleFired(3);
+    classificationResult.setSpamEmail(false);
+#    update(email);
+end

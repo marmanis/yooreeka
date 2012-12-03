@@ -1,0 +1,26 @@
+package demo;
+ 
+import iweb2.ch5.usecase.email.data.Email;
+import iweb2.ch5.classification.rules.ClassificationResult;
+
+global ClassificationResult classificationResult;
+
+rule "Tests for viagra in subject"
+salience 100
+when
+    Email( $s : subject )
+	eval( classificationResult.isSimilar($s, "viagra" ) )
+then
+    classificationResult.setSpamEmail(true);	
+end
+
+
+rule "Tests for 'drugs' in subject"
+salience 100
+when
+    Email( $s : subject )
+    eval( classificationResult.isSimilar($s, "drugs" ) )
+then
+    classificationResult.setSpamEmail(true);    
+end
+
