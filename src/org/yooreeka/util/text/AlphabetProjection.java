@@ -104,7 +104,7 @@ public class AlphabetProjection {
 			dimensionality = AlphabetProjection.DEFAULT_DIMENSIONALITY;
 		}
 		
-		if (length <=0) {
+		if (length >0) {
 			baselength = length;
 		} else {
 			baselength = AlphabetProjection.DEFAULT_BASELENGTH;
