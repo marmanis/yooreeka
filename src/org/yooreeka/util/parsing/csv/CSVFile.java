@@ -104,30 +104,17 @@ public class CSVFile {
 	public static void main(String[] args) throws IOException {
 		CSVSchema s = new CSVSchema();
 
-		DataField f1 = new DataField("Customer Id", DataType.LONG);
+		DataField f1 = new DataField("Order Id", DataType.LONG);
 		s.addColumn(f1);
 
-		DataField f2 = new DataField("Customer Status", DataType.STRING);
+		DataField f2 = new DataField("Order Status", DataType.STRING);
 		s.addColumn(f2);
 
-		DataField f3 = new DataField("Total Order  amt, USD", DataType.DOUBLE);
+		DataField f3 = new DataField("Order  Amount", DataType.DOUBLE);
 		s.addColumn(f3);
 
-		DataField f4 = new DataField("Content Id", DataType.STRING);
+		DataField f4 = new DataField("Product Id", DataType.STRING);
 		s.addColumn(f4);
-
-		DataField f5 = new DataField("Title/Journal Id", DataType.LONG);
-		s.addColumn(f5);
-
-		DataField f6 = new DataField("Title/Journal Name", DataType.STRING);
-		s.addColumn(f6);
-
-		DataField f7 = new DataField("Title/Journal Publisher", DataType.STRING);
-		s.addColumn(f7);
-
-		// s.addColumn(DataType.STRING_DATA_TYPE);
-		// s.addColumn(DataType.DOUBLE_DATA_TYPE);
-		// s.addColumn(DataType.STRING_DATA_TYPE);
 
 		CSVFile f = new CSVFile(args[0], true, s);
 		f.read();
