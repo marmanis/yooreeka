@@ -108,23 +108,6 @@ public class NewsData {
 		return ds;
 	}
 
-	// private static Item createItem(String docName) {
-	// int id = -1;
-	// for(int i = 0, n = DOC_SAMPLES.length; i < n; i++) {
-	// if( DOC_SAMPLES[i].equals(docName)) {
-	// id = i;
-	// break;
-	// }
-	// }
-	//
-	// if( id < 0 ) {
-	// throw new IllegalArgumentException("Invalid document name: '" + docName +
-	// "'. This document is not on the list of predefined documents.");
-	// }
-	//
-	// return createDocItem(id, docName);
-	// }
-
 	private static ContentItem createNewsItem(int docId, String docName) {
 		Content content = loadContent(docName);
 		ContentItem docItem = new ContentItem(docId, docName, content);
