@@ -61,6 +61,10 @@ public class CSVEntry extends DataEntry {
 		data = csvLine.split(getSeparator());
 	}
 
+	public String getEntryAt(int i) {
+		return data[i];
+	}
+	
 	public String[] getData() {
 		return data;
 	}
