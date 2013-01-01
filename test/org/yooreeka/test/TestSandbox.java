@@ -30,8 +30,6 @@
  */
 package org.yooreeka.test;
 
-import org.yooreeka.config.YooreekaConfigurator;
-import org.yooreeka.examples.newsgroups.NewsCrawler;
 
 
 /**
@@ -49,13 +47,5 @@ public class TestSandbox {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		String rootDir = YooreekaConfigurator.getProperty(YooreekaConfigurator.CRAWL_DATA_DIR);
-
-		NewsCrawler crawler = new NewsCrawler(rootDir, 2, 10);
-
-		crawler.addSeedUrl("http://www.manning.com/");
-
-		crawler.run();
-
 	}
 }

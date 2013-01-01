@@ -43,6 +43,7 @@ import org.yooreeka.algos.reco.collab.similarity.naive.UserBasedSimilarity;
 import org.yooreeka.algos.reco.collab.similarity.naive.UserContentBasedSimilarity;
 import org.yooreeka.algos.reco.collab.similarity.naive.UserItemContentBasedSimilarity;
 import org.yooreeka.config.YooreekaConfigurator;
+import org.yooreeka.util.P;
 
 public class SimilarityMatrixRepository {
 
@@ -115,15 +116,13 @@ public class SimilarityMatrixRepository {
 		if (cache != null) {
 			m = cache.get(id);
 			if (m == null) {
-				System.out
-						.println("similarity matrix instance doesn't exist in cache: "
+				P.println("similarity matrix instance doesn't exist in cache: "
 								+ "id: "
 								+ id
 								+ ", cache: '"
 								+ cache.getLocation() + "'.");
 			} else {
-				System.out
-						.println("similarity matrix instance was loaded from cache: "
+				P.println("similarity matrix instance was loaded from cache: "
 								+ "id: "
 								+ id
 								+ ", cache: '"

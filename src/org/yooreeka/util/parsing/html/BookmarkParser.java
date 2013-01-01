@@ -9,8 +9,8 @@
  *   (Manning 2009). Although the term "Web" prevailed in the title, in essence, the algorithms 
  *   are valuable in any software application.
  *  
- *   Copyright (c) 2007-2009 Haralambos Marmanis & Dmitry Babenko
- *   Copyright (c) 2009-${year} Marmanis Group LLC and individual contributors as indicated by the @author tags.  
+ *   Copyright (c) 2007-2009    Haralambos Marmanis & Dmitry Babenko
+ *   Copyright (c) 2009-2012 Marmanis Group LLC and individual contributors as indicated by the @author tags.  
  * 
  *   Certain library functions depend on other Open Source software libraries, which are covered 
  *   by different license agreements. See the NOTICE file distributed with this work for additional 
@@ -26,53 +26,61 @@
  *   the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
  *   either express or implied. See the License for the specific language governing permissions and
  *   limitations under the License.
- *   
+ *
  */
-package org.yooreeka.util;
+package org.yooreeka.util.parsing.html;
 
-import java.nio.charset.Charset;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+
+import org.yooreeka.util.parsing.common.ProcessedDocument;
 
 /**
- * 
- * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
- * 
+ * @author haris
+ *
  */
-public class P {
+public class BookmarkParser extends HTMLDocumentParser {
 
 	/**
-	 * Print a horizontal line with 65 characters.
-	 */
-	public static void hline() {
-		println("---------- ---------- ---------- ---------- ---------- ----------");
-	}
-	
-	
-	/**
-	 * Auxiliary method for sending time information to the standard output. 
-	 * Time is measured in milliseconds, see the documentation
-	 * of <tt>System.currentTimeMillis()</tt> for details.
 	 * 
 	 */
-	public static void time() {
-		println("Time: "+System.currentTimeMillis());
+	public BookmarkParser() {
+		// TODO Auto-generated constructor stub
 	}
-	
+
 	/**
-	 * Auxiliary method for sending time information to the standard output.
-	 * The time is given in milliseconds and in relation to a given moment
-	 * in the past, determined by the value of the argument <tt>t</tt>. 
-	 * 
+	 * @param reader
+	 * @throws HTMLDocumentParserException
 	 */
-	public static void time(long t) {
-		println("Time: "+ (System.currentTimeMillis()-t));
+	public BookmarkParser(Reader reader) throws HTMLDocumentParserException {
+		super(reader);
+		// TODO Auto-generated constructor stub
 	}
-	
+
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
-		println(Charset.defaultCharset().displayName());
-		println("" + P.class.getName());
+		
+		String filename = args[0];
+		BookmarkParser bookParser = null;
+		ProcessedDocument doc = null;
+		try {
+			bookParser = new BookmarkParser();
+			InputStream inputStream = new BufferedInputStream(
+					new FileInputStream(filename));
+			Reader reader = new InputStreamReader(inputStream, "UTF-8");
+			doc = bookParser.parse(reader);
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to parse html from file: "
+					+ filename, e);
+		}
+
+		//P.println(doc.getText());
+		
 	}
 
-	public static void println(String s) {
-		System.out.println(s);
-	}
 }
