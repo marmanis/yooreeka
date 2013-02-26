@@ -30,12 +30,16 @@
  */
 package org.yooreeka.util.parsing.common;
 
+import java.io.Serializable;
+
 /**
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
  * 
  */
-public class DataField {
+public class DataField implements Serializable {
 
+	private static final long serialVersionUID = 795910732043254883L;
+	
 	private String name;
 	private DataType dataType;
 

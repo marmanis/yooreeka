@@ -6,7 +6,7 @@ import *;
 String yHome = YooreekaConfigurator.getHome();
 
 // Load data from Digg and save them in a file
-BaseDataset ds = DiggData.loadDataFromDigg(yHome+"/data/ch03/digg_stories.csv");
+// BaseDataset ds = DiggData.loadDataFromDigg(yHome+"/data/ch03/digg_stories.csv");
 
 // Load previously saved data
 BaseDataset ds = DiggData.loadData(yHome+"/data/ch03/digg_stories.csv");
@@ -30,8 +30,7 @@ delphi.recommend(user);
 // delphi.findSimilarUsers(u2);
 // delphi.recommend(u2);
 
-
-// iweb2.ch3.collaborative.model.User u3 = ds.findUserByName("amipress");
+// org.yooreeka.algos.reco.collab.model.User u3 = ds.findUserByName("amipress");
 // delphi.findSimilarUsers(u3);
 // delphi.recommend(u3);
 

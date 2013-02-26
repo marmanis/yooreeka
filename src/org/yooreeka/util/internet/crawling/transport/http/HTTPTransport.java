@@ -62,11 +62,6 @@ public class HTTPTransport implements Transport {
 	public HTTPTransport() {
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch2.webcrawler.transport.common.Transport#clear()
-	 */
 	public void clear() {
 		httpclient = null;
 		// initialState = null;
@@ -158,12 +153,6 @@ public class HTTPTransport implements Transport {
 		return doc;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * iweb2.ch2.webcrawler.transport.common.Transport#fetch(java.lang.String)
-	 */
 	public FetchedDocument fetch(String documentUrl) throws TransportException {
 
 		FetchedDocument doc = null;
@@ -218,11 +207,6 @@ public class HTTPTransport implements Transport {
 		return doc;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch2.webcrawler.transport.common.Transport#init()
-	 */
 	public void init() {
 
 		System.out.println("Initializing HTTPTransport ...");

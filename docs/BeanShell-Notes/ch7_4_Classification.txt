@@ -1,13 +1,15 @@
+String yHome = YooreekaConfigurator.getHome();
+
 NewsDataset trainingDS = new FileListNewsDataset("TrainingDS");
-trainingDS.setDocumentDir("C:/iWeb2/data/ch07/training");
+trainingDS.setDocumentDir(yHome+"/data/ch07/training");
 trainingDS.init();
 
 NewsDataset ds1 = new FileListNewsDataset("Cluster-Classify-DS");
-ds1.setDocumentDir("C:/iWeb2/data/ch07/all");
+ds1.setDocumentDir(yHome+"/data/ch07/all");
 ds1.init();
 
 NewsDataset ds2 = new FileListNewsDataset("Classify-Cluster-DS");
-ds2.setDocumentDir("C:/iWeb2/data/ch07/all");
+ds2.setDocumentDir(yHome+"/data/ch07/all");
 ds2.init();
 
 NewsProcessor newsProcessor = new NewsProcessor(trainingDS);

@@ -3,13 +3,15 @@
 // --------------------------------------------------------
 import *;
 
+String yHome = YooreekaConfigurator.getHome();
+
 // Load email data
 EmailDataset ds = EmailData.createTestDataset();
 
 // Create classifier based on rules        
 
 // Expecting one spam email
-EmailRuleClassifier classifier = new EmailRuleClassifier("c:/iWeb2/data/ch05/spamRules.drl");
+EmailRuleClassifier classifier = new EmailRuleClassifier(yHome+"/data/ch05/spamRules.drl");
 classifier.train();
 
 classifier.run(ds,"Expecting one spam email.  :-(");
@@ -17,7 +19,7 @@ classifier.run(ds,"Expecting one spam email.  :-(");
 // There should be no spam emails.
 // Rule that checks for known email address should win over rules that detect spam content.
 //
-classifier = new EmailRuleClassifier("c:/iWeb2/data/ch05/spamRulesWithConflict.drl");
+classifier = new EmailRuleClassifier(yHome+"/data/ch05/spamRulesWithConflict.drl");
 
 classifier.train();
 

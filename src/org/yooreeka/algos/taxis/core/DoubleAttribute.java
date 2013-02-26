@@ -66,20 +66,10 @@ public class DoubleAttribute implements Attribute {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch2.data.Attribute#getName()
-	 */
 	public String getName() {
 		return name;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch2.data.Attribute#getValue()
-	 */
 	public Object getValue() {
 		return value;
 	}

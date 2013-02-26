@@ -84,7 +84,7 @@ public class MovieLensRMSE {
 
 	public List<Rating> createTestRatings(int n) {
 		String dataDir = YooreekaConfigurator
-				.getProperty("iweb2.movielens.data.dir");
+				.getProperty("yooreeka.movielens.data.dir");
 
 		File ratings = new File(dataDir, "u" + n + ".test");
 
@@ -93,7 +93,7 @@ public class MovieLensRMSE {
 
 	public MovieLensDataset createTrainingDataset(int n) {
 		String dataDir = YooreekaConfigurator
-				.getProperty("iweb2.movielens.data.dir");
+				.getProperty("yooreeka.movielens.data.dir");
 
 		File users = new File(dataDir, MovieLensDataset.USERS_FILENAME);
 		File items = new File(dataDir, MovieLensDataset.ITEMS_FILENAME);

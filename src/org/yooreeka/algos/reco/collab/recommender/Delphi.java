@@ -72,6 +72,14 @@ public class Delphi implements Recommender {
 		this(dataSet,type,false);		
 	}
 
+	/**
+	 * This constructor should be used when we want to use the cache but
+	 * we also need to calculate the similarity matrix.
+	 * 
+	 * @param dataSet
+	 * @param type
+	 * @param useSimilarityCache
+	 */
 	public Delphi(Dataset dataSet, 
 			      RecommendationType type,	
 			      boolean useSimilarityCache) {

@@ -3,7 +3,9 @@
 // ---------
 NewsDataset dataset = new FileListNewsDataset("DefaultDS");
 
-dataset.setDocumentDir("C:/iWeb2/data/ch07/all");
+String yHome = YooreekaConfigurator.getHome();
+
+dataset.setDocumentDir(yHome+"/data/ch07/all");
 dataset.setTopTerms(15);
 dataset.loadTopics();
 dataset.loadStories();

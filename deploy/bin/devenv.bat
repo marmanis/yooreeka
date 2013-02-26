@@ -1,3 +1,3 @@
-start "iWeb [build]" /DC:\code\GoogleSVN\iWeb2\build
+start "Yooreeka 2.0 [build]" /D%YOOREEKA_HOME%\build
 
-start "iWeb [bin]" /DC:\code\GoogleSVN\iWeb2\deploy\bin
+start "Yooreeka 2.0 [bin]" /D%YOOREEKA_HOME%\deploy\bin

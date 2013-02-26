@@ -39,7 +39,9 @@ import java.io.Reader;
 import org.yooreeka.util.parsing.common.ProcessedDocument;
 
 /**
- * @author haris
+ * TODO: Implement a parser for bookmarks 
+ * 
+ * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
  *
  */
 public class BookmarkParser extends HTMLDocumentParser {

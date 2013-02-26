@@ -83,12 +83,6 @@ public class BaseNN implements NeuralNetwork, java.io.Serializable {
 		this.allNodes = new HashMap<String, Node>();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch5.classification.nn.NeuralNetwork#addHiddenLayer(iweb2.ch5.
-	 * classification.nn.intf.Layer)
-	 */
 	public void addHiddenLayer(Layer hiddenLayer) {
 		hiddenLayers.add(hiddenLayer);
 		for (Node node : hiddenLayer.getNodes()) {
@@ -104,11 +98,6 @@ public class BaseNN implements NeuralNetwork, java.io.Serializable {
 		allNodes.put(nodeId, node);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch5.classification.nn.NeuralNetwork#classify(double[])
-	 */
 	public double[] classify(double[] x) {
 
 		inputLayer.setInputValues(x);
@@ -125,12 +114,6 @@ public class BaseNN implements NeuralNetwork, java.io.Serializable {
 		return y;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch5.classification.nn.NeuralNetwork#createHiddenLayer(int,
-	 * int, double[])
-	 */
 	public Layer createHiddenLayer(int layerId, int nNodes, double[] bias) {
 		if (bias.length != nNodes) {
 			throw new RuntimeException("Each node should have bias defined.");
@@ -150,11 +133,6 @@ public class BaseNN implements NeuralNetwork, java.io.Serializable {
 		return node;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch5.classification.nn.NeuralNetwork#createInputLayer(int, int)
-	 */
 	public Layer createInputLayer(int layerId, int nNodes) {
 
 		BaseLayer baseLayer = new BaseLayer(layerId);
@@ -176,12 +154,6 @@ public class BaseNN implements NeuralNetwork, java.io.Serializable {
 		return node;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch5.classification.nn.NeuralNetwork#createOutputLayer(int,
-	 * int, double[])
-	 */
 	public Layer createOutputLayer(int layerId, int nNodes, double[] bias) {
 		if (bias.length != nNodes) {
 			throw new RuntimeException("Each node should have bias defined.");
@@ -213,11 +185,6 @@ public class BaseNN implements NeuralNetwork, java.io.Serializable {
 		return sum / 2;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch5.classification.nn.NeuralNetwork#getInputNodeCount()
-	 */
 	public int getInputNodeCount() {
 		return getNodeCount(this.inputLayer);
 	}
@@ -226,11 +193,6 @@ public class BaseNN implements NeuralNetwork, java.io.Serializable {
 		return learningRate;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch5.classification.nn.NeuralNetwork#getName()
-	 */
 	public String getName() {
 		return name;
 	}
@@ -245,11 +207,6 @@ public class BaseNN implements NeuralNetwork, java.io.Serializable {
 		return nodeCount;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch5.classification.nn.NeuralNetwork#getOutputNodeCount()
-	 */
 	public int getOutputNodeCount() {
 		return getNodeCount(this.outputLayer);
 	}
@@ -261,11 +218,6 @@ public class BaseNN implements NeuralNetwork, java.io.Serializable {
 		return verbose;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch5.classification.nn.NeuralNetwork#printWeights()
-	 */
 	public void printWeights() {
 		for (Layer layer : hiddenLayers) {
 			System.out.println(String.valueOf(layer.getId()) + ":");
@@ -282,12 +234,6 @@ public class BaseNN implements NeuralNetwork, java.io.Serializable {
 		this.outputLayer = null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch5.classification.nn.NeuralNetwork#setInputLayer(iweb2.ch5.
-	 * classification.nn.intf.Layer)
-	 */
 	public void setInputLayer(Layer inputLayer) {
 		this.inputLayer = inputLayer;
 		for (Node node : this.inputLayer.getNodes()) {
@@ -318,11 +264,6 @@ public class BaseNN implements NeuralNetwork, java.io.Serializable {
 		toNode.addInlink(link);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch5.classification.nn.NeuralNetwork#setName(java.lang.String)
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -343,11 +284,6 @@ public class BaseNN implements NeuralNetwork, java.io.Serializable {
 	}
 
 	// trains NN with one training sample at a time
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch5.classification.nn.NeuralNetwork#train(double[], double[])
-	 */
 	public void train(double[] tX, double[] tY) {
 
 		double lastError = 0.0;

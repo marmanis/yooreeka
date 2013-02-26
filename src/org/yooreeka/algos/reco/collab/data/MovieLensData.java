@@ -49,7 +49,7 @@ public class MovieLensData {
 
 	public static MovieLensDataset createDataset(int numOfTestRatings) {
 		return createDataset(
-				YooreekaConfigurator.getProperty("iweb2.movielens.data.dir"),
+				YooreekaConfigurator.getProperty("yooreeka.movielens.data.dir"),
 				numOfTestRatings);
 	}
 

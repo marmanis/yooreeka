@@ -47,9 +47,12 @@ import org.jfree.data.xy.XYSeriesCollection;
  * This is going to be a convenience class for doing basic XY plots. here is how
  * it would be used within the Bean Shell interpreter:
  * 
- * <quote> bsh % double[] x = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0}; bsh
- * % double[] y = {1.0, 4.0, 9.0, 16.0, 20.0, 29.0, 35, 40., 42.0}; bsh % gui =
- * new iweb2.util.gui.XyGui ("A plot",x,y); bsh % gui.plot(); </quote>
+ * <pre> 
+ *    bsh % double[] x = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0}; 
+ *    bsh % double[] y = {1.0, 4.0, 9.0, 16.0, 20.0, 29.0, 35, 40., 42.0}; 
+ *    bsh % gui = new org.yooreeka.util.gui.XyGui ("A plot",x,y); 
+ *    bsh % gui.plot(); 
+ * </pre>
  * 
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
  * 

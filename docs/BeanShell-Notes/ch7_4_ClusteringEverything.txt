@@ -1,5 +1,7 @@
 NewsDataset ds = new FileListNewsDataset("Cluster-DS");
-ds.setDocumentDir("C:/iWeb2/data/ch07/all");
+String yHome = YooreekaConfigurator.getHome();
+
+ds.setDocumentDir(yHome+"/data/ch07/all");
 ds.init();
 
 NewsProcessor newsProcessor = new NewsProcessor();

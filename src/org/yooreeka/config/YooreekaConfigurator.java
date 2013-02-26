@@ -30,6 +30,7 @@
  */
 package org.yooreeka.config;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -43,11 +44,11 @@ import org.yooreeka.util.P;
  */
 public class YooreekaConfigurator {
 
-	public static final String DATA_DIR = "iweb2.data.dir";
-	public static final String CRAWL_DATA_DIR="iweb2.crawl.dir";
-	public static final String TEMP_DIR = "iweb2.temp.dir";
-	public static final String MOVIELENS_DATA_DIR = "iweb2.movielens.data.dir";
-	public static final String MOVIELENSTEST_DATA_DIR = "iweb2.ch3.movielenstest.data.dir";
+	public static final String DATA_DIR = "yooreeka.data.dir";
+	public static final String CRAWL_DATA_DIR="yooreeka.crawl.dir";
+	public static final String TEMP_DIR = "yooreeka.temp.dir";
+	public static final String MOVIELENS_DATA_DIR = "yooreeka.movielens.data.dir";
+	public static final String MOVIELENSTEST_DATA_DIR = "yooreeka.movielenstest.data.dir";
 
 	public static final String LOG_LEVEL_SEVERE = "SEVERE";
 	public static final String LOG_LEVEL_WARNING = "WARNING";
@@ -61,12 +62,12 @@ public class YooreekaConfigurator {
 	 * System property name that can be used to override default properties
 	 * file.
 	 */
-	private static String systemPropertyName = "iweb2.configuration";
+	private static String systemPropertyName = "yooreeka.configuration";
 
 	/*
 	 * Default resource name that will be used to load properties.
 	 */
-	private static String defaultResourceName = "/iweb2.properties";
+	private static String defaultResourceName = "/yooreeka.properties";
 
 	private static Properties props = new Properties();
 
@@ -90,7 +91,7 @@ public class YooreekaConfigurator {
 
 	public static String getHome() {
 
-		return props.getProperty("iweb2.home");
+		return props.getProperty("yooreeka.home");
 	}
 
 	public static Level getLevel(String cName) {
@@ -185,33 +186,36 @@ public class YooreekaConfigurator {
 	}
 	
 	/**
-	 * Set the following values if <tt>iweb2.properties</tt> cannot be found:
+	 * Set the following values if <tt>yooreeka.properties</tt> cannot be found:
 	 * <pre>
-	 *   iweb2.home=C:/iWeb2
-	 *   iweb2.data.dir=C:/iWeb2/data
-	 *   iweb2.crawl.dir=C:/iWeb2/data/crawls
-	 *   iweb2.temp.dir=C:/iWeb2/deploy/temp
-	 *   iweb2.movielens.data.dir=C:/iWeb2/data/ch03/MovieLens
+	 *    yooreeka.home=C:/iWeb2
+	 *    yooreeka.data.dir=C:/iWeb2/data
+	 *    yooreeka.crawl.dir=C:/iWeb2/data/crawls
+	 *    yooreeka.temp.dir=C:/iWeb2/deploy/temp
+	 *    yooreeka.movielens.data.dir=C:/iWeb2/data/ch03/MovieLens
+	 *    yooreeka.movielenstest.data.dir=C:/iWeb2/data/ch03/MovieLens/test
 	 * </pre>
 	 * 
 	 * NOTE: This shouldn't happen but rather than having people getting stuck with setting up properties
 	 * we can provide a default set of values (which is what they would get from the "Download" distro by
 	 * default anyway) ...
 	 * 
-	 * Obviously, this will only work on MS Windows ...
+	 * Obviously, this will only work on MS Windows ... 
+	 * change the <tt>rootDir</tt> value for another OS
 	 */
 	public static void setStaticProperties() {
-		props.put("iweb2.home", "C:/iWeb2");
-		props.put("iweb2.data.dir", "C:/iWeb2/data");
-		props.put("iweb2.crawl.dir", "C:/iWeb2/data/crawls");
-		props.put("iweb2.temp.dir", "C:/iWeb2/deploy/temp");
-		props.put("iweb2.movielens.data.dir", "C:/iWeb2/data/ch03/MovieLens");
+		String rootDir="C:/iWeb2";
+		props.put("yooreeka.home", rootDir);
+		props.put("yooreeka.data.dir", rootDir+"/data");
+		props.put("yooreeka.crawl.dir", rootDir+"/data/crawls");
+		props.put("yooreeka.temp.dir", rootDir+"/deploy/temp");
+		props.put("yooreeka.movielens.data.dir", rootDir+"/data/ch03/MovieLens");
 	}
 	
 	private static void printNoPropertiesFound() {
 		P.hline();
 		P.println("  Oops!");
-		P.println("  The file __ iweb2.properties __ was not found!");
+		P.println("  The file __ yooreeka.properties __ was not found!");
 		P.println("  Did you set up the system properly?");
 		P.hline();
 		P.println("  WARNING: Loading DEFAULT property values ...");

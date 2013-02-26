@@ -30,7 +30,9 @@
  */
 package org.yooreeka.util.parsing.csv;
 
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.yooreeka.util.parsing.common.DataField;
 
@@ -38,21 +40,37 @@ import org.yooreeka.util.parsing.common.DataField;
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
  * 
  */
-public class CSVSchema {
+public class CSVSchema implements Serializable {
 
-	private int column = 0;
-	private HashMap<Integer, DataField> columnMap;
+	private static final long serialVersionUID = -8265277706414216835L;
+
+	private String name;
+	private HashMap<UUID, DataField> columnMap;
 
 	public CSVSchema() {
 		columnMap = new HashMap<>();
 	}
 
 	public void addColumn(DataField field) {
-		columnMap.put(column, field);
-		column++;
+		
+		columnMap.put(UUID.randomUUID(), field);
 	}
 
 	public int getNumberOfColumns() {
 		return columnMap.size();
+	}
+			
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 }

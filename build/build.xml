@@ -1,300 +1,336 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="iweb2" default="dist" basedir=".">
+<project name="Yooreeka" default="dist" basedir=".">
 
-     
+
 	<!-- set global properties for this build -->
 	<property name="project.Name" value="Yooreeka: A library for data mining, machine learning, soft computing, and mathematical analysis"/>
-	<property name="iweb2.root" location=".."/>
-	<property name="iweb2.build.dir" value="${iweb2.root}/build"/>
-	<property name="iweb2.src" value="${iweb2.root}/src"/>
-	<property name="iweb2.test" value="${iweb2.root}/test"/>
-	<property name="iweb2.classes" value="${iweb2.build.dir}/bytecode"/>
-	<property name="iweb2.javadoc" value="${iweb2.root}/docs/javadoc"/>
-	<property name="iweb2.lib" value="${iweb2.root}/lib"/>
-	<property name="iweb2.distro" value="${iweb2.build.dir}/dist"/>
-	<property name="iweb2.deploy" value="${iweb2.root}/deploy"/>
-	<property name="iweb2.deploy.lib" value="${iweb2.deploy}/lib"/>
-	<property name="log.dir" value="${iweb2.root}/log"/>
-	<property name="data.dir" value="${iweb2.root}/data"/>
-	<property name="temp.dir" value="${iweb2.root}/temp"/>
-	<property name="tools.dir" value="${iweb2.root}/tools"/>
-	
-	<property name="yooreeka.jar" value="yooreeka-2.0.jar"/>	
-	
+
+	<property name="y.root" location=".."/>
+	<property name="y.build" value="${y.root}/build"/>
+	<property name="y.data" value="${y.root}/data"/>
+	<property name="y.deploy" value="${y.root}/deploy"/>
+	<property name="y.javadoc" value="${y.root}/docs/javadoc"/>
+	<property name="y.lib" value="${y.root}/lib"/>
+	<property name="y.src" value="${y.root}/src"/>
+	<property name="y.test" value="${y.root}/test"/>
+	<property name="y.tools" value="${y.root}/tools"/>
+
+	<property name="y.build.bytecode" value="${y.build}/bytecode"/>
+	<property name="y.build.dist" value="${y.build}/dist"/>
+	<property name="y.build.log" value="${y.build}/log"/>
+	<property name="y.build.temp" value="${y.build}/temp"/>
+
+	<property name="y.deploy.lib" value="${y.deploy}/lib"/>
+
+	<property name="yooreeka.jar" value="yooreeka-2.0.jar"/>
+
 	<property environment="env"/>
 
-<!-- list of all jars that are currently used in iweb2 app -->
-<patternset id="thirdparty.jars">
-	<!--include name="activation.jar"/ -->
-	<include name="antlr-runtime-3.0.jar"/>
-	<include name="./crawler4j-libs/apache-mime4j-core-0.7.jar"/>
-	<include name="./crawler4j-libs/apache-mime4j-dom-0.7.jar"/>
-	<include name="./crawler4j-libs/asm-3.1.jar"/>
-	<include name="./crawler4j-libs/boilerpipe-1.1.0.jar"/>
-	<include name="bsh-2.0b4.jar"/>
-	<include name="commons-codec-1.6.jar"/>
-	<include name="./crawler4j-libs/commons-compress-1.3.jar"/>
-	<include name="commons-lang-2.3.jar"/>
-	<include name="commons-logging-1.1.1.jar"/>
-	<include name="crawler4j-3.3.jar"/>
-	<include name="drools-compiler-4.0.4.jar"/>
-	<include name="drools-core-4.0.4.jar"/>
-	<include name="f2jutil.jar"/>
-	<include name="./crawler4j-libs/geronimo-stax-api_1.0_spec-1.0.1.jar"/>
-	<include name="httpclient-4.2.2.jar"/>
-	<include name="httpcore-4.2.2.jar"/>
-	<include name="httpmime-4.2.2.jar"/>
-	<include name="janino-2.5.10.jar"/>
-	<!-- include name="jaxb-all-deps.jar"/ -->
-	<!-- include name="jaxb-api.jar"/ -->
-	<!-- include name="jaxb-impl.jar"/ -->
-	<!-- include name="jaxb-xjc.jar"/ -->
-	<include name="./crawler4j-libs/je-4.0.92.jar"/>	
-	<include name="jfreechart.jar"/>
-	<include name="jgraph.jar"/>
-	<include name="jigg-0.1.jar"/>
-	<include name="jsr173_1.0_api.jar"/>
-	<include name="junit-4.1.jar"/>
-	<include name="juniversalchardet-1.0.3.jar"/>
-	<include name="log4j-1.2.17.jar"/>
-	<include name="lucene-analyzers-common-4.0.0-BETA.jar"/>
-	<include name="lucene-core-4.0.0-BETA.jar"/>
-	<include name="lucene-demo-4.0.0-BETA.jar"/>
-	<include name="lucene-memory-4.0.0-BETA.jar"/>
-	<include name="lucene-queryparser-4.0.0-BETA.jar"/>
-	<include name="./crawler4j-libs/metadata-extractor-2.4.0-beta-1.jar"/>
-	<include name="mvel14-1.2.21.jar"/>
-	<include name="nekohtml.jar"/>
-	<include name="poi-3.0.2-FINAL-20080204.jar"/>
-	<include name="resolver.jar"/>
-	<include name="rooster.jar"/>
-	<include name="secondstring-20070327.jar"/>
-	<include name="serializer.jar"/>
-	<include name="SuperCSV-1.16.jar"/>
-	<include name="./crawler4j-libs/tagsoup-1.2.1.jar"/>
-	<include name="./crawler4j-libs/tika-core-1.0.jar"/>
-	<include name="./crawler4j-libs/tika-parsers-1.0.jar"/>
-	<include name="tm-extractors-1.0.jar"/>
-	<include name="xercesImpl.jar"/>
-	<include name="xml-apis.jar"/>
-</patternset>
+	<!-- list of all jars that are currently used in iweb2 app -->
+	<patternset id="thirdparty.jars">
+		<include name="bsh-2.0b4.jar"/>
+		<include name="commons-codec-1.6.jar"/>
+		<include name="commons-lang-2.3.jar"/>
+		<include name="commons-logging-1.1.1.jar"/>
+		<include name="f2jutil.jar"/>
+		<include name="httpclient-4.2.2.jar"/>
+		<include name="httpcore-4.2.2.jar"/>
+		<include name="httpmime-4.2.2.jar"/>
+		<include name="jfreechart.jar"/>
+		<include name="jgraph.jar"/>
+		<include name="jigg-0.1.jar"/>
+		<include name="jsr173_1.0_api.jar"/>
+		<include name="junit-4.1.jar"/>
+		<include name="juniversalchardet-1.0.3.jar"/>
+		<include name="log4j-1.2.17.jar"/>
+		<include name="lucene-analyzers-common-4.0.0-BETA.jar"/>
+		<include name="lucene-core-4.0.0-BETA.jar"/>
+		<include name="lucene-demo-4.0.0-BETA.jar"/>
+		<include name="lucene-memory-4.0.0-BETA.jar"/>
+		<include name="lucene-queryparser-4.0.0-BETA.jar"/>
+		<include name="nekohtml.jar"/>
+		<include name="poi-3.0.2-FINAL-20080204.jar"/>
+		<include name="resolver.jar"/>
+		<include name="rooster.jar"/>
+		<include name="secondstring-20070327.jar"/>
+		<include name="serializer.jar"/>
+		<include name="SuperCSV-1.16.jar"/>
+		<include name="tm-extractors-1.0.jar"/>
+		<include name="xercesImpl.jar"/>
+		<include name="xml-apis.jar"/>
+	</patternset>
+	<patternset id="drools.jars">
+		<include name="antlr-runtime-3.3.jar"/>
+		<include name="drools-compiler-5.5.0.Final.jar"/>
+		<include name="drools-core-5.5.0.Final.jar"/>
+		<include name="ecj-3.5.1.jar"/>
+		<include name="knowledge-api-5.5.0.Final.jar"/>
+		<include name="knowledge-internal-api-5.5.0.Final.jar"/>
+		<include name="mvel2-2.1.3.Final.jar"/>
+		<include name="slf4j-api-1.6.4.jar"/>
+		<include name="slf4j-jdk14-1.7.2.jar"/>
+	</patternset>
+	<patternset id="crawler4j.jars">
+		<include name="apache-mime4j-core-0.7.jar"/>
+		<include name="apache-mime4j-dom-0.7.jar"/>
+		<include name="asm-3.1.jar"/>
+		<include name="boilerpipe-1.1.0.jar"/>
+		<include name="commons-compress-1.3.jar"/>
+		<include name="crawler4j-3.3.jar"/>
+		<include name="geronimo-stax-api_1.0_spec-1.0.1.jar"/>
+		<include name="je-4.0.92.jar"/>
+		<include name="metadata-extractor-2.4.0-beta-1.jar"/>
+		<include name="tagsoup-1.2.1.jar"/>
+		<include name="tika-core-1.0.jar"/>
+		<include name="tika-parsers-1.0.jar"/>
+	</patternset>
 
-<!-- Compilation Classpath -->
-<path id="compile.classpath">
-  <fileset dir="${iweb2.lib}">
-    <patternset refid="thirdparty.jars"/>
-  </fileset>
-</path>
+	<!-- Compilation Classpath -->
+	<path id="compile.classpath">
+		<fileset dir="${y.lib}">
+			<patternset refid="thirdparty.jars" />
+		</fileset>
+		<fileset dir="${y.lib}/crawler4j-libs">
+			<patternset refid="crawler4j.jars" />
+		</fileset>
+		<fileset dir="${y.lib}/drools">
+			<patternset refid="drools.jars" />
+		</fileset>
 
-<!-- Javadoc Sourcepath -->
-<path id="javadoc.sourcepath">
-  <fileset dir="${iweb2.src}">
-    <include name="**/*.java"/>
-  </fileset>
-</path>
+	</path>
 
-
-<target name="init">
-  <!-- Create the time stamp -->
-  <tstamp>
-    <format property="year" pattern="yyyy" />
-  </tstamp>
-  <!-- Create the build directory structure used by compile -->
-  <mkdir dir="${iweb2.classes}"/>
-  <mkdir dir="${temp.dir}"/>
-  <mkdir dir="${log.dir}"/>
- <echo message="------------------- ${project.Name} ----------------------"/>
- <echo message=""/>
- <echo message="PATH = ${env.PATH}"/>
- <echo message="CLASSPATH = ${env.CLASSPATH}"/>
- <echo message="java.home = ${env.JAVA_HOME}"/>
- <echo message="ant.home = ${env.ANT_HOME}"/>
- <echo message="------------------------------------------------------"/>
- <echo message=""/>
- <echo message="root: ${iweb2.root}"/>
- <echo message="build: ${iweb2.build.dir}"/>
- <echo message="deploy: ${iweb2.deploy}"/>
-
- <!-- check that build was started with empty classpath -->
- <condition property="CLASSPATH.ok">
-     <not>
-       <isset property="env.CLASSPATH"/>
-     </not>
-  </condition> 
-
- <!-- feel free to remove this check if you are confident that configured classpath won't cause any issues. -->
- <fail message="You have CLASSPATH set in your environment. This may cause issues while running build." unless="CLASSPATH.ok"/>
-
-</target>
+	<!-- Javadoc Sourcepath -->
+	<path id="javadoc.sourcepath">
+		<fileset dir="${y.src}">
+			<include name="**/*.java"/>
+		</fileset>
+	</path>
 
 
+	<target name="init">
+		<!-- Create the time stamp -->
+		<tstamp>
+			<format property="year" pattern="yyyy" />
+		</tstamp>
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${y.build.bytecode}"/>
+		<mkdir dir="${y.build.temp}"/>
+		<mkdir dir="${y.build.log}"/>
+		<echo message="------------------- ${project.Name} ----------------------"/>
+		<echo message=""/>
+		<echo message="PATH = ${env.PATH}"/>
+		<echo message="CLASSPATH = ${env.CLASSPATH}"/>
+		<echo message="java.home = ${env.JAVA_HOME}"/>
+		<echo message="ant.home = ${env.ANT_HOME}"/>
+		<echo message="------------------------------------------------------"/>
+		<echo message=""/>
+		<echo message="root: ${y.root}"/>
+		<echo message="build: ${y.build}"/>
+		<echo message="deploy: ${y.deploy}"/>
 
- <!-- Build everything from scratch.  -->
-  <target name="all" depends="dist,docs">
-    <echo message="All the source code has been compiled and the javadocs were created." />
-  </target>
+		<!-- check that build was started with empty classpath -->
+		<condition property="CLASSPATH.ok">
+			<not>
+				<isset property="env.CLASSPATH"/>
+			</not>
+		</condition>
 
-<!-- Compile the java code into bytecode -->
-<target name="compile" depends="init">
-  <javac srcdir="${iweb2.src};${iweb2.test}"
-         destdir="${iweb2.classes}"
+		<!-- feel free to remove this check if you are confident that configured classpath won't cause any issues. -->
+		<fail message="You have CLASSPATH set in your environment. This may cause issues while running build." unless="CLASSPATH.ok"/>
+
+	</target>
+
+
+
+	<!-- Build everything from scratch.  -->
+	<target name="all" depends="dist,docs">
+		<echo message="All the source code has been compiled and the javadocs were created." />
+	</target>
+
+	<!-- Compile the java code into bytecode -->
+	<target name="compile" depends="init">
+		<javac srcdir="${y.src};${y.test}"
+         destdir="${y.build.bytecode}"
 	 fork="true"
          debug="on"
   	     compiler="modern"
          optimize="off"
          deprecation="on"
 	 failonerror="true">
-     <classpath refid="compile.classpath"/>
-  </javac>
-</target>
+			<classpath refid="compile.classpath"/>
+		</javac>
+	</target>
 
 
-<target name="tc" depends="tidy,dist" description="Clean up everything before compiling"/>
+	<target name="tc" depends="tidy,dist" description="Clean up everything before compiling"/>
 
 	<!-- Default target -->
-<target name="dist" depends="compile">
+	<target name="dist" depends="compile">
 
-  <mkdir dir="${iweb2.distro}"/>
+		<mkdir dir="${y.build.dist}"/>
 
 
-  <!-- Put everything in ${iweb2.classes} into the JAR file -->
-  <jar jarfile="${iweb2.distro}/${yooreeka.jar}" basedir="${iweb2.classes}" update="true">
-    <manifest>
-      <section name="common">
-        <attribute name="Implementation-Title" value="Yooreeka"/>
-        <attribute name="Implementation-Version" value="2.0.0.0 ${TODAY}"/> 
-        <attribute name="Implementation-Vendor" value="Marmanis Group LLC"/>
-      </section>
-    </manifest>
-  </jar>
+		<!-- Put everything in ${y.build.bytecode} into the JAR file -->
+		<jar jarfile="${y.build.dist}/${yooreeka.jar}" basedir="${y.build.bytecode}" update="true">
+			<manifest>
+				<section name="common">
+					<attribute name="Implementation-Title" value="Yooreeka"/>
+					<attribute name="Implementation-Version" value="2.0.0.0 ${TODAY}"/>
+					<attribute name="Implementation-Vendor" value="Marmanis Group LLC"/>
+				</section>
+			</manifest>
+		</jar>
 
-  <copy file="${iweb2.distro}/${yooreeka.jar}" todir="${iweb2.deploy.lib}" />
-  <copy todir="${iweb2.deploy.lib}">
-    <fileset dir="${iweb2.lib}">
-      <patternset refid="thirdparty.jars"/>
-    </fileset>
-  </copy>
+		<copy file="${y.build.dist}/${yooreeka.jar}" todir="${y.deploy.lib}" />
+		<copy todir="${y.deploy.lib}">
+			<fileset dir="${y.lib}">
+				<patternset refid="thirdparty.jars"/>
+			</fileset>
+		</copy>
 
-  <echo message="The ${yooreeka.jar} has been created and placed in ${iweb2.deploy.lib}" />
+		<echo message="The ${yooreeka.jar} has been created and placed in ${y.deploy.lib}" />
 
-</target>
+	</target>
 
- <!--
+	<!--
        ===================================================================
          Cleans up build and distribution directories
        ===================================================================
   -->
-<target name="clean"
-          description="--> cleans up iweb2.classes and dist directories, if any.">
-  <delete dir="${iweb2.classes}"/>
-  <delete dir="${iweb2.distro}" />
-  <delete file="${iweb2.deploy.lib}/${yooreeka.jar}"/>
-  <delete>
-    <fileset dir="${iweb2.deploy.lib}">
-      <patternset refid="thirdparty.jars"/>
-      <exclude name="bsh-2.0b4.jar"/>
-    </fileset>
-  </delete>
-</target>
+	<target name="clean"
+          description="--> cleans up y.build.bytecode and dist directories, if any.">
+		<delete dir="${y.build.bytecode}"/>
+		<delete dir="${y.build.dist}" />
+		<delete dir="${y.build.log}" />
+		<delete dir="${y.build.temp}" />
+						
+		<delete file="${y.deploy.lib}/${yooreeka.jar}"/>
+		<delete>
+			<fileset dir="${y.deploy.lib}">
+				<patternset refid="thirdparty.jars"/>
+				<exclude name="bsh-2.0b4.jar"/>
+			</fileset>
+		</delete>
+	</target>
 
-<!--
+	<!--
        ===================================================================
          Cleans bytecode and old source files
        ===================================================================
   -->
-<target name="clean-all"
+	<target name="clean-all"
           depends="clean"
           description="--> cleans up bytecode, distros, and old source files">
 
-  <delete dir="${iweb2.distro}" />
-  <delete> <fileset dir="${basedir}" includes="**/*~" defaultexcludes="no"/> </delete>
-  <delete> <fileset dir="${iweb2.src}" includes="**/*~" defaultexcludes="no"/> </delete>
-  <delete> <fileset dir="${iweb2.src}" includes="**/*.bak" defaultexcludes="no"/> </delete>
-  <delete> <fileset dir="." includes="**/*.jar" defaultexcludes="no"/> </delete>
-</target>
+		<delete dir="${y.build.dist}" />
+		<delete>
+			<fileset dir="${basedir}" includes="**/*~" defaultexcludes="no"/>
+		</delete>
+		<delete>
+			<fileset dir="${y.src}" includes="**/*~" defaultexcludes="no"/>
+		</delete>
+		<delete>
+			<fileset dir="${y.src}" includes="**/*.bak" defaultexcludes="no"/>
+		</delete>
+		<delete>
+			<fileset dir="." includes="**/*.jar" defaultexcludes="no"/>
+		</delete>
+		<delete includeemptydirs="true">
+		    <fileset dir="${y.data}" defaultexcludes="false">
+		       <include name="**/crawl-*/**" />
+		       <include name="**/lucene-index*/**" />
+		    	<include name="ch03/dataset_script_2.ser" />
+		    	<include name="ch05/MyNeuralClassifier" />
+		    </fileset>
+		</delete>
+	</target>
 
-<!--
+	<!--
        ===================================================================
          Cleans everything
        ===================================================================
   -->
-<target name="tidy"
+	<target name="tidy"
           depends="clean-all"
           description="--> cleans up everything">
-  <delete dir="./eclipse" />
-  <delete dir="${iweb2.javadoc}" />
-  <delete> <fileset dir="." includes="**/*~" defaultexcludes="no"/> </delete>
-</target>
+		<delete dir="./eclipse" />
+		<delete dir="${y.javadoc}" />
+		<delete>
+			<fileset dir="." includes="**/*~" defaultexcludes="no"/>
+			<fileset dir="${y.deploy}/bin" includes="**/yooreeka.log" defaultexcludes="no"/>						
+		</delete>
+	</target>
 
 
- <!--
+	<!--
        ===================================================================
          Creates the API documentation
        ===================================================================
   -->
-<target name="docs" depends="init" description="--> creates the API documentation for iweb2">
-  
-<!-- Yooreeka API -->
-  <echo message="Removing the old and creating a new Javadoc folder ..." />
+	<target name="docs" depends="init" description="--> creates the API documentation for iweb2">
 
-  <delete dir="${iweb2.javadoc}"/>
-  
-  <mkdir dir="${iweb2.javadoc}"/>
+		<!-- Yooreeka API -->
+		<echo message="Removing the old and creating a new Javadoc folder ..." />
 
-  <javadoc packagenames="org.yooreeka.*"
-         sourcepath="${iweb2.src}"
-         destdir="${iweb2.javadoc}"
+		<delete dir="${y.javadoc}"/>
+
+		<mkdir dir="${y.javadoc}"/>
+
+		<javadoc packagenames="org.yooreeka.*"
+         sourcepath="${y.src}"
+         destdir="${y.javadoc}"
 	     author="true"
          version="true"
          use="true"
          windowtitle="${project.Name} API">
 
-    <doctitle><![CDATA[<h2>${project.Name}</h2>]]></doctitle>
-    <classpath refid="compile.classpath"/>
-    <link href="http://code.google.com/p/yooreeka/"/>
- </javadoc>
+			<doctitle>
+				<![CDATA[<h2>${project.Name}</h2>]]></doctitle>
+		<classpath refid="compile.classpath"/>
+		<link href="http://code.google.com/p/yooreeka/"/>
+	</javadoc>
 
- 
-  <echo message="docs build complete" />
+
+	<echo message="docs build complete" />
 </target>
 
 <!-- ========================================================== -->
 
-  <target name="prepare-test-data" depends="init">
-     <!-- empty for now. --> 
-  </target>
+<target name="prepare-test-data" depends="init">
+	<!-- empty for now. -->
+</target>
 
-  <target name="test" depends="compile,prepare-test-data">
-    <!--
+<target name="test" depends="compile,prepare-test-data">
+	<!--
     To run specific test or group of tests use: 
     ant test -Dtest=DataSetTest
     ant test -Dtest=*TestExt
     -->
-    <junit fork="yes" tempdir="${temp.dir}"
+	<junit fork="yes" tempdir="${y.build.temp}"
       errorProperty="test.failed"
       failureProperty="test.failed"
       reloading="false">
-      <jvmarg value="-Xmx1024M"/>
-      <sysproperty key="data.dir" file="${data.dir}"/>
-      <sysproperty key="temp.dir" file="${temp.dir}"/>
-      <!--
+		<jvmarg value="-Xmx1024M"/>
+		<sysproperty key="data.dir" file="${y.data}"/>
+		<sysproperty key="temp.dir" file="${y.build.temp}"/>
+		<!--
       <sysproperty key="log4j.debug" value=""/>
       -->
-      <classpath>
-        <pathelement location="${iweb2.classes}"/>
-		<pathelement location="${iweb2.deploy}/conf"/>
-        <path refid="compile.classpath"/>
-      </classpath>
-      <formatter type="brief" usefile="false"/>
-      <batchtest if="test">
-        <fileset dir="${iweb2.classes}" includes="iweb2/**/${test}.class"/>
-      </batchtest>
-      <batchtest unless="test">
-        <fileset dir="${iweb2.classes}" includes="iweb2/**/*Test.class"/>
-      </batchtest>
-    </junit>
-    <fail if="test.failed">Test(s) failed!!!</fail>
-  </target>
+		<classpath>
+			<pathelement location="${y.build.bytecode}"/>
+			<pathelement location="${y.deploy}/conf"/>
+			<path refid="compile.classpath"/>
+		</classpath>
+		<formatter type="brief" usefile="false"/>
+		<batchtest if="test">
+			<fileset dir="${y.build.bytecode}" includes="org/yooreeka/test/beanshellscripts/**/${test}.class"/>
+		</batchtest>
+		<batchtest unless="test">
+			<fileset dir="${y.build.bytecode}" includes="org/yooreeka/test/beanshellscripts/**/*Test.class"/>
+		</batchtest>
+	</junit>
+	<fail if="test.failed">Test(s) failed!!!</fail>
+</target>
 </project>
 

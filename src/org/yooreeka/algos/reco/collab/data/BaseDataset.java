@@ -254,38 +254,18 @@ public class BaseDataset implements Serializable, Dataset {
 		return getUser(userId).getAverageRating();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch3.collaborative.model.Dataset#getItem(java.lang.Integer)
-	 */
 	public Item getItem(Integer itemId) {
 		return allItems.get(itemId);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch3.collaborative.model.Dataset#getItemCount()
-	 */
 	public int getItemCount() {
 		return allItems.size();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch3.collaborative.model.Dataset#getItems()
-	 */
 	public Collection<Item> getItems() {
 		return allItems.values();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch3.collaborative.model.Dataset#getName()
-	 */
 	public String getName() {
 		return name;
 	}
@@ -301,47 +281,22 @@ public class BaseDataset implements Serializable, Dataset {
 		return ratedItems;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch3.collaborative.model.Dataset#getRatings()
-	 */
 	public Collection<Rating> getRatings() {
 		return this.allRatings;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch3.collaborative.model.Dataset#getRatingsCount()
-	 */
 	public int getRatingsCount() {
 		return allRatings.size();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch3.collaborative.model.Dataset#getUser(java.lang.Integer)
-	 */
 	public User getUser(Integer userId) {
 		return allUsers.get(userId);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch3.collaborative.model.Dataset#getUserCount()
-	 */
 	public int getUserCount() {
 		return allUsers.size();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see iweb2.ch3.collaborative.model.Dataset#getUsers()
-	 */
 	public Collection<User> getUsers() {
 		return allUsers.values();
 	}

@@ -100,7 +100,7 @@ public class YCrawler extends WebCrawler {
 
 			// Create a default location for storing the data, relative to the
 			// IWEB2_HOME location
-			rootDir = System.getProperty("iweb2.home")
+			rootDir = System.getProperty("yooreeka.home")
 					+ System.getProperty("file.separator") + "data";
 		}
 

@@ -88,10 +88,8 @@ public class SimilarityMatrixRepository {
 
 	public SimilarityMatrixRepository(boolean useCache) {
 		if (useCache) {
-			String appTempDir = YooreekaConfigurator
-					.getProperty(YooreekaConfigurator.TEMP_DIR);
-			File cacheDir = new File(appTempDir,
-					"ch3/collaborative/SimilarityCache");
+			String appTempDir = YooreekaConfigurator.getProperty(YooreekaConfigurator.TEMP_DIR);
+			File cacheDir = new File(appTempDir, "SimilarityCache");
 			cache = new SimilarityMatrixCache(cacheDir);
 		} else {
 			cache = null;
