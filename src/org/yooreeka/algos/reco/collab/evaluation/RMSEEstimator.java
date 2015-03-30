@@ -46,9 +46,17 @@ import org.yooreeka.config.YooreekaConfigurator;
  */
 public class RMSEEstimator {
 
+	public static final double DEFAULT_MAXIMUM_RATING=5.0d;
+	
 	private static final Logger LOG = Logger.getLogger(RMSEEstimator.class.getName());
 
+	private double maximumRating;
+	
 	public RMSEEstimator() {
+		this(DEFAULT_MAXIMUM_RATING);
+	}
+	public RMSEEstimator(double val) {
+		maximumRating = val;
 		LOG.setLevel(YooreekaConfigurator.getLevel(RMSEEstimator.class.getName()));
 	}
 
@@ -146,8 +154,8 @@ public class RMSEEstimator {
 			double predictedAvgUserRating = delphi
 					.predictBasedOnUserAverage(user);
 
-			if (predictedItemRating > 5.0) {
-				predictedItemRating = 5.0;
+			if (predictedItemRating > maximumRating) {
+				predictedItemRating = maximumRating;
 				LOG.finest("Predicted item rating: " + predictedItemRating);
 			}
 			 LOG.finest(
@@ -169,5 +177,12 @@ public class RMSEEstimator {
 		System.out.println("RMSE:" + rmse);
 		System.out.println("RMSE (based on avg. Item rating):" + rmseAvgItem);
 		System.out.println("RMSE (based on avg. User rating):" + rmseAvgUser);
+	}
+
+	/**
+	 * @return the maximumRating
+	 */
+	public double getMaximumRating() {
+		return maximumRating;
 	}
 }

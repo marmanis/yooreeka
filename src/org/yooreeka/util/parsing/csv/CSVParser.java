@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.Charset;
 
+import org.yooreeka.util.P;
 import org.yooreeka.util.parsing.common.AbstractDocument;
 import org.yooreeka.util.parsing.common.DataEntry;
 import org.yooreeka.util.parsing.common.DocumentParser;
@@ -43,34 +44,25 @@ import org.yooreeka.util.parsing.common.ProcessedDocument;
 
 /**
  * 
+ * 
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
  * 
  */
 public class CSVParser implements DocumentParser {
 
-	/**
-	 * 
-	 */
-	private CSVDocument d;
-
 	private CSVFile csvFile;
 	
+	private boolean verbose=false;	
+
 	private long linesParsed = 0;
+	private long linesRead = 0;
+	private int lines2Skip=0;
 
 	/**
 	 * 
 	 */
 	public CSVParser(CSVFile f) {
 		this.csvFile = f;
-	}
-
-	@Override
-	public DataEntry getDataEntry(int i) {
-		return d.getCsvData().get(i);
-	}
-
-	public long getLinesParsed() {
-		return linesParsed;
 	}
 
 	@Override
@@ -96,8 +88,12 @@ public class CSVParser implements DocumentParser {
 	 */
 	public CSVDocument parse(BufferedReader bR) throws IOException {
 
-		d = new CSVDocument();
-
+		long t0 = System.currentTimeMillis();
+		
+		StringBuilder msg = null;
+		if (csvFile.isVerbose()) 	
+			msg= new StringBuilder("\nProcessed ");
+		
 		linesParsed = 0;
 
 		boolean hasMoreLines = true;
@@ -107,23 +103,56 @@ public class CSVParser implements DocumentParser {
 
 			line = bR.readLine();
 
-			if (line == null) {
+			if (line == null || line.trim().length() == 0) {
 
 				hasMoreLines = false;
 
 			} else {
 
-				CSVEntry csvEntry = new CSVEntry(line, getSeparator());
-				if (linesParsed == 0) {
-					d.setHeaders(csvEntry); 
+				if (linesParsed < lines2Skip) {
+					// Skip this line
 				} else {
-					d.getCsvData().add(csvEntry);					
+					CSVEntry csvEntry = new CSVEntry(line, getSeparator());
+					if (linesRead == 0 && csvFile.hasHeaders()) {
+						csvFile.getDoc().setHeaders(csvEntry);
+						
+						if (isVerbose())
+							P.print(csvEntry.toString());
+						
+					} else {
+						if (csvEntry.getData().length != csvFile.getSchema().getNumberOfFields()) {
+							
+							if (isVerbose()) 
+								P.println(csvEntry.toString());
+							
+						}
+						csvFile.getDoc().getCsvData().add(csvEntry);
+					}
+					linesRead++;
 				}
 				linesParsed++;
 			}
 		}
+		
+		if (csvFile.isVerbose()) {
+			msg.append(linesParsed).append(" lines from file: ").append(csvFile.getFile().getAbsolutePath());
+			msg.append("\n in "+(System.currentTimeMillis()-t0)+"ms\n");
+			P.println(msg.toString());
+		}
+		
+		return csvFile.getDoc();
+	}
 
-		return d;
+	@Override
+	public DataEntry getDataEntry(int i) {
+		return csvFile.getDoc().getCsvData().get(i);
+	}
+
+	/**
+	 * @return the number of lines parsed
+	 */
+	public long getLinesParsed() {
+		return linesParsed;
 	}
 
 	/**
@@ -131,5 +160,46 @@ public class CSVParser implements DocumentParser {
 	 */
 	public String getSeparator() {
 		return csvFile.getSeparator();
+	}
+	
+	/**
+	 * @param val sets the number of rows that must be skipped
+	 */
+	public void skipRows(int val) {
+		lines2Skip = val;
+	}
+	
+	/** 
+	 * @return the number of lines read
+	 */
+	public long getLinesRead() {
+		return linesRead;
+	}
+	/**
+	 * @return the verbose
+	 */
+	public boolean isVerbose() {
+		return verbose;
+	}
+
+	/**
+	 * @param verbose the verbose to set
+	 */
+	public void setVerbose(boolean verbose) {
+		this.verbose = verbose;
+	}
+
+	/**
+	 * @return the csvFile
+	 */
+	public CSVFile getCsvFile() {
+		return csvFile;
+	}
+
+	/**
+	 * @return the lines2Skip
+	 */
+	public int getLines2Skip() {
+		return lines2Skip;
 	}
 }

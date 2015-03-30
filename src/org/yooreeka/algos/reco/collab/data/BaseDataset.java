@@ -52,6 +52,7 @@ import org.yooreeka.algos.reco.collab.model.Dataset;
 import org.yooreeka.algos.reco.collab.model.Item;
 import org.yooreeka.algos.reco.collab.model.Rating;
 import org.yooreeka.algos.reco.collab.model.User;
+import org.yooreeka.util.P;
 
 /**
  * Dataset implementation that we will use to work with sample data.
@@ -137,17 +138,15 @@ public class BaseDataset implements Serializable, Dataset {
 	Set<String> allTermsSet = new HashSet<String>();
 
 	/**
-	 * Auxiliary method for loading users one by one. This is for demonstration
-	 * purposes. Use other kind of loaders for loading data en mass.
-	 * 
-	 * @param u
-	 *            denotes a User who has rated certain items and we want to add
-	 *            his ratings in this dataset
-	 * @return true if no errors occurred and all data have been added.
-	 *         Otherwise, return false but do add whatever we can.
+	 * This method assumes that 
+	 * @param <tt>User</tt> u has items rated that are associated with content if
+	 * @param <tt>boolean</tt> hasContent is equal to <tt>true</tt> or does not have
+	 * items rated (and associated with content) if <tt>boolean</tt> hasContent is equal 
+	 * to <tt>false</tt>.
+	 * @return <tt>true</tt> if the user has been added; 
 	 */
-	public boolean add(User u) {
-
+	public boolean add(User u, boolean hasContent) {
+		
 		boolean addedUser = true;
 
 		// Auxiliary
@@ -157,23 +156,21 @@ public class BaseDataset implements Serializable, Dataset {
 		Collection<Rating> urc = u.getAllRatings();
 		Rating[] uRatings = urc.toArray(new Rating[urc.size()]);
 
+		int uID = u.getId();
+		
 		// Add the user
-		if (!allUsers.containsKey(u.getId())) {
-			this.allUsers.put(u.getId(), u);
-
-			for (Content content : u.getUserContent()) {
-				updateTerms(content.getTerms());
-			}
+		if (!allUsers.containsKey(uID)) {
+			this.allUsers.put(uID, u);
 		}
 
 		for (Rating r : uRatings) {
 			if (!this.allRatings.add(r)) {
-				System.out.println("________________________________");
-				System.out.println("ERROR >> Could not add rating! ");
-				System.out.println("      >> User ID: " + r.getUserId());
-				System.out.println("      >> Item ID: " + r.getItemId());
-				System.out.println("      >> Rating : " + r.getRating());
-				System.out.println("________________________________");
+				P.hline();
+				P.println("ERROR >> Could not add rating! ");
+				P.println("      >> User ID: " + r.getUserId());
+				P.println("      >> Item ID: " + r.getItemId());
+				P.println("      >> Rating : " + r.getRating());
+				P.hline();
 
 				addedUser = false;
 			}
@@ -185,19 +182,39 @@ public class BaseDataset implements Serializable, Dataset {
 			 * ratings of previously added users and we don't want to overwrite
 			 * them in case new item is a different instance with the same id.
 			 */
-			if (!allItems.containsKey(item.getId())) {
-				this.allItems.put(item.getId(), item);
+			int iID = item.getId();
+			if (!allItems.containsKey(iID)) {
+				this.allItems.put(iID, item);
 			}
 
 			// Populate item ratings if item doesn't have them
 			// Note that here we rely on all users/ratings sharing the same
 			// instance of an item.
-			if (item.getUserRating(u.getId()) == null) {
+			if (item.getUserRating(uID) == null) {
 				item.addUserRating(r);
 			}
 		}
 
+		if (hasContent) {
+			for (Content content : u.getUserContent()) {
+				updateTerms(content.getTerms());
+			}
+		}
+		
 		return addedUser;
+	}
+	
+	/**
+	 * Auxiliary method for loading users one by one. 
+	 * 
+	 * @param u
+	 *            denotes a User who has rated certain items and we want to add
+	 *            his ratings in this dataset
+	 * @return true if no errors occurred and all data have been added.
+	 *         Otherwise, return false but do add whatever we can.
+	 */
+	public boolean add(User u) {
+		return add(u, false);
 	}
 
 	/*
@@ -208,13 +225,28 @@ public class BaseDataset implements Serializable, Dataset {
 	 * through user ratings.
 	 */
 	public boolean addItem(Item item) {
+		
 		boolean addedItem = false;
+		
+		if (!allItems.containsKey(item.getId())) {
+			this.allItems.put(item.getId(), item);
+			addedItem = true;
+		}
+		return addedItem;
+	}
+	
+	public boolean addItem(Item item, boolean hasContent) {
+		
+		boolean addedItem = false;
+		
 		if (!allItems.containsKey(item.getId())) {
 			this.allItems.put(item.getId(), item);
 			addedItem = true;
 
-			Content content = item.getItemContent();
-			updateTerms(content.getTerms());
+			if (hasContent) {
+				Content content = item.getItemContent();
+				updateTerms(content.getTerms());
+			}
 		}
 		return addedItem;
 	}
@@ -228,9 +260,16 @@ public class BaseDataset implements Serializable, Dataset {
 			}
 		}
 		return matchedItem;
-
 	}
 
+	public Item findItemById(String id) {
+		return allItems.get(Integer.valueOf(id));
+	}
+	
+	public Item findItemById(Integer id) {
+		return allItems.get(id);
+	}
+	
 	public User findUserByName(String name) {
 		User matchedUser = null;
 		for (User user : this.allUsers.values()) {
@@ -241,7 +280,14 @@ public class BaseDataset implements Serializable, Dataset {
 		}
 		return matchedUser;
 	}
+	
+	public User findUserById(String id) {
+		return allUsers.get(Integer.valueOf(id));
+	}
 
+	public User findUserById(Integer id) {
+		return allUsers.get(id);
+	}
 	public String[] getAllTerms() {
 		return allTermsSet.toArray(new String[allTermsSet.size()]);
 	}

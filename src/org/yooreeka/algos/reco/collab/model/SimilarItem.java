@@ -34,6 +34,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 
 /**
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
@@ -84,6 +88,56 @@ public class SimilarItem {
 				}
 				return result;
 			}
+
+			@Override
+			public Comparator<SimilarItem> reversed() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<SimilarItem> thenComparing(
+					Comparator<? super SimilarItem> other) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U> Comparator<SimilarItem> thenComparing(
+					Function<? super SimilarItem, ? extends U> keyExtractor,
+					Comparator<? super U> keyComparator) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U extends Comparable<? super U>> Comparator<SimilarItem> thenComparing(
+					Function<? super SimilarItem, ? extends U> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<SimilarItem> thenComparingInt(
+					ToIntFunction<? super SimilarItem> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<SimilarItem> thenComparingLong(
+					ToLongFunction<? super SimilarItem> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<SimilarItem> thenComparingDouble(
+					ToDoubleFunction<? super SimilarItem> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
 		});
 	}
 

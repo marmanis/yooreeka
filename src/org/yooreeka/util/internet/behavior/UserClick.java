@@ -142,10 +142,10 @@ public class UserClick extends BaseInstance {
 
 				UserQuery uQ = new UserQuery(data[0], data[1]);
 
-				UserClick userClick = new UserClick(uQ, data[2].substring(1,
-						data[2].length() - 1));
+				UserClick userClick = new UserClick(uQ, data[2]);
 
-				userClick.print();
+				// DEBUG
+				// userClick.print();
 
 				userClicks.add(userClick);
 			}

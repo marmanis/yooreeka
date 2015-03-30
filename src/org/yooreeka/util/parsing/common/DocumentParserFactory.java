@@ -32,6 +32,7 @@ package org.yooreeka.util.parsing.common;
 
 import org.yooreeka.util.parsing.html.HTMLDocumentParser;
 import org.yooreeka.util.parsing.msword.MSWordDocumentParser;
+import org.yooreeka.util.parsing.pdf.PDFDocumentParser;
 
 public class DocumentParserFactory {
 
@@ -56,11 +57,16 @@ public class DocumentParserFactory {
 	 */
 	public DocumentParser getDocumentParser(String type)
 			throws DocumentParserException {
+		
 		if (ProcessedDocument.TYPE_HTML.equalsIgnoreCase(type)) {
 			return new HTMLDocumentParser();
 		} else if (ProcessedDocument.TYPE_MSWORD.equalsIgnoreCase(type)) {
 			return new MSWordDocumentParser();
-		} else {
+		} else if (ProcessedDocument.TYPE_PDF.equalsIgnoreCase(type)) { 
+			return new PDFDocumentParser();
+		} else if (ProcessedDocument.TYPE_TEXT.equalsIgnoreCase(type)) { 
+			return new PDFDocumentParser();
+		}else {
 			throw new DocumentParserException("Unsupported document type: '"
 					+ type + "'.");
 		}

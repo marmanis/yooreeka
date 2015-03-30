@@ -31,6 +31,7 @@
 package org.yooreeka.util.parsing.csv;
 
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 import org.yooreeka.util.P;
 import org.yooreeka.util.parsing.common.ProcessedDocument;
@@ -44,8 +45,11 @@ import org.yooreeka.util.parsing.common.ProcessedDocument;
 public class CSVDocument extends ProcessedDocument {
 
 	private CSVEntry headers;
-	private ArrayList<CSVEntry> csvData;
+	
 	private boolean hasHeaders;
+	private ArrayList<CSVEntry> csvData;
+	
+	private CSVSchema schema;
 
 	public CSVDocument() {
 		csvData = new ArrayList<CSVEntry>();
@@ -73,12 +77,17 @@ public class CSVDocument extends ProcessedDocument {
 	public ArrayList<CSVEntry> getCsvData() {
 		return csvData;
 	}
-	
+		
 	public void print(String printSeparator) {
+		if (hasHeaders()) {
+			P.hline();
+			P.println(getHeaders().toString(printSeparator));
+		}
 		P.hline();
-		P.println(getHeaders().toString(printSeparator));
-		P.hline();
-		for (CSVEntry e : csvData) {
+
+		ListIterator<CSVEntry> elements = csvData.listIterator();
+		while (elements.hasNext()) {
+			CSVEntry e = elements.next();
 			P.println(e.toString(printSeparator));
 		}
 		P.hline();
@@ -89,5 +98,19 @@ public class CSVDocument extends ProcessedDocument {
 	 */
 	public void setHeaders(CSVEntry headers) {
 		this.headers = headers;
+	}
+
+	/**
+	 * @return the schema
+	 */
+	public CSVSchema getSchema() {
+		return schema;
+	}
+
+	/**
+	 * @param schema the schema to set
+	 */
+	public void setSchema(CSVSchema schema) {
+		this.schema = schema;
 	}
 }

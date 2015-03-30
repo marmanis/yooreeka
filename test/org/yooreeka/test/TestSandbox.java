@@ -30,6 +30,12 @@
  */
 package org.yooreeka.test;
 
+import org.yooreeka.math.Fibonacci;
+import org.yooreeka.math.MyFibonacci;
+import org.yooreeka.util.C;
+import org.yooreeka.util.P;
+import org.yooreeka.util.gui.XyLogGui;
+
 
 
 /**
@@ -47,5 +53,68 @@ public class TestSandbox {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
+		
+/*		int maxOrder = 16;
+		int numberOfPoints = 16;
+		
+		double[][] x = new double[maxOrder][numberOfPoints], y = new double[maxOrder][numberOfPoints];
+		
+		StringBuilder msg = new StringBuilder();
+		msg.append("Fib [").append(maxOrder-1).append("] = ");
+
+		MyFibonacci[] fibonacci = new MyFibonacci[maxOrder-2];
+		
+			for (int j=2; j<maxOrder; j++) {
+				for (int i=0; i<numberOfPoints; i++) {
+				//Create the classic Fibonacci series and all higher orders up to maxOrder
+				fibonacci[j-2] = new MyFibonacci(j,numberOfPoints);
+				
+//				if (i == numberOfPoints-1) {
+					x[j-2][i] = (double) i;
+					y[j-2][i] = (double) fibonacci[j-2].get(i);
+					
+					if (j<maxOrder-1)
+						msg.append(fibonacci[j-2].get(i)).append(", ");
+					else
+						msg.append(fibonacci[j-2].get(i));
+//				}
+			}
+		}
+		P.println(msg.toString());
+		P.hline();
+		
+		double[] gX=new double[numberOfPoints],gY=new double[numberOfPoints]; 
+		
+		int eval = 2;
+		
+		for (int i=0; i<numberOfPoints; i++) {
+			gX[i] = x[eval][i];
+			if (y[eval][i]>0)
+				gY[i] = y[eval][i];
+			else 
+				gY[i]=C.DECI_DOUBLE;
+		}
+		
+		P.println(gX, gY);
+
+		XyLogGui g = new org.yooreeka.util.gui.XyLogGui ("Generalized Fibonacci",gX,gY);
+		
+		while (eval < 15) {
+		
+			eval++;
+			
+			for (int i=0; i<numberOfPoints; i++) {
+				gX[i] = x[eval][i];
+				if (y[eval][i]>0)
+					gY[i] = y[eval][i];
+				else 
+					gY[i]=C.DECI_DOUBLE;
+			}
+			g.addSeries("Eval-"+eval, gX, gY);
+		}
+		
+		g.plot();
+*/
+		
 	}
 }

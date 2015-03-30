@@ -32,6 +32,10 @@ package org.yooreeka.algos.clustering.utils;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 import java.util.logging.Logger;
 
 import org.yooreeka.algos.clustering.model.DataPoint;
@@ -62,6 +66,56 @@ public class SortedArrayClustering {
 				}
 				return result;
 			}
+
+			@Override
+			public Comparator<DataPoint> reversed() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<DataPoint> thenComparing(
+					Comparator<? super DataPoint> other) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U> Comparator<DataPoint> thenComparing(
+					Function<? super DataPoint, ? extends U> keyExtractor,
+					Comparator<? super U> keyComparator) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U extends Comparable<? super U>> Comparator<DataPoint> thenComparing(
+					Function<? super DataPoint, ? extends U> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<DataPoint> thenComparingInt(
+					ToIntFunction<? super DataPoint> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<DataPoint> thenComparingLong(
+					ToLongFunction<? super DataPoint> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<DataPoint> thenComparingDouble(
+					ToDoubleFunction<? super DataPoint> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
 		});
 
 		for (int i = 0; i < points.length; i++) {

@@ -23,39 +23,41 @@
 
 	<property name="y.deploy.lib" value="${y.deploy}/lib"/>
 
-	<property name="yooreeka.jar" value="yooreeka-2.0.jar"/>
+	<property name="yooreeka.jar" value="yooreeka-2.2.jar"/>
 
 	<property environment="env"/>
 
 	<!-- list of all jars that are currently used in iweb2 app -->
 	<patternset id="thirdparty.jars">
 		<include name="bsh-2.0b4.jar"/>
-		<include name="commons-codec-1.6.jar"/>
-		<include name="commons-lang-2.3.jar"/>
+		<include name="commons-cli-1.2.jar"/>
+		<include name="commons-lang3-3.1.jar"/>
 		<include name="commons-logging-1.1.1.jar"/>
-		<include name="f2jutil.jar"/>
 		<include name="httpclient-4.2.2.jar"/>
 		<include name="httpcore-4.2.2.jar"/>
-		<include name="httpmime-4.2.2.jar"/>
-		<include name="jfreechart.jar"/>
-		<include name="jgraph.jar"/>
+		
+		<include name="jcommon-1.0.20.jar"/>
+		<include name="jfreechart-1.0.16.jar"/>
+		
 		<include name="jigg-0.1.jar"/>
-		<include name="jsr173_1.0_api.jar"/>
+		
 		<include name="junit-4.1.jar"/>
 		<include name="juniversalchardet-1.0.3.jar"/>
-		<include name="log4j-1.2.17.jar"/>
-		<include name="lucene-analyzers-common-4.0.0-BETA.jar"/>
-		<include name="lucene-core-4.0.0-BETA.jar"/>
-		<include name="lucene-demo-4.0.0-BETA.jar"/>
-		<include name="lucene-memory-4.0.0-BETA.jar"/>
-		<include name="lucene-queryparser-4.0.0-BETA.jar"/>
+		
+		<include name="lucene-analyzers-common-4.4.0.jar"/>
+		<include name="lucene-core-4.4.0.jar"/>
+		<include name="lucene-demo-4.4.0.jar"/>
+		<include name="lucene-memory-4.4.0.jar"/>
+		<include name="lucene-queryparser-4.4.0.jar"/>
+		
 		<include name="nekohtml.jar"/>
-		<include name="poi-3.0.2-FINAL-20080204.jar"/>
+		<include name="poi-3.9-20121203.jar"/>
 		<include name="resolver.jar"/>
 		<include name="rooster.jar"/>
-		<include name="secondstring-20070327.jar"/>
+		<include name="secondstring-20120620.jar"/>
 		<include name="serializer.jar"/>
-		<include name="SuperCSV-1.16.jar"/>
+		<include name="super-csv-2.1.0.jar"/>
+		<include name="tika-app-1.6.jar"/>
 		<include name="tm-extractors-1.0.jar"/>
 		<include name="xercesImpl.jar"/>
 		<include name="xml-apis.jar"/>
@@ -311,7 +313,9 @@
       errorProperty="test.failed"
       failureProperty="test.failed"
       reloading="false">
+		<jvmarg value="-Xms1024M"/>
 		<jvmarg value="-Xmx1024M"/>
+		<jvmarg value="-Dyooreeka.home=${y.root}"/>
 		<sysproperty key="data.dir" file="${y.data}"/>
 		<sysproperty key="temp.dir" file="${y.build.temp}"/>
 		<!--

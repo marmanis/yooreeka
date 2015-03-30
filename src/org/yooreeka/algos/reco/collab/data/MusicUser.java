@@ -34,6 +34,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 
 import org.yooreeka.algos.reco.collab.model.Rating;
 import org.yooreeka.algos.reco.collab.model.User;
@@ -224,6 +228,56 @@ public class MusicUser extends User {
 
 				return result;
 			}
+
+			@Override
+			public Comparator<Rating[]> reversed() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<Rating[]> thenComparing(
+					Comparator<? super Rating[]> other) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U> Comparator<Rating[]> thenComparing(
+					Function<? super Rating[], ? extends U> keyExtractor,
+					Comparator<? super U> keyComparator) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U extends Comparable<? super U>> Comparator<Rating[]> thenComparing(
+					Function<? super Rating[], ? extends U> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<Rating[]> thenComparingInt(
+					ToIntFunction<? super Rating[]> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<Rating[]> thenComparingLong(
+					ToLongFunction<? super Rating[]> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<Rating[]> thenComparingDouble(
+					ToDoubleFunction<? super Rating[]> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
 		});
 
 		double[] data1 = new double[sharedRatings.size()];

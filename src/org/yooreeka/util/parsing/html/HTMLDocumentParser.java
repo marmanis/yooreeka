@@ -53,7 +53,6 @@ import org.w3c.dom.traversal.NodeFilter;
 import org.w3c.dom.traversal.NodeIterator;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.yooreeka.util.P;
 import org.yooreeka.util.internet.crawling.model.Outlink;
 import org.yooreeka.util.parsing.common.AbstractDocument;
 import org.yooreeka.util.parsing.common.DataEntry;
@@ -340,25 +339,23 @@ public class HTMLDocumentParser implements DocumentParser {
 
 	public ProcessedDocument parse(AbstractDocument doc)
 			throws HTMLDocumentParserException {
-		P.println("Entering HTMLDocumentParser.parse(FetchedDocument doc) ...");
+		//P.println("Entering HTMLDocumentParser.parse(FetchedDocument doc) ...");
 		ProcessedDocument htmlDoc = new ProcessedDocument();
 		htmlDoc.setDocumentType(ProcessedDocument.TYPE_HTML);
 		htmlDoc.setDocumentId(doc.getDocumentId());
 		htmlDoc.setDocumentURL(doc.getDocumentURL());
 		String documentCharset = doc.getContentCharset();
 
-		P.println("Converting the content bytes into a string ...");
+		//P.println("Converting the content bytes into a string ...");
 
-		InputStream contentBytes = new ByteArrayInputStream(
-				doc.getDocumentContent());
+		InputStream contentBytes = new ByteArrayInputStream(doc.getDocumentContent());
 		try {
 			/*
 			 * Up to this point document content was treated as byte array. Here
 			 * we convert byte array into character based stream. Processed
 			 * document will be stored using UTF-8 encoding.
 			 */
-			InputStreamReader characterStream = new InputStreamReader(
-					contentBytes, documentCharset);
+			InputStreamReader characterStream = new InputStreamReader(contentBytes, documentCharset);
 			InputSource inputSource = new InputSource();
 			inputSource.setCharacterStream(characterStream);
 			parseHTML(htmlDoc, inputSource);
@@ -371,7 +368,7 @@ public class HTMLDocumentParser implements DocumentParser {
 
 	public ProcessedDocument parse(Reader reader)
 			throws HTMLDocumentParserException {
-		P.println("Entering HTMLDocumentParser.parse(Reader reader) ...");
+		//P.println("Entering HTMLDocumentParser.parse(Reader reader) ...");
 		ProcessedDocument processedDocument = new ProcessedDocument();
 		processedDocument.setDocumentType(ProcessedDocument.TYPE_HTML);
 		processedDocument.setDocumentId(null);
@@ -410,12 +407,10 @@ public class HTMLDocumentParser implements DocumentParser {
 
 		XMLDocumentFilter[] filters = { remover, writer };
 		try {
-			parser.setProperty("http://cyberneko.org/html/properties/filters",
-					filters);
+			parser.setProperty("http://cyberneko.org/html/properties/filters", filters);
 		} catch (SAXException e) {
 			e.printStackTrace();
-			throw new HTMLDocumentParserException("Property is not supported",
-					e);
+			throw new HTMLDocumentParserException("Property is not supported", e);
 		}
 
 		try {
@@ -445,8 +440,7 @@ public class HTMLDocumentParser implements DocumentParser {
 			String baseUrl = getBaseUrl(node);
 
 			// links to other pages
-			List<Outlink> outlinks = extractLinks(node,
-					htmlDoc.getDocumentURL(), baseUrl);
+			List<Outlink> outlinks = extractLinks(node,	htmlDoc.getDocumentURL(), baseUrl);
 			htmlDoc.setOutlinks(outlinks);
 		}
 	}

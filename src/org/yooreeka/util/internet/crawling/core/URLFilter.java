@@ -36,7 +36,7 @@ package org.yooreeka.util.internet.crawling.core;
 public class URLFilter {
 
 	private boolean allowFileUrls = true;
-	private boolean allowHttpUrls = true;
+	private boolean allowHttpUrls = false;
 
 	public URLFilter() {
 		// empty
@@ -72,8 +72,24 @@ public class URLFilter {
 	public void setAllowFileUrls(boolean flag) {
 		this.allowFileUrls = flag;
 	}
+	
+	public boolean allowFileUrls() {
+		return allowFileUrls;
+	}
 
+	public boolean hasOnlyFileUrls() {
+		if (allowFileUrls && !allowHttpUrls) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public void setAllowHttpUrls(boolean flag) {
 		this.allowHttpUrls = flag;
+	}
+	
+	public boolean allowHttpUrls() {
+		return allowHttpUrls;
 	}
 }

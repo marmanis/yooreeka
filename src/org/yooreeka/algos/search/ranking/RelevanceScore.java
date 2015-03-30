@@ -33,6 +33,10 @@ package org.yooreeka.algos.search.ranking;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 
 /**
  * Utility class that acts as a holder for double value and id of the object
@@ -56,6 +60,56 @@ public class RelevanceScore {
 				}
 				return result;
 			}
+
+			@Override
+			public Comparator<RelevanceScore> reversed() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<RelevanceScore> thenComparing(
+					Comparator<? super RelevanceScore> other) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U> Comparator<RelevanceScore> thenComparing(
+					Function<? super RelevanceScore, ? extends U> keyExtractor,
+					Comparator<? super U> keyComparator) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U extends Comparable<? super U>> Comparator<RelevanceScore> thenComparing(
+					Function<? super RelevanceScore, ? extends U> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<RelevanceScore> thenComparingInt(
+					ToIntFunction<? super RelevanceScore> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<RelevanceScore> thenComparingLong(
+					ToLongFunction<? super RelevanceScore> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<RelevanceScore> thenComparingDouble(
+					ToDoubleFunction<? super RelevanceScore> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
 		});
 	}
 	private String id;

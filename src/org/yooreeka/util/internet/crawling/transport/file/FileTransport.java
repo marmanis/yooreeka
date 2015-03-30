@@ -33,102 +33,187 @@ package org.yooreeka.util.internet.crawling.transport.file;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 
+import org.yooreeka.config.YooreekaConfigurator;
+import org.yooreeka.util.P;
+import org.yooreeka.util.internet.crawling.db.FetchedDocsDB;
 import org.yooreeka.util.internet.crawling.model.FetchedDocument;
 import org.yooreeka.util.internet.crawling.transport.common.Transport;
 import org.yooreeka.util.internet.crawling.transport.common.TransportException;
+import org.yooreeka.util.internet.crawling.util.DocumentIdUtils;
+import org.yooreeka.util.internet.crawling.util.FileUtils;
+import org.yooreeka.util.parsing.common.ProcessedDocument;
 
 public class FileTransport implements Transport {
 
+	private static final String DEFAULT_CONTENT_CHARSET = "UTF-8";
+	public static final String FILE_URL_PREFIX = "file:/";
+	private static final int FILE_URL_PREFIX_INDEX = 6;
+
+	private FetchedDocsDB db;
+	
 	public FileTransport() {
+		//NOTHING YET
 	}
 
 	public void clear() {
 		// DO NOTHING
 	}
 
-	private FetchedDocument createDocument(String targetURL)
-			throws IOException, FileTransportException {
+	public FetchedDocument fetch(String documentUrl, String groupId, int docSequenceInGroup) throws TransportException {
+
 		FetchedDocument doc = new FetchedDocument();
+
+		String documentId = DocumentIdUtils.getDocumentId(groupId, docSequenceInGroup);
 
 		/*
 		 * Maximum document length.
 		 */
-		int MAX_DOCUMENT_LENGTH = 512 * 1024; // 512K
+		int MAX_DOCUMENT_LENGTH = 64 * 1024 * 1024; // 64Mb
 
-		URL url = new URL(targetURL);
-		File f = null;
-		try {
-			f = new File(url.toURI());
-		} catch (URISyntaxException e) {
-			throw new FileTransportException(
-					"Error while converting url to file path: ", e);
+		File f=null; 
+		// Subtract the file:/ from the targetURL
+		if (documentUrl.startsWith(FILE_URL_PREFIX)) {
+			
+			String docURL = documentUrl.substring(FILE_URL_PREFIX_INDEX);
+			f = Paths.get(docURL).toFile();
+			
+			if (f.isDirectory()) {
+				
+				P.println("Found a directory, descending recursively ...");
+
+				doc.setDocumentId(documentId);
+				doc.setContentType(ProcessedDocument.TYPE_DIRECTORY);
+				doc.setDocumentURL(docURL);
+
+				List<Path> files;
+				try {
+					files = FileUtils.listFiles(f.toPath());
+				} catch (IOException ioX) {
+					throw new FileTransportException(ioX.getMessage());
+				}
+				
+				for (Path p : files) {
+					String fileURL;
+					try {
+						fileURL = p.toUri().toURL().toString();
+					} catch (MalformedURLException urlX) {
+						throw new FileTransportException(urlX.getMessage());
+					}
+					P.println("Target URL: "+documentUrl);
+					P.println("  File URL: "+fileURL);					
+					fetch(fileURL, groupId, docSequenceInGroup++);
+				}
+			} else {
+				
+				/* IOException will be thrown for documents that exceed max length */
+				byte[] data;
+				try {
+					data = loadData(f, MAX_DOCUMENT_LENGTH);
+				} catch (IOException ioX) {
+					throw new FileTransportException(ioX.getMessage());
+				}
+
+				//Detect content type
+				String DEFAULT_CONTENT_TYPE = ProcessedDocument.TYPE_HTML;
+				String contentType = DEFAULT_CONTENT_TYPE;
+				if (f.getName().endsWith(ProcessedDocument.MSWORD_ENDS_WITH)) {
+					contentType = ProcessedDocument.TYPE_MSWORD;
+				} else if (f.getName().endsWith(ProcessedDocument.PDF_ENDS_WITH)) {
+					contentType = ProcessedDocument.TYPE_PDF;
+				} else if (f.getName().endsWith(ProcessedDocument.TEXT_ENDS_WITH)) {
+					contentType = ProcessedDocument.TYPE_TEXT;
+				} 
+		    
+				doc.setDocumentId(documentId);
+				doc.setContentType(contentType);
+				doc.setDocumentURL(documentUrl);
+				//The content character set is detected later on in ProcessedDocument
+				doc.setContentCharset(DEFAULT_CONTENT_CHARSET);
+				doc.setDocumentContent(data);
+				doc.setDocumentMetadata(new HashMap<String, String>());
+				doc.print();
+
+				P.println("Calling fetchedDocsDB.saveDocument(doc);");
+
+				db.saveDocument(doc);
+
+			}
+		} else {
+			throw new FileTransportException("There is something wrong with this URL: "+documentUrl);
 		}
-
-		/* IOException will be thrown for documents that exceed max length */
-		byte[] data = loadData(f, MAX_DOCUMENT_LENGTH);
-
-		String DEFAULT_CONTENT_TYPE = "text/html";
-		String contentType = DEFAULT_CONTENT_TYPE;
-		if (f.getName().endsWith(".doc")) {
-			contentType = "application/msword";
-		}
-
-		String DEFAULT_CONTENT_CHARSET = "UTF-8";
-		String contentCharset = DEFAULT_CONTENT_CHARSET;
-
-		doc.setContentType(contentType);
-		doc.setDocumentURL(targetURL);
-		doc.setContentCharset(contentCharset);
-		doc.setDocumentContent(data);
-		doc.setDocumentMetadata(new HashMap<String, String>());
-		return doc;
-	}
-
-	public FetchedDocument fetch(String documentUrl) throws TransportException {
-
-		FetchedDocument doc = null;
-		try {
-			doc = createDocument(documentUrl);
-		} catch (Exception eX) {
-			System.out.println("ERROR:\n" + eX.getMessage());
-			throw new FileTransportException("Failed to fetch url: '"
-					+ documentUrl + "': ", eX);
-		} finally {
-		}
-
 		return doc;
 	}
 
 	public void init() {
-		// DO NOTHING
+		P.println("FileTransport.init() called ...");
 	}
 
 	private byte[] loadData(File f, int maxLength) throws IOException {
-		if (f.length() > maxLength) {
-			throw new IOException("The document is too long (doc: "
-					+ f.getCanonicalPath() + ", size: " + f.length()
-					+ ", max size: " + maxLength);
-		}
 
-		InputStream in = new BufferedInputStream(new FileInputStream(f));
+		P.println("Loading data from file: "+f.getAbsolutePath());
+		
 		byte[] data = new byte[(int) f.length()];
-		int offset = 0;
-		int i = 0;
-		while ((offset < data.length)
-				&& (i = in.read(data, offset, data.length - offset)) >= 0) {
-			offset += i;
+
+		if (!f.isDirectory()) {
+			if (f.length() > maxLength) {
+				throw new IOException("The document is too long (doc: "
+						+ f.getCanonicalPath() + ", size: " + f.length()
+						+ ", max size: " + maxLength);
+			}
+	
+			InputStream in = null;
+			try {
+				in = new BufferedInputStream(new FileInputStream(f));
+			} catch (Exception eX) {
+				P.println(eX.getMessage());
+				fixDud(in);
+			} 
+						
+			if (in != null) {
+				int offset = 0;
+				int i = 0;
+				while ((offset < data.length) && (i = in.read(data, offset, data.length - offset)) >= 0) {
+					offset += i;
+				}
+				in.close();
+			}
 		}
-		in.close();
 		return data;
 	}
 
 	public boolean pauseRequired() {
 		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.yooreeka.util.internet.crawling.transport.common.Transport#fixDud()
+	 */
+	@Override
+	public void fixDud(InputStream in) {
+		String empty = YooreekaConfigurator.getProperty("yooreeka.crawl.dudfile");
+		P.println(empty);
+		try {
+			in = new BufferedInputStream(new FileInputStream(new File(empty)));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.yooreeka.util.internet.crawling.transport.common.Transport#setFetchedDocsDB(org.yooreeka.util.internet.crawling.db.FetchedDocsDB)
+	 */
+	@Override
+	public void setFetchedDocsDB(FetchedDocsDB db) {
+		this.db = db;
 	}
 }

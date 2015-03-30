@@ -46,14 +46,6 @@ import org.yooreeka.config.YooreekaConfigurator;
  */
 public class MovieLensRMSE {
 
-	public static void main(String[] args) {
-		MovieLensRMSE rmse = new MovieLensRMSE();
-		rmse.calculate();
-	}
-
-	public MovieLensRMSE() {
-	}
-
 	public double[] calculate() {
 
 		double similarityThreshold = 0.50;

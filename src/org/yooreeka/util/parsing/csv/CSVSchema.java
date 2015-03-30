@@ -32,11 +32,12 @@ package org.yooreeka.util.parsing.csv;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.UUID;
 
 import org.yooreeka.util.parsing.common.DataField;
+import org.yooreeka.util.parsing.common.DataType;
 
 /**
+ * 
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
  * 
  */
@@ -45,19 +46,90 @@ public class CSVSchema implements Serializable {
 	private static final long serialVersionUID = -8265277706414216835L;
 
 	private String name;
-	private HashMap<UUID, DataField> columnMap;
+	
+	private HashMap<String, DataField> fields;
+	private DataField primaryKey;
 
+	private volatile int orderCounter=0;
+	
+	/*
+	 * Clearly there should be a 1-1 association between 
+	 * the headers (if any) of the CSVFile and the data fields 
+	 * of the CSVSchema of the CSVFile.  
+	 */
 	public CSVSchema() {
-		columnMap = new HashMap<>();
+		fields = new HashMap<String, DataField>();
 	}
 
-	public void addColumn(DataField field) {
+	public DataField getPrimaryKey() {
+		return primaryKey;
+	}
+	
+	/**
+	 * When this returns a negative number the schema does not have a primary key
+	 * 
+	 * @return the primary key index
+	 */
+	public int getPrimaryKeyIndex() {
+		int primaryKeyIndex=-1;
+		Object[] fs = fields.values().toArray();
+		for (int i=0; i < fields.size(); i++) {
+			DataField f = (DataField) fs[i];
+			if (f.isPrimaryKey()) {
+				primaryKeyIndex=i;
+			}
+		}
+		return primaryKeyIndex;
+	}
+	
+	public void addField(DataField field, boolean isPrimaryKey) {
 		
-		columnMap.put(UUID.randomUUID(), field);
+		if (field.getDataType() == DataType.LONG) {
+			fields.put(field.getName(), field);
+			field.setAsPrimaryKey();
+			primaryKey=field;
+		} else {
+			throw new IllegalArgumentException("The primary key can only be a long integer.");
+		}
 	}
 
-	public int getNumberOfColumns() {
-		return columnMap.size();
+	public void addField(DataField field) {
+		try {
+			field.setOrderIndex(orderCounter++);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		fields.put(field.getName(), field);
+	}
+
+	/**
+	 * The tacit assumption here is that the values of the fields in all CSV entries 
+	 * are ordered in the same way that the schema fields are ordered, which must be true 
+	 * for well defined data. However, you should remember that the schema ordering is "hardcoded",
+	 * not inferred, in the present implementation.  
+	 * 
+	 * @param fieldName
+	 * 
+	 * @return the index of the <tt>DataField</tt> in the schema and therefore
+	 * the proper index for retrieving the value of the field from any <tt>CSVEntry</tt>
+	 * that conforms with the schema.
+	 * @throws Exception 
+	 * 
+	 */
+	public int getIndex(String fieldName) throws Exception {
+		
+		int index;
+
+		if (fields.containsKey(fieldName)) {
+			index = fields.get(fieldName).getOrderIndex();
+		} else {
+			throw new Exception("APPLICATION ERROR: No field found!");
+		}
+		return index;
+	}
+	
+	public int getNumberOfFields() {
+		return fields.size();
 	}
 			
 	/**

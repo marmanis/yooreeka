@@ -43,12 +43,25 @@ public class C {
 	 */
 	public final static int  ZERO_INT = 0;
 	public final static long ZERO_LONG = 0;
-	public final static double ZERO_DOUBLE = 0.0;
+	public final static double ZERO_DOUBLE = 0.0d;
+	
+	public final static double SMALL_DOUBLE = 0.000001d;
+	public final static double MILLI_DOUBLE = 0.001d;
+	public final static double CENTI_DOUBLE = 0.01d;
+	public final static double DECI_DOUBLE = 0.1d;
+	
 
 	public final static int  ONE_INT = 1;
 	public final static long ONE_LONG = 1;
 	public final static double ONE_DOUBLE = 1.0;
 
+	public final static int  TWO_INT = 2;
+	public final static long TWO_LONG = 2;
+	public final static double TWO_DOUBLE = 2.0;
+	
+	public final static double GOLDEN_RATIO_PHI_PLUS = (1.0d+(Math.sqrt(5.0d)))/2.0d;
+	public final static double GOLDEN_RATIO_PHI_MINUS = (1.0d-(Math.sqrt(5.0d)))/2.0d;
+	
 	/*
 	 * LITERAL CONSTANTS
 	 */

@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 
 public class PredictedNewsStoryRating {
 
@@ -82,6 +86,56 @@ public class PredictedNewsStoryRating {
                 }
                 return result;
             }
+
+			@Override
+			public Comparator<PredictedNewsStoryRating> reversed() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<PredictedNewsStoryRating> thenComparing(
+					Comparator<? super PredictedNewsStoryRating> other) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U> Comparator<PredictedNewsStoryRating> thenComparing(
+					Function<? super PredictedNewsStoryRating, ? extends U> keyExtractor,
+					Comparator<? super U> keyComparator) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U extends Comparable<? super U>> Comparator<PredictedNewsStoryRating> thenComparing(
+					Function<? super PredictedNewsStoryRating, ? extends U> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<PredictedNewsStoryRating> thenComparingInt(
+					ToIntFunction<? super PredictedNewsStoryRating> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<PredictedNewsStoryRating> thenComparingLong(
+					ToLongFunction<? super PredictedNewsStoryRating> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<PredictedNewsStoryRating> thenComparingDouble(
+					ToDoubleFunction<? super PredictedNewsStoryRating> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
         });
     }
 

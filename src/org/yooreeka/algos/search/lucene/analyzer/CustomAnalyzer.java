@@ -70,7 +70,7 @@ public class CustomAnalyzer extends StopwordAnalyzerBase {
 	private static CharArraySet MERGED_STOP_WORDS;
 
 	static {
-		MERGED_STOP_WORDS = new CharArraySet(Version.LUCENE_40,
+		MERGED_STOP_WORDS = new CharArraySet(Version.LUCENE_44,
 				STOP_WORDS_SET.size() + ADDITIONAL_STOP_WORDS.length, true);
 	}
 

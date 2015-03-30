@@ -1,5 +1,5 @@
 // -------------------------------------------------------------
-//    Identifying faudulent transactions with a Neural Network
+//    Identifying fraudulent transactions with a Neural Network
 // -------------------------------------------------------------
 import *;
 

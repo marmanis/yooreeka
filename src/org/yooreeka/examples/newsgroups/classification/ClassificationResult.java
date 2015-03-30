@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 
 import org.yooreeka.algos.taxis.core.intf.Concept;
 
@@ -87,6 +91,55 @@ public class ClassificationResult {
                 }
                 return result;
             }
+
+			@Override
+			public Comparator<ClassificationResult> reversed() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<ClassificationResult> thenComparing(
+					Comparator<? super ClassificationResult> other) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U> Comparator<ClassificationResult> thenComparing(
+					Function<? super ClassificationResult, ? extends U> keyExtractor,
+					Comparator<? super U> keyComparator) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U extends Comparable<? super U>> Comparator<ClassificationResult> thenComparing(
+					Function<? super ClassificationResult, ? extends U> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<ClassificationResult> thenComparingInt(
+					ToIntFunction<? super ClassificationResult> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<ClassificationResult> thenComparingLong(
+					ToLongFunction<? super ClassificationResult> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<ClassificationResult> thenComparingDouble(
+					ToDoubleFunction<? super ClassificationResult> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
         });
     }
 

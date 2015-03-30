@@ -36,10 +36,15 @@ import java.net.URL;
  * Performs url normalization.
  */
 public class URLNormalizer {
+	
 	public URLNormalizer() {
 		// empty
 	}
 
+	/*
+	 * If we are adding a URL that refers to a file 
+	 * it will be delegated to the following method
+	 */
 	private String normalizeFileUrl(String fileUrl) {
 		try {
 			URL url = new URL(fileUrl);

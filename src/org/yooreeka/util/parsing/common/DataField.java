@@ -42,6 +42,26 @@ public class DataField implements Serializable {
 	
 	private String name;
 	private DataType dataType;
+	private int orderIndex;
+	private boolean isOrderIndexSet=false;
+	
+	/**
+	 * @return the orderIndex
+	 */
+	public int getOrderIndex() {
+		return orderIndex;
+	}
+	
+	public void setOrderIndex(int val) throws Exception {
+		if (!isOrderIndexSet) { 	
+			this.orderIndex = val;
+			isOrderIndexSet = true;
+		} else {
+			throw new Exception("APPLICATION ERROR: You cannot reset the order of the field!");
+		}
+	}
+
+	private boolean isPrimaryKey=false;
 
 	public DataField(String name, DataType dataType) {
 		this.name = name;
@@ -69,4 +89,12 @@ public class DataField implements Serializable {
 
 		return isValid;
 	}
+	
+	public boolean isPrimaryKey() {
+		return isPrimaryKey;
+	}
+	
+	public void setAsPrimaryKey() {
+		isPrimaryKey=true;
+	}	
 }

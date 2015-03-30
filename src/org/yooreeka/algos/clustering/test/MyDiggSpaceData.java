@@ -33,9 +33,9 @@ package org.yooreeka.algos.clustering.test;
 import java.util.List;
 
 import org.yooreeka.algos.clustering.dbscan.DBSCANAlgorithm;
-import org.yooreeka.algos.clustering.hierarchical.Dendrogram;
 import org.yooreeka.algos.clustering.model.Attribute;
 import org.yooreeka.algos.clustering.model.DataPoint;
+import org.yooreeka.algos.clustering.model.Dendrogram;
 import org.yooreeka.algos.clustering.rock.ROCKAlgorithm;
 import org.yooreeka.algos.clustering.utils.Attributes;
 import org.yooreeka.algos.reco.collab.data.DiggData;

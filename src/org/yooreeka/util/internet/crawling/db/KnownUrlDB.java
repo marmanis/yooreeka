@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.yooreeka.util.P;
 import org.yooreeka.util.internet.crawling.model.KnownUrlEntry;
 import org.yooreeka.util.internet.crawling.util.FileUtils;
 
@@ -65,6 +66,9 @@ public class KnownUrlDB {
 	}
 
 	public boolean addNewUrl(String url, int depth) {
+		
+		P.println("KnownUrlDB.addNewUrl("+url+", "+depth+")");
+
 		boolean isAdded = false;
 
 		if (isKnownUrl(url) == false) {
@@ -206,14 +210,16 @@ public class KnownUrlDB {
 	}
 
 	private void loadUrl(String url, String status, int depth) {
+		
+		P.println("KnownUrlDB.loadUrl("+url+", "+status+", "+depth+")");
+
 		if (isKnownUrl(url) == false) {
 			KnownUrlEntry r = new KnownUrlEntry();
 			r.setUrl(url);
 			r.setStatus(status);
 			r.setDepth(depth);
 			if (KnownUrlEntry.STATUS_PROCESSED_SUCCESS.equalsIgnoreCase(status)
-					|| KnownUrlEntry.STATUS_PROCESSED_ERROR
-							.equalsIgnoreCase(status)) {
+					|| KnownUrlEntry.STATUS_PROCESSED_ERROR.equalsIgnoreCase(status)) {
 				processedURLs.put(url, r);
 			} else if (KnownUrlEntry.STATUS_UNPROCESSED
 					.equalsIgnoreCase(status)) {
@@ -229,8 +235,7 @@ public class KnownUrlDB {
 
 	public void save() {
 		try {
-			OutputStreamWriter w = new OutputStreamWriter(new FileOutputStream(
-					dbFile), "UTF-8");
+			OutputStreamWriter w = new OutputStreamWriter(new FileOutputStream(dbFile), "UTF-8");
 			BufferedWriter bw = new BufferedWriter(w);
 			for (KnownUrlEntry r : unprocessedURLs.values()) {
 				writeRecord(bw, r);
@@ -246,17 +251,22 @@ public class KnownUrlDB {
 	}
 
 	public void updateUrlStatus(String url, String status) {
-		if (KnownUrlEntry.STATUS_PROCESSED_SUCCESS.equalsIgnoreCase(status)
-				|| KnownUrlEntry.STATUS_PROCESSED_ERROR
-						.equalsIgnoreCase(status)) {
+		
+		P.println("KnownUrlDB.updateUrlStatus("+url+", "+status+")");
+
+		if (KnownUrlEntry.STATUS_PROCESSED_SUCCESS.equalsIgnoreCase(status) || 
+				KnownUrlEntry.STATUS_PROCESSED_ERROR.equalsIgnoreCase(status)) {
+			
 			KnownUrlEntry r = unprocessedURLs.remove(url);
 			if (r != null) {
 				r.setStatus(status);
 			} else {
 				throw new RuntimeException("Unknown url: '" + url);
-			}
+			}			
 			processedURLs.put(url, r);
+			
 		} else if (KnownUrlEntry.STATUS_UNPROCESSED.equalsIgnoreCase(status)) {
+			
 			KnownUrlEntry r = processedURLs.remove(url);
 			if (r != null) {
 				r.setStatus(status);

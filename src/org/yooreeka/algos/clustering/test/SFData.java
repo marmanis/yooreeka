@@ -83,12 +83,15 @@ public class SFData {
 			String[] attrNames) {
 		List<DataPoint> allData = new ArrayList<DataPoint>();
 		CsvListReader csvReader = null;
+		
+		final CsvPreference CsvPref = 
+				new CsvPreference.Builder(CsvPreference.EXCEL_PREFERENCE).surroundingSpacesNeedQuotes(true).build();
+		
 		try {
-			csvReader = new CsvListReader(new BufferedReader(new FileReader(
-					filename)), CsvPreference.EXCEL_PREFERENCE);
+			csvReader = new CsvListReader(new BufferedReader(new FileReader(filename)), CsvPref);
 
 			// Load all available headers from CSV file
-			String[] csvHeaders = csvReader.getCSVHeader(true);
+			String[] csvHeaders = csvReader.getHeader(true);
 
 			// Map attribute names to field IDs from CSV file using header names
 			int[] attrFieldIndexes = new int[attrNames.length];

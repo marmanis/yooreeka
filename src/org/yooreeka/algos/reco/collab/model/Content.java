@@ -36,6 +36,11 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 import java.util.logging.Logger;
 
 import org.yooreeka.algos.search.lucene.analyzer.TextDocumentTerms;
@@ -166,6 +171,56 @@ public class Content implements java.io.Serializable {
 				}
 				return result;
 			}
+
+			@Override
+			public Comparator<Entry<String, Integer>> reversed() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<Entry<String, Integer>> thenComparing(
+					Comparator<? super Entry<String, Integer>> other) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U> Comparator<Entry<String, Integer>> thenComparing(
+					Function<? super Entry<String, Integer>, ? extends U> keyExtractor,
+					Comparator<? super U> keyComparator) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U extends Comparable<? super U>> Comparator<Entry<String, Integer>> thenComparing(
+					Function<? super Entry<String, Integer>, ? extends U> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<Entry<String, Integer>> thenComparingInt(
+					ToIntFunction<? super Entry<String, Integer>> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<Entry<String, Integer>> thenComparingLong(
+					ToLongFunction<? super Entry<String, Integer>> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<Entry<String, Integer>> thenComparingDouble(
+					ToDoubleFunction<? super Entry<String, Integer>> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
 		});
 
 		Map<String, Integer> topNTermsFrequencyMap = new HashMap<String, Integer>();

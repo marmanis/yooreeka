@@ -30,7 +30,6 @@
  */
 package org.yooreeka.util.internet.crawling.model;
 
-import java.nio.charset.Charset;
 import java.util.Map;
 
 import org.yooreeka.util.P;
@@ -106,15 +105,16 @@ public class FetchedDocument implements AbstractDocument {
 	}
 
 	public void print() {
+		P.hline();
 		P.println("Document ID    : " + this.documentId);
 		P.println("Content URL    : " + this.url);
 		P.println("Content Type   : " + this.contentType);
 		P.println("Content Charset: " + this.contentCharset);
 		P.hline();
-		P.println("CONTENT\n"
-				+ new String(this.getDocumentContent(), Charset
-						.forName(contentCharset)));
-		P.hline();
+//		P.println("CONTENT\n"
+//				+ new String(this.getDocumentContent(), Charset
+//						.forName(contentCharset)));
+//		P.hline();
 	}
 
 	public void setContentCharset(String contentCharset) {

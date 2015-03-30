@@ -47,8 +47,8 @@ public class LuceneIndexBuilder {
 
 	private IndexWriter getIndexWriter(File file) throws IOException {
 		FSDirectory dir = FSDirectory.open(file);
-		IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_40,
-				new StandardAnalyzer(Version.LUCENE_40));
+		IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_44,
+				new StandardAnalyzer(Version.LUCENE_44));
 		config.setOpenMode(OpenMode.CREATE_OR_APPEND);
 		config.setRAMBufferSizeMB(RamBufferSizeMB);
 		return new IndexWriter(dir, config);

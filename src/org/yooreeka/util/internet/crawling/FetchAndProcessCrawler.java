@@ -33,7 +33,9 @@ package org.yooreeka.util.internet.crawling;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.yooreeka.config.YooreekaConfigurator;
+import org.yooreeka.util.P;
 import org.yooreeka.util.internet.crawling.core.BasicWebCrawler;
 import org.yooreeka.util.internet.crawling.core.CrawlData;
 import org.yooreeka.util.internet.crawling.core.URLFilter;
@@ -41,6 +43,8 @@ import org.yooreeka.util.internet.crawling.core.URLNormalizer;
 
 public class FetchAndProcessCrawler {
 
+	private final static Logger log = Logger.getLogger(FetchAndProcessCrawler.class.getName());
+	
 	public static final int DEFAULT_MAX_DEPTH = 3;
 	public static final int DEFAULT_MAX_DOCS = 1000;
 
@@ -66,6 +70,10 @@ public class FetchAndProcessCrawler {
 
 	public FetchAndProcessCrawler(String dir, int maxDepth, int maxDocs) {
 
+		log.debug("Creating FetchAndProcessCrawler(String dir: "+dir
+				+", int maxDepth: "+maxDepth
+				+", int maxDocs: "+maxDocs+")");
+		
 		rootDir = dir;
 
 		// If the root directory is not set or if its length is zero
@@ -86,13 +94,7 @@ public class FetchAndProcessCrawler {
 
 		this.seedUrls = new ArrayList<String>();
 
-		/* default url filter configuration */
-		this.urlFilter = new URLFilter();
-		urlFilter.setAllowFileUrls(true);
-		urlFilter.setAllowHttpUrls(true);
-
 		webCrawler = new BasicWebCrawler(rootDir);
-
 	}
 
 	public void addDocSpam() {
@@ -114,9 +116,9 @@ public class FetchAndProcessCrawler {
 	}
 
 	/**
-	 * @return the maxNumberOfCrawls
+	 * @return the maximum depth of the crawl
 	 */
-	public int getMaxNumberOfCrawls() {
+	public int getMaxDepth() {
 		return maxDepth;
 	}
 
@@ -140,7 +142,7 @@ public class FetchAndProcessCrawler {
 	}
 
 	public void run() {
-
+		
 		webCrawler.addSeedUrls(getSeedUrls());
 
 		webCrawler.setURLFilter(urlFilter);
@@ -150,14 +152,14 @@ public class FetchAndProcessCrawler {
 		/* run crawl */
 		webCrawler.fetchAndProcess(maxDepth, maxDocs);
 
-		System.out.println("Timer (s): [Crawler processed data] --> "
+		P.println("Timer (s): [Crawler processed data] --> "
 				+ (System.currentTimeMillis() - t0) * 0.001);
 
 	}
 
-	public void setAllUrls() {
+	public void setAllBookUrls() {
 
-		setDefaultUrls();
+		setDefaultBookUrls();
 
 		String iWeb2Home = YooreekaConfigurator.getHome();
 
@@ -168,7 +170,7 @@ public class FetchAndProcessCrawler {
 		addUrl("file:///" + iWeb2Home + "/data/ch02/spam-biz-03.html");
 	}
 
-	public void setDefaultUrls() {
+	public void setDefaultBookUrls() {
 
 		String iWeb2Home = YooreekaConfigurator.getHome();
 
@@ -198,7 +200,7 @@ public class FetchAndProcessCrawler {
 		setFilesOnlyUrlFilter();
 	}
 
-	private void setFilesOnlyUrlFilter() {
+	public void setFilesOnlyUrlFilter() {
 		/* configure url filter to accept only file:// urls */
 		URLFilter urlFilter = new URLFilter();
 		urlFilter.setAllowFileUrls(true);

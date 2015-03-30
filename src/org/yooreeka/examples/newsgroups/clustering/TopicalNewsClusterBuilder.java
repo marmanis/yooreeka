@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.yooreeka.algos.clustering.hierarchical.Dendrogram;
 import org.yooreeka.algos.clustering.model.Cluster;
 import org.yooreeka.algos.clustering.model.DataPoint;
+import org.yooreeka.algos.clustering.model.Dendrogram;
 import org.yooreeka.algos.clustering.rock.ROCKAlgorithm;
 import org.yooreeka.examples.newsgroups.core.NewsCategory;
 import org.yooreeka.examples.newsgroups.core.NewsDataset;

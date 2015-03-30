@@ -48,6 +48,14 @@ public class ProcessedDocument implements AbstractDocument {
 	public static final String TYPE_TEXT = "text/plain";
 	public static final String TYPE_HTML = "text/html";
 	public static final String TYPE_MSWORD = "application/msword";
+	public static final String TYPE_PDF = "application/pdf";
+	
+	public static final String TYPE_DIRECTORY = "FILE DIRECTORY";
+	
+	public static final String TEXT_ENDS_WITH = ".txt";
+	public static final String HTML_ENDS_WITH = ".html";
+	public static final String MSWORD_ENDS_WITH = ".doc";
+	public static final String PDF_ENDS_WITH = ".pdf";
 
 	/*
 	 * Unique document id.
@@ -92,12 +100,28 @@ public class ProcessedDocument implements AbstractDocument {
 		return this.content;
 	}
 
+	/**
+	 * This method uses the bytes of the field <tt>content</tt>
+	 */
 	@Override
 	public String getContentCharset() {
+
+		return getContentCharset(getContent().getBytes());
+	}
+	
+	/**
+	 * This is a general utility method that attempts to detect the character set 
+	 * by reading a byte array. 
+	 * We rely on the <tt>org.mozilla.universalchardet.UniversalDetector</tt> class.
+	 * 
+	 * @param val
+	 * @return
+	 */
+	public String getContentCharset(byte[] val) {
+
 		byte[] buf = new byte[4096];
 
-		ByteArrayInputStream fis = new ByteArrayInputStream(getContent()
-				.getBytes());
+		ByteArrayInputStream fis = new ByteArrayInputStream(val);
 
 		// (1)
 		UniversalDetector detector = new UniversalDetector(null);

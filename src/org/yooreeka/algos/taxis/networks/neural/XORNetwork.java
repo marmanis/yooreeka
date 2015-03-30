@@ -34,43 +34,25 @@ import java.util.Arrays;
 
 import org.yooreeka.algos.taxis.networks.neural.core.BaseNN;
 import org.yooreeka.algos.taxis.networks.neural.core.intf.Layer;
+import org.yooreeka.util.P;
 
 public class XORNetwork extends BaseNN {
 
 	private static final long serialVersionUID = -511246579251846775L;
 
-	private static final double TINY_NUMBER = 0.00001d;
+	private static final double RANDOM_FLACTUATION_SCALE = 0.1d;
 
 	public static void main(String[] args) {
+		
 		XORNetwork nn = new XORNetwork("XOR Test");
-
 		nn.create();
 
 		System.out.println("Classification using untrained network:");
-
-		double[] x = { 0, 0 };
-		double[] y = nn.classify(x);
-
-		// Results before training
-
-		System.out.println(Arrays.toString(x) + " -> " + Arrays.toString(y));
-
-		x = new double[] { 0, 1 };
-		y = nn.classify(x);
-		System.out.println(Arrays.toString(x) + " -> " + Arrays.toString(y));
-
-		x = new double[] { 1, 0 };
-		y = nn.classify(x);
-		System.out.println(Arrays.toString(x) + " -> " + Arrays.toString(y));
-
-		x = new double[] { 1, 1 };
-		y = nn.classify(x);
-		System.out.println(Arrays.toString(x) + " -> " + Arrays.toString(y));
-
+		nn.test();
+		
 		System.out.println("Training...");
-
 		double nearZero = 0;
-		for (int i = 0; i < 16 * 1024; i++) {
+		for (int i = 0; i < 4*1024; i++) {
 
 			nn.train(new double[] { nearZero, nearZero }, new double[] { 0.0 });
 			nn.train(new double[] { 1 + nearZero, 1 + nearZero },
@@ -81,9 +63,9 @@ public class XORNetwork extends BaseNN {
 					new double[] { 1.0 });
 
 			if (Math.random() < 0.5) {
-				nearZero = 0.0d + Math.random() * TINY_NUMBER;
+				nearZero = 0.0d + Math.random() * RANDOM_FLACTUATION_SCALE;
 			} else {
-				nearZero = -(1.0d - Math.random() * TINY_NUMBER);
+				nearZero = -(1.0d - Math.random() * RANDOM_FLACTUATION_SCALE);
 			}
 
 			// nn.printWeights();
@@ -95,25 +77,27 @@ public class XORNetwork extends BaseNN {
 
 		System.out.println("Classification using trained network:");
 
-		x = new double[] { 0, 0 };
-		y = nn.classify(x);
-
-		System.out.println(Arrays.toString(x) + " -> " + Arrays.toString(y));
-
-		x = new double[] { 0, 1 };
-		y = nn.classify(x);
-		System.out.println(Arrays.toString(x) + " -> " + Arrays.toString(y));
-
-		x = new double[] { 1, 0 };
-		y = nn.classify(x);
-		System.out.println(Arrays.toString(x) + " -> " + Arrays.toString(y));
-
-		x = new double[] { 1, 1 };
-		y = nn.classify(x);
-		System.out.println(Arrays.toString(x) + " -> " + Arrays.toString(y));
-
+		nn.test();
 	}
 
+	public void test() {
+		double[] x = { 0, 0 };
+		this.print(x);
+
+		x = new double[] { 0, 1 };
+		this.print(x);
+
+		x = new double[] { 1, 0 };
+		this.print(x);
+
+		x = new double[] { 1, 1 };
+		this.print(x);
+	}
+	
+	public void print(double[] x) {
+		P.println(Arrays.toString(x) + " -> " + Arrays.toString(this.classify(x)));
+	}
+	
 	public XORNetwork(String name) {
 		super(name);
 	}

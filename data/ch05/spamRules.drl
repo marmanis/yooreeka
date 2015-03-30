@@ -1,25 +1,25 @@
-package demo;
+package org.yooreeka.examples.spamfilter;
  
-import iweb2.ch5.usecase.email.data.Email;
-import iweb2.ch5.classification.rules.ClassificationResult;
+import org.yooreeka.examples.spamfilter.data.Email;
+import org.yooreeka.examples.spamfilter.ClassificationResult;
 
 global ClassificationResult classificationResult;
 
 rule "Tests for viagra in subject"
+dialect "mvel"
 salience 100
 when
-    Email( $s : subject )
-	eval( classificationResult.isSimilar($s, "viagra" ) )
+    $e : Email( classificationResult.isSimilar(subject, "viagra" ) )
 then
     classificationResult.setSpamEmail(true);	
 end
 
 
 rule "Tests for 'drugs' in subject"
+dialect "mvel"
 salience 100
 when
-    Email( $s : subject )
-    eval( classificationResult.isSimilar($s, "drugs" ) )
+    $e : Email( classificationResult.isSimilar(subject, "drugs" ) )
 then
     classificationResult.setSpamEmail(true);    
 end

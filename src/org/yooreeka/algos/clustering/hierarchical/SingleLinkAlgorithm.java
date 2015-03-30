@@ -36,6 +36,7 @@ import java.util.logging.Logger;
 
 import org.yooreeka.algos.clustering.model.Cluster;
 import org.yooreeka.algos.clustering.model.DataPoint;
+import org.yooreeka.algos.clustering.model.Dendrogram;
 import org.yooreeka.config.YooreekaConfigurator;
 
 /** A hierarchical agglomerative clustering algorithm based on single link */

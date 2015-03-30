@@ -165,7 +165,7 @@ public class DiggData {
 			csvReader = new CsvListReader(new BufferedReader(new FileReader(
 					filename)), CsvPreference.EXCEL_PREFERENCE);
 
-			csvReader.getCSVHeader(true);
+			csvReader.getHeader(true);
 
 			List<String> line = null;
 			while ((line = csvReader.read()) != null) {

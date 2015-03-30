@@ -211,9 +211,8 @@ public class MySearcher {
 		while (i < docResults.length && docResults[i] != null) {
 
 			url = docResults[i].getUrl();
-
-			double hScore = docResults[i].getScore()
-					* Math.pow(pR.getPageRank(url), m);
+			
+			double hScore = docResults[i].getScore() * Math.pow(pR.getPageRank(url), m);
 
 			// Update the score of the results
 			docResults[i].setScore(hScore);
@@ -316,23 +315,19 @@ public class MySearcher {
 				/*
 				 * Uncomment this block to show the various scores in the
 				 * BeanShell
-				 * 
-				 * StringBuilder b = new StringBuilder();
-				 * 
-				 * System.out.println(
-				 * "________________________________________________________________________________"
-				 * );
-				 * 
-				 * b.append("Document      : ").append(docResults[i].getUrl()).
-				 * append("\n");
-				 * b.append("UserClick URL :").append(uClick.getUrl
-				 * ()).append("\n"); b.append("\n");
-				 * b.append("Index score: ").append(indexScore).append(", ");
-				 * b.append
-				 * ("PageRank score: ").append(pageRankScore).append(", ");
-				 * b.append("User click score: ").append(userClickScore);
-				 * System.out.println(b.toString());
-				 */
+				 */ 
+				
+//				 StringBuilder b = new StringBuilder();
+//				  
+//				 b.append("Document      : ").append(docResults[i].getUrl()).append("\n");
+//				 b.append("UserClick URL :").append(uClick.getUrl()).append("\n"); b.append("\n");
+//				 b.append("Index score: ").append(indexScore).append(", ");
+//				 b.append("PageRank score: ").append(pageRankScore).append(", ");
+//				 b.append("User click score: ").append(userClickScore);
+//				 
+//				 P.hline();
+//				 P.println(b.toString());
+//				 P.hline();
 			}
 		}
 

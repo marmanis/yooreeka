@@ -67,7 +67,7 @@ public interface Recommender {
 	public double predictRating(User user, Item item);
 
 	/**
-	 * Returns top 5 recommendations for the user.
+	 * Returns recommendations for the user.
 	 * 
 	 * @param user
 	 * @return recommended items with predicted ratings.

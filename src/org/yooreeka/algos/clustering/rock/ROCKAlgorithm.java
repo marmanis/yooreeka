@@ -34,9 +34,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.yooreeka.algos.clustering.hierarchical.Dendrogram;
 import org.yooreeka.algos.clustering.model.Cluster;
 import org.yooreeka.algos.clustering.model.DataPoint;
+import org.yooreeka.algos.clustering.model.Dendrogram;
 import org.yooreeka.config.YooreekaConfigurator;
 import org.yooreeka.util.metrics.JaccardCoefficient;
 import org.yooreeka.util.metrics.SimilarityMeasure;

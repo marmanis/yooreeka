@@ -53,7 +53,7 @@ public class Chapter_06 {
 		script_06_07_01();
 		script_06_07_02();
 
-		P.time(t);
+		P.timePassedSince(t);
 	}
 	
 	private void script_06_07_02() {

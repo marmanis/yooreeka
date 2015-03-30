@@ -30,17 +30,21 @@
  */
 package org.yooreeka.util.gui;
 
+import java.awt.Color;
 import java.awt.event.WindowEvent;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.util.ApplicationFrame;
-import org.jfree.chart.util.RefineryUtilities;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.ui.ApplicationFrame;
+import org.jfree.ui.RefineryUtilities;
+import org.yooreeka.util.C;
 
 /**
  * 
@@ -64,8 +68,50 @@ public class XyGui extends ApplicationFrame {
 	 */
 	private static final long serialVersionUID = 2878334413514645876L;
 
+	private XYSeriesCollection xycollection;
 	private StringBuilder errMsg;
 	private int loopInt;
+
+	public XyGui(String title, double[] x) {
+
+		super(title);
+
+		errMsg = new StringBuilder();
+		setLoopInt(x.length);
+
+		if (checkX(x)) {
+
+			XYSeries xydata = new XYSeries(title);
+
+			for (int i = 0; i < loopInt; i++) {
+				xydata.add(x[i], C.ZERO_DOUBLE);
+			}
+
+			xycollection = new XYSeriesCollection(xydata);
+
+			final JFreeChart chart = ChartFactory.createXYLineChart(
+					title, "X", "Y", xycollection,
+					PlotOrientation.VERTICAL, true, true, false);
+
+			final XYPlot plot = chart.getXYPlot();
+	        
+			final NumberAxis domainAxis = new NumberAxis("x");
+	        plot.setDomainAxis(domainAxis);
+	        
+	        final NumberAxis rangeAxis = new NumberAxis("y");
+	        plot.setRangeAxis(rangeAxis);
+	        
+	        chart.setBackgroundPaint(Color.white);
+	        plot.setOutlinePaint(Color.black);
+	        
+			final ChartPanel chartPanel = new ChartPanel(chart);
+			chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+			setContentPane(chartPanel);
+
+		} else {
+			System.err.println(errMsg.toString());
+		}
+	}
 
 	public XyGui(String title, double[] x, double[] y) {
 
@@ -76,26 +122,50 @@ public class XyGui extends ApplicationFrame {
 
 		if (checkX(x) && checkY(x.length, y)) {
 
-			XYSeries xydata = new XYSeries("X-Y Plot");
+			XYSeries xydata = new XYSeries(title);
 
 			for (int i = 0; i < loopInt; i++) {
 				xydata.add(x[i], y[i]);
 			}
 
-			XYSeriesCollection xycollection = new XYSeriesCollection(xydata);
+			xycollection = new XYSeriesCollection(xydata);
 
 			final JFreeChart chart = ChartFactory.createXYLineChart(
-					"XY Series", "X", "Y", xycollection,
+					title+" (XY Plot)", "X", "Y", xycollection,
 					PlotOrientation.VERTICAL, true, true, false);
 
+			final XYPlot plot = chart.getXYPlot();
+	        
+			final NumberAxis domainAxis = new NumberAxis("x");
+	        plot.setDomainAxis(domainAxis);
+	        
+	        final NumberAxis rangeAxis = new NumberAxis("y");
+	        plot.setRangeAxis(rangeAxis);
+	        
+	        chart.setBackgroundPaint(Color.white);
+	        plot.setOutlinePaint(Color.black);
+	        
 			final ChartPanel chartPanel = new ChartPanel(chart);
 			chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
 			setContentPane(chartPanel);
+
 		} else {
 			System.err.println(errMsg.toString());
 		}
 	}
 
+	public void addSeries(String title, double[] x, double[] y) {
+		
+		XYSeries xydata = new XYSeries(title);
+
+		for (int i = 0; i < loopInt; i++) {
+			xydata.add(x[i], y[i]);
+		}
+		
+		xycollection.addSeries(xydata);
+	}
+	
+	
 	/**
 	 * @param title
 	 *            chart title
@@ -202,5 +272,4 @@ public class XyGui extends ApplicationFrame {
 			// -----------------------------------------
 		}
 	}
-
 }

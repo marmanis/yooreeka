@@ -9,7 +9,7 @@ import *;
 //
 String yHome = YooreekaConfigurator.getHome();
 FetchAndProcessCrawler crawler = new FetchAndProcessCrawler(yHome+"/data/ch02",5,200);
-crawler.setDefaultUrls(); 
+crawler.setDefaultBookUrls(); 
 crawler.run(); 
 
 //

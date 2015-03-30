@@ -33,6 +33,8 @@ package org.yooreeka.test.beanshellscripts;
 
 import junit.framework.TestCase;
 
+import org.yooreeka.test.Chapter_07;
+
 public class Ch7BeanShellScriptsTest extends TestCase {
 
     public Ch7BeanShellScriptsTest(String name) {
@@ -40,6 +42,8 @@ public class Ch7BeanShellScriptsTest extends TestCase {
     }
     
     public void test_evalCh7Scripts() throws Exception {
-        ScriptEvalUtils.runScripts("ch7");
+    	//ScriptEvalUtils.runScripts("ch7");
+    	Chapter_07 ch7Tests = new Chapter_07();
+    	ch7Tests.run();
     }
 }

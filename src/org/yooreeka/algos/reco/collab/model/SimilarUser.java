@@ -34,6 +34,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 
 /**
  * Utility class that acts as a holder for user and similarity value that was
@@ -95,6 +99,56 @@ public class SimilarUser {
 				}
 				return result;
 			}
+
+			@Override
+			public Comparator<SimilarUser> reversed() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<SimilarUser> thenComparing(
+					Comparator<? super SimilarUser> other) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U> Comparator<SimilarUser> thenComparing(
+					Function<? super SimilarUser, ? extends U> keyExtractor,
+					Comparator<? super U> keyComparator) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U extends Comparable<? super U>> Comparator<SimilarUser> thenComparing(
+					Function<? super SimilarUser, ? extends U> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<SimilarUser> thenComparingInt(
+					ToIntFunction<? super SimilarUser> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<SimilarUser> thenComparingLong(
+					ToLongFunction<? super SimilarUser> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<SimilarUser> thenComparingDouble(
+					ToDoubleFunction<? super SimilarUser> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
 		});
 	}
 

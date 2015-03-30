@@ -74,7 +74,9 @@ public class NewsData {
 		ContentItem[] allItems = loadAllNewsItems();
 
 		for (ContentItem item : allItems) {
-			ds.addItem(item);
+			// The boolean value of true in the method signature indicates
+			// that this is a content related item
+			ds.addItem(item, true);
 		}
 
 		for (int i = 0, n = USERS.length; i < n; i++) {
@@ -102,7 +104,8 @@ public class NewsData {
 				u.addUserContent(doc.getItemContent());
 			}
 
-			ds.add(u);
+			// There is content associated with the item
+			ds.add(u, true);
 		}
 
 		return ds;

@@ -3,7 +3,7 @@ String rootDir = YooreekaConfigurator.getProperty(YooreekaConfigurator.CRAWL_DAT
 
 NewsCrawler crawler = new NewsCrawler(rootDir, 2, 100);
 
-crawler.addSeedUrl("http://www.manning.com/");
+crawler.addSeedUrl("http://www.marmanis.com/");
 
 crawler.run();
 

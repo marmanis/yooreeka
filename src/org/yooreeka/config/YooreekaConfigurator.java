@@ -31,7 +31,7 @@
 package org.yooreeka.config;
 
 import java.io.File;
-import java.io.InputStream;
+import java.io.FileReader;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -66,17 +66,27 @@ public class YooreekaConfigurator {
 
 	/*
 	 * Default resource name that will be used to load properties.
+	 * The path is relative to Yooreeka's root directory, which should be set
+	 * by defining the property yooreeka.home
 	 */
-	private static String defaultResourceName = "/yooreeka.properties";
+	private static String defaultResourceName = "/deploy/conf/yooreeka.properties";
 
-	private static Properties props = new Properties();
+	private static Properties properties = new Properties();
 
 	private static Properties logProps = new Properties();
+	
 	static {
+		
 		// logger.debug("Initializing application properties...");
 		String resourceName = System.getProperty(systemPropertyName);
+		
+		String resourcePath = System.getProperty("yooreeka.home"); 
+
+		if (resourcePath == null) 
+			resourcePath=System.getProperty("user.dir");
+			
 		if (resourceName == null) {
-			resourceName = defaultResourceName;
+			resourceName = resourcePath+defaultResourceName;
 			// logger.debug("System property '" + systemPropertyName +
 			// "' not found. Loading configuration from default resource: '" +
 			// defaultResourceName + "'.");
@@ -86,12 +96,12 @@ public class YooreekaConfigurator {
 							+ systemPropertyName + "=" + resourceName);
 		}
 
-		props = readProperties(resourceName);
+		readProperties(resourceName);
 	}
 
 	public static String getHome() {
 
-		return props.getProperty("yooreeka.home");
+		return System.getProperty("yooreeka.home");
 	}
 
 	public static Level getLevel(String cName) {
@@ -144,7 +154,7 @@ public class YooreekaConfigurator {
 	 */
 	public static String getProperty(String key) {
 		// allow to override property using -D<property name>=<property value>
-		return System.getProperty(key, props.getProperty(key));
+		return System.getProperty(key, properties.getProperty(key));
 	}
 
 	/**
@@ -159,19 +169,19 @@ public class YooreekaConfigurator {
 	 */
 	public static String getProperty(String key, String defaultValue) {
 		// allow to override property using -D<property name>=<property value>
-		return System.getProperty(key, props.getProperty(key, defaultValue));
+		return System.getProperty(key, properties.getProperty(key, defaultValue));
 	}
 
-	public static Properties readProperties(String resourceName) {
+	public static void readProperties(String resourceName) {
 
-		Properties props = new Properties();
-
+		//P.hline(); P.println("resourceName: "+resourceName); P.hline();
+		
+		File propsFile = new File(resourceName);
+		
 		try {
 
-			InputStream inStream = YooreekaConfigurator.class.getResourceAsStream(resourceName);
-			
-			if (inStream != null) {
-				props.load(inStream);
+			if (propsFile.exists() && propsFile.canRead()) {
+				properties.load(new FileReader(propsFile));
 			} else {
 				printNoPropertiesFound();
 				setStaticProperties();
@@ -182,7 +192,6 @@ public class YooreekaConfigurator {
 			System.out.println("ERROR:\n" + message + "\n" + e.getMessage());
 			throw new RuntimeException(message, e);
 		}
-		return props;
 	}
 	
 	/**
@@ -205,11 +214,11 @@ public class YooreekaConfigurator {
 	 */
 	public static void setStaticProperties() {
 		String rootDir="C:/iWeb2";
-		props.put("yooreeka.home", rootDir);
-		props.put("yooreeka.data.dir", rootDir+"/data");
-		props.put("yooreeka.crawl.dir", rootDir+"/data/crawls");
-		props.put("yooreeka.temp.dir", rootDir+"/deploy/temp");
-		props.put("yooreeka.movielens.data.dir", rootDir+"/data/ch03/MovieLens");
+		properties.put("yooreeka.home", rootDir);
+		properties.put("yooreeka.data.dir", rootDir+"/data");
+		properties.put("yooreeka.crawl.dir", rootDir+"/data/crawls");
+		properties.put("yooreeka.temp.dir", rootDir+"/deploy/temp");
+		properties.put("yooreeka.movielens.data.dir", rootDir+"/data/ch03/MovieLens");
 	}
 	
 	private static void printNoPropertiesFound() {

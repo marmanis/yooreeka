@@ -36,6 +36,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 
 import org.yooreeka.algos.reco.collab.model.Dataset;
 import org.yooreeka.algos.reco.collab.model.User;
@@ -100,6 +104,56 @@ public class PredictedItemRating {
 				}
 				return result;
 			}
+
+			@Override
+			public Comparator<PredictedItemRating> reversed() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<PredictedItemRating> thenComparing(
+					Comparator<? super PredictedItemRating> other) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U> Comparator<PredictedItemRating> thenComparing(
+					Function<? super PredictedItemRating, ? extends U> keyExtractor,
+					Comparator<? super U> keyComparator) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U extends Comparable<? super U>> Comparator<PredictedItemRating> thenComparing(
+					Function<? super PredictedItemRating, ? extends U> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<PredictedItemRating> thenComparingInt(
+					ToIntFunction<? super PredictedItemRating> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<PredictedItemRating> thenComparingLong(
+					ToLongFunction<? super PredictedItemRating> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<PredictedItemRating> thenComparingDouble(
+					ToDoubleFunction<? super PredictedItemRating> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
 		});
 	}
 

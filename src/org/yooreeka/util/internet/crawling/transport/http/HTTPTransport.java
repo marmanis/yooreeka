@@ -31,7 +31,11 @@
 package org.yooreeka.util.internet.crawling.transport.http;
 
 import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.List;
@@ -49,11 +53,25 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
+import org.yooreeka.config.YooreekaConfigurator;
+import org.yooreeka.util.P;
+import org.yooreeka.util.internet.crawling.db.FetchedDocsDB;
 import org.yooreeka.util.internet.crawling.model.FetchedDocument;
 import org.yooreeka.util.internet.crawling.transport.common.Transport;
 import org.yooreeka.util.internet.crawling.transport.common.TransportException;
+import org.yooreeka.util.internet.crawling.util.DocumentIdUtils;
 
 public class HTTPTransport implements Transport {
+
+	public static final int MINIMUM_BUFFER_SIZE=1024;
+	
+	private FetchedDocsDB db;
+	
+	/*
+	 * Maximum document length that transport will attempt to download
+	 * without issuing a warning ...
+	 */
+	public static final int MAX_DOCUMENT_LENGTH = 8 * 1024 * 1024; // 2Mb
 
 	HttpClient httpclient = null;
 	CookieStore cookieStore = null;
@@ -67,25 +85,25 @@ public class HTTPTransport implements Transport {
 		// initialState = null;
 	}
 
-	private FetchedDocument createDocument(String targetURL, HttpEntity entity)
+	private FetchedDocument createDocument(String targetURL, HttpEntity entity, String groupId, int docSequenceInGroup)
 			throws IOException, HTTPTransportException {
+		
 		FetchedDocument doc = new FetchedDocument();
-
-		/*
-		 * Maximum document length that transport will attempt to download
-		 * without issuing a warning ...
-		 */
-		int MAX_DOCUMENT_LENGTH = 8 * 1024 * 1024; // 8Mb
-
+		String documentId = DocumentIdUtils.getDocumentId(groupId, docSequenceInGroup);
+		
 		BufferedInputStream bufferedInput = null;
-		byte[] buffer = new byte[1024];
+		byte[] buffer = new byte[MINIMUM_BUFFER_SIZE];
 
 		int contentLength = (int) entity.getContentLength();
 		if (contentLength > MAX_DOCUMENT_LENGTH)
-			System.out.println("WARNING: Retrieved document larger than "
+			P.println("WARNING: Retrieved document larger than "
 					+ MAX_DOCUMENT_LENGTH + " [bytes]");
 
-		ByteBuffer byteBuffer = ByteBuffer.allocate(contentLength);
+		// If the size is smaller than the minimum then extend it
+//		if (contentLength < MINIMUM_BUFFER_SIZE)
+//			contentLength = MINIMUM_BUFFER_SIZE;
+		
+		ByteBuffer byteBuffer = ByteBuffer.allocate(MAX_DOCUMENT_LENGTH);
 
 		// Construct the BufferedInputStream object
 		bufferedInput = new BufferedInputStream(entity.getContent());
@@ -145,6 +163,7 @@ public class HTTPTransport implements Transport {
 			contentCharset = DEFAULT_CONTENT_CHARSET;
 		}
 
+		doc.setDocumentId(documentId);
 		doc.setContentType(contentType);
 		doc.setDocumentURL(targetURL);
 		doc.setContentCharset(contentCharset);
@@ -153,13 +172,13 @@ public class HTTPTransport implements Transport {
 		return doc;
 	}
 
-	public FetchedDocument fetch(String documentUrl) throws TransportException {
+	public FetchedDocument fetch(String documentUrl, String groupId, int docSequenceInGroup) throws TransportException {
 
 		FetchedDocument doc = null;
 
 		HttpGet httpget = new HttpGet(documentUrl);
 
-		System.out.println("executing request " + httpget.getURI());
+		P.println("executing request " + httpget.getURI());
 
 		// Pass local context as a parameter
 		HttpResponse response = null;
@@ -171,22 +190,22 @@ public class HTTPTransport implements Transport {
 		}
 		HttpEntity entity = response.getEntity();
 
-		System.out.println("----------------------------------------");
-		System.out.println(response.getStatusLine());
+		P.hline();
+		P.println(response.getStatusLine().toString());
+		
 		if (entity != null) {
-			System.out.println("Response content length: "
+			P.println("Response content length: "
 					+ entity.getContentLength());
 		}
 		List<Cookie> cookies = cookieStore.getCookies();
 		for (int i = 0; i < cookies.size(); i++) {
-			System.out.println("Local cookie: " + cookies.get(i));
+			P.println("Local cookie: " + cookies.get(i));
 		}
 
 		try {
-			doc = createDocument(documentUrl, entity);
+			doc = createDocument(documentUrl, entity, groupId, docSequenceInGroup);
 		} catch (IOException e) {
-			throw new TransportException("Failed to fetch url: '" + documentUrl
-					+ "': ", e);
+			throw new TransportException("Failed to fetch url: '" + documentUrl	+ "': ", e);
 		} finally {
 			// Consume response content
 			try {
@@ -196,7 +215,7 @@ public class HTTPTransport implements Transport {
 				e.printStackTrace();
 			}
 
-			System.out.println("----------------------------------------");
+			P.hline();
 
 			// When HttpClient instance is no longer needed,
 			// shut down the connection manager to ensure
@@ -204,12 +223,14 @@ public class HTTPTransport implements Transport {
 			httpclient.getConnectionManager().shutdown();
 		}
 
+		db.saveDocument(doc);
+		
 		return doc;
 	}
 
 	public void init() {
 
-		System.out.println("Initializing HTTPTransport ...");
+		P.println("Initializing HTTPTransport ...");
 
 		httpclient = new DefaultHttpClient();
 
@@ -240,5 +261,28 @@ public class HTTPTransport implements Transport {
 
 	public boolean pauseRequired() {
 		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.yooreeka.util.internet.crawling.transport.common.Transport#fixDud()
+	 */
+	@Override
+	public void fixDud(InputStream in) {
+		String empty = YooreekaConfigurator.getProperty("yooreeka.crawl.dudfile");
+		
+		try {
+			in = new BufferedInputStream(new FileInputStream(new File(empty)));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.yooreeka.util.internet.crawling.transport.common.Transport#setFetchedDocsDB(org.yooreeka.util.internet.crawling.db.FetchedDocsDB)
+	 */
+	@Override
+	public void setFetchedDocsDB(FetchedDocsDB db) {
+		this.db = db;
 	}
 }

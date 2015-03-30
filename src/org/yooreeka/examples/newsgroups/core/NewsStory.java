@@ -3,6 +3,10 @@ package org.yooreeka.examples.newsgroups.core;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 
 import org.yooreeka.algos.reco.collab.model.Content;
 
@@ -150,6 +154,56 @@ public class NewsStory implements java.io.Serializable {
             public int compare(NewsStory f1, NewsStory f2) {
                 return f1.getTitle().compareTo(f2.getTitle());
             }
+
+			@Override
+			public Comparator<NewsStory> reversed() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<NewsStory> thenComparing(
+					Comparator<? super NewsStory> other) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U> Comparator<NewsStory> thenComparing(
+					Function<? super NewsStory, ? extends U> keyExtractor,
+					Comparator<? super U> keyComparator) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U extends Comparable<? super U>> Comparator<NewsStory> thenComparing(
+					Function<? super NewsStory, ? extends U> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<NewsStory> thenComparingInt(
+					ToIntFunction<? super NewsStory> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<NewsStory> thenComparingLong(
+					ToLongFunction<? super NewsStory> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<NewsStory> thenComparingDouble(
+					ToDoubleFunction<? super NewsStory> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
         });
     }
 

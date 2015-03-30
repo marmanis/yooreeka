@@ -37,6 +37,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.yooreeka.config.YooreekaConfigurator;
+import org.yooreeka.util.C;
 
 /**
  * 
@@ -59,10 +60,20 @@ public abstract class Rank {
 	/** This is the error tolerance for convergence */
 	private double epsilon = DEFAULT_EPSILON;
 
+	/** This is the PageRank vector **/
 	double[] pR;
 
+	// Reference to the H matrix
+	PageRankMatrixH matrixH = null;
+	
+	// The H matrix has size nxn and the PageRank vector has size n
+	int n;
+
+	// auxiliary variable
+	double inv_n;
+
 	public Rank() {
-		LOG.setLevel(YooreekaConfigurator.getLevel(Rank.class.getName()));
+		LOG.setLevel(YooreekaConfigurator.getLevel(Rank.class.getName()));		
 	}
 
 	public void build() throws Exception {
@@ -70,19 +81,24 @@ public abstract class Rank {
 		// check the results
 		// getH().print();
 
+		init();
+		
 		findPageRank(alpha, epsilon);
 	}
 
+	/**
+	 * 
+	 */
+	private void init() {
+		matrixH = getH();
+		n = matrixH.getSize();
+		if (n > 0)
+			inv_n = (double) 1 / n;
+		else
+			inv_n = (double) 1 / C.SMALL_DOUBLE;
+	}
+
 	public void findPageRank(double alpha, double epsilon) {
-
-		// auxiliary variable
-		PageRankMatrixH matrixH = getH();
-
-		// The H matrix has size nxn and the PageRank vector has size n
-		int n = matrixH.getSize();
-
-		// auxiliary variable
-		double inv_n = (double) 1 / n;
 
 		// This is the actual nxn matrix of double values
 		double[][] H = matrixH.getMatrix();
@@ -260,8 +276,13 @@ public abstract class Rank {
 	public double getPageRank(String url) {
 
 		int i = getH().getIndexMapping().getIndex(url);
-
-		return pR[i];
+		double val;
+		if (i < pR.length && !(i < 0)) {
+			val = pR[i];
+		} else {
+			val = 0;
+		}
+		return val;
 	}
 
 	private double norm(double[] a, double[] b) {

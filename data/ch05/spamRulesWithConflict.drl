@@ -1,7 +1,7 @@
-package demo;
+package org.yooreeka.examples.spamfilter;
  
-import iweb2.ch5.usecase.email.data.Email;
-import iweb2.ch5.classification.rules.ClassificationResult;
+import org.yooreeka.examples.spamfilter.data.Email;
+import org.yooreeka.examples.spamfilter.ClassificationResult;
 
 global ClassificationResult classificationResult;
 

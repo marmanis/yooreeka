@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import org.yooreeka.algos.taxis.core.intf.Attribute;
 import org.yooreeka.algos.taxis.core.intf.Concept;
 import org.yooreeka.algos.taxis.core.intf.Instance;
+import org.yooreeka.util.P;
 
 /**
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
@@ -46,17 +47,21 @@ import org.yooreeka.algos.taxis.core.intf.Instance;
  */
 public class BaseInstance implements Instance {
 
-	public static BaseInstance createInstance(String conceptName,
-			String[] attrNames, String[] attrValues) {
+	public static BaseInstance createInstance(String conceptName, String[] attrNames, String[] attrValues) {
+		
 		int n = attrNames.length;
+		
 		StringAttribute[] attributes = new StringAttribute[n];
+		
 		for (int i = 0; i < n; i++) {
 			attributes[i] = new StringAttribute(attrNames[i], attrValues[i]);
 		}
 
 		Concept concept = new BaseConcept(conceptName);
+		
 		return new BaseInstance(concept, attributes);
 	}
+	
 	protected Concept concept;
 
 	protected StringAttribute[] attributes;
@@ -180,9 +185,8 @@ public class BaseInstance implements Instance {
 				}
 
 				// The last value is assumed to be the class/concept
-
-				baseInstances.add(new BaseInstance(
-						new BaseConcept(data[n - 1]), attributes));
+				P.println("Concept from file: "+data[n-1]);
+				baseInstances.add(new BaseInstance(new BaseConcept(data[n - 1]), attributes));
 			}
 		}
 
@@ -226,7 +230,7 @@ public class BaseInstance implements Instance {
 			}
 		}
 
-		System.out.println(" -->  " + getConcept().getName());
+		P.println(" -->  " + getConcept().getName());
 	}
 
 	/**

@@ -33,7 +33,9 @@ package org.yooreeka.algos.clustering.hierarchical;
 import java.util.logging.Logger;
 
 import org.yooreeka.algos.clustering.model.Cluster;
+import org.yooreeka.algos.clustering.model.ClusterSet;
 import org.yooreeka.algos.clustering.model.DataPoint;
+import org.yooreeka.algos.clustering.model.Dendrogram;
 import org.yooreeka.config.YooreekaConfigurator;
 
 public class MSTSingleLinkAlgorithm {

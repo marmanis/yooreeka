@@ -31,7 +31,9 @@
 package org.yooreeka.algos.clustering.hierarchical;
 
 import org.yooreeka.algos.clustering.model.Cluster;
+import org.yooreeka.algos.clustering.model.ClusterSet;
 import org.yooreeka.algos.clustering.model.DataPoint;
+import org.yooreeka.algos.clustering.model.Dendrogram;
 import org.yooreeka.algos.clustering.utils.ObjectToIndexMapping;
 
 /** A hierarchical agglomerative clustering algorithm based on the average link */

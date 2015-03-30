@@ -33,6 +33,10 @@ package org.yooreeka.algos.clustering.rock;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 
 public class SimilarCluster {
 	/**
@@ -58,6 +62,56 @@ public class SimilarCluster {
 				}
 				return result;
 			}
+
+			@Override
+			public Comparator<SimilarCluster> reversed() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<SimilarCluster> thenComparing(
+					Comparator<? super SimilarCluster> other) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U> Comparator<SimilarCluster> thenComparing(
+					Function<? super SimilarCluster, ? extends U> keyExtractor,
+					Comparator<? super U> keyComparator) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public <U extends Comparable<? super U>> Comparator<SimilarCluster> thenComparing(
+					Function<? super SimilarCluster, ? extends U> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<SimilarCluster> thenComparingInt(
+					ToIntFunction<? super SimilarCluster> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<SimilarCluster> thenComparingLong(
+					ToLongFunction<? super SimilarCluster> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Comparator<SimilarCluster> thenComparingDouble(
+					ToDoubleFunction<? super SimilarCluster> keyExtractor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
 		});
 	}
 	private Integer clusterKey;

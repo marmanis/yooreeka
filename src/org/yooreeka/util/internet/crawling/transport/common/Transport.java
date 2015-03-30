@@ -30,14 +30,28 @@
  */
 package org.yooreeka.util.internet.crawling.transport.common;
 
+import java.io.InputStream;
+
+import org.yooreeka.util.internet.crawling.db.FetchedDocsDB;
 import org.yooreeka.util.internet.crawling.model.FetchedDocument;
 
 public interface Transport {
+	
 	public void clear();
 
-	public FetchedDocument fetch(String url) throws TransportException;
+	public FetchedDocument fetch(String url, String groupId, int docSequenceInGroup) throws TransportException;
 
 	public void init();
-
+	
 	public boolean pauseRequired();
+	
+	public void setFetchedDocsDB(FetchedDocsDB db);
+
+	/**
+	 * This method replaces the content of the original file with nothing
+	 * when we get a dud.
+	 * 
+	 * @param in the <tt>InputStream</tt> that we need to "fix" 
+	 */
+	void fixDud(InputStream in);
 }

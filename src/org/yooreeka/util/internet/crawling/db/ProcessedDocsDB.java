@@ -132,7 +132,7 @@ public class ProcessedDocsDB {
 		String groupId = docIdUtils.getDocumentGroupId(documentId);
 		File groupDirFile = new File(rootDirFile, groupId);
 		File docDirFile = new File(groupDirFile, type.getDir());
-		String itemId = docIdUtils.getDocumentSequence(documentId);
+		String itemId = DocumentIdUtils.getDocumentSequence(documentId);
 		File docFile = new File(docDirFile, itemId + type.getExt());
 		return docFile;
 	}
@@ -166,7 +166,7 @@ public class ProcessedDocsDB {
 		for (File f : dataFiles) {
 			String name = f.getName();
 			String itemId = name.substring(0, name.indexOf("."));
-			String documentId = docIdUtils.getDocumentId(groupId, itemId);
+			String documentId = DocumentIdUtils.getDocumentId(groupId, itemId);
 			documentIds.add(documentId);
 		}
 		return documentIds;
@@ -302,12 +302,11 @@ public class ProcessedDocsDB {
 	private Map<String, String> loadProperties(File f, String delimiter) {
 		Map<String, String> props = new HashMap<String, String>();
 		try {
-			InputStreamReader r = new InputStreamReader(new FileInputStream(f),
-					"UTF-8");
+			InputStreamReader r = new InputStreamReader(new FileInputStream(f), "UTF-8");
 			BufferedReader reader = new BufferedReader(r);
 			String line = null;
 			while ((line = reader.readLine()) != null) {
-				if (line.length() == 0) {
+				if (line.length() == 0 || line.indexOf(delimiter) < 0) {
 					continue;
 				}
 

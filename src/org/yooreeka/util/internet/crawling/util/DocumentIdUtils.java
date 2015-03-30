@@ -41,15 +41,15 @@ public class DocumentIdUtils {
 		return idComponents[0].substring(GROUP_PREFIX.length());
 	}
 
-	public String getDocumentId(String docGroupId, int docSequence) {
+	public static String getDocumentId(String docGroupId, int docSequence) {
 		return getDocumentId(docGroupId, String.valueOf(docSequence));
 	}
 
-	public String getDocumentId(String docGroupId, String docSequence) {
-		return "g" + docGroupId + "-d" + docSequence;
+	public static String getDocumentId(String docGroupId, String docSequence) {
+		return GROUP_PREFIX + docGroupId + ID_COMPONENTS_DELIMITER +SEQUENCE_PREFIX + docSequence;
 	}
 
-	public String getDocumentSequence(String documentId) {
+	public static String getDocumentSequence(String documentId) {
 		String[] idComponents = documentId.split(ID_COMPONENTS_DELIMITER);
 		return idComponents[1].substring(SEQUENCE_PREFIX.length());
 	}
