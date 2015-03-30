@@ -1,0 +1,163 @@
+_________________________________________________________________________________
+
+           LICENSES OF THIRD PARTY LIBRARIES USED BY YOOREEKA
+_________________________________________________________________________________
+
+Yooreeka 2.x is licensed under the Apache 2.0 license
+
+Yooreeka leverages a number of other open source libraries for some functionality.
+Those other libraries are governed by their own licenses.
+
+The libraries here are categorized based on their license. For some of them, we 
+also show the specific classes that rely on a given library and what part of the 
+library they use.
+_________________________________________________________________________________
+ 
+ APACHE LICENSE v2.0
+ _______________________________________________________________________________
+|                                                                               |
+| http://www.apache.org/licenses/LICENSE-2.0.html                               |
+|_______________________________________________________________________________|
+
+ 
+   super-csv-2.1.0.jar (http://supercsv.sourceforge.net/index.html)
+   |
+   |---> org.yooreeka.algos.reco.collab.data.DiggData
+   |---> org.yooreeka.algos.clustering.test.SFData
+ 
+   Apache Commons
+ 
+   commons-lang3-3.1.jar (http://commons.apache.org/proper/commons-lang/)
+   |
+   |---> org.yooreeka.algos.taxis.tree.Node
+         |
+         |-->  org.apache.commons.lang3.StringUtils
+   
+   
+   ----------------------------------------------------------------------------
+   commons-logging-1.1.1.jar | This is a runtime dependency for httpclient
+   ----------------------------------------------------------------------------
+   
+   httpclient-4.2.2.jar
+   |
+   |---> org.yooreeka.util.internet.crawling.transport.http.HTTPTransport
+         |
+         |--> org.apache.http.client.CookieStore;
+         |--> org.apache.http.client.HttpClient;
+         |--> org.apache.http.client.methods.HttpGet;
+         |--> org.apache.http.client.protocol.ClientContext;
+         |--> org.apache.http.cookie.Cookie;
+         |--> org.apache.http.impl.client.BasicCookieStore;
+         |--> org.apache.http.impl.client.DefaultHttpClient;
+   
+   httpcore-4.2.2.jar
+   |
+   |---> org.yooreeka.util.internet.crawling.transport.http.HTTPTransport
+         |
+         |--> org.apache.http.Header;
+         |--> org.apache.http.HttpEntity;
+         |--> org.apache.http.HttpResponse;
+         |--> org.apache.http.protocol.BasicHttpContext;
+         |--> org.apache.http.protocol.HttpContext;
+         |--> org.apache.http.util.EntityUtils;
+
+      
+   jsr173_1.0_api.jar  (Streaming API for XML)
+   |
+   |---> 
+   
+   jigg-0.1.jar
+   |
+   |--->
+   
+   
+   junit-4.1.jar
+   |
+   |---> 
+   
+   juniversalchardet-1.0.3.jar
+   |
+   |---> 
+   
+   log4j-1.2.17.jar
+   |
+   |---> 
+   
+   lucene-analyzers-common-4.0.0-BETA.jar
+   |
+   |---> 
+   
+   lucene-core-4.0.0-BETA.jar
+   |
+   |---> 
+   
+   lucene-demo-4.0.0-BETA.jar
+   |
+   |---> 
+   
+   lucene-memory-4.0.0-BETA.jar
+   |
+   |---> 
+   
+   lucene-queryparser-4.0.0-BETA.jar
+   |
+   |---> 
+   
+   nekohtml.jar
+   |
+   |---> 
+   
+   ojalgo-34.0.jar
+   |
+   |---> 
+   
+   poi-3.0.2-FINAL-20080204.jar
+   |
+   |---> 
+   
+   resolver.jar
+   |
+   |---> 
+   
+   rooster.jar
+   |
+   |---> 
+   
+   secondstring-20070327.jar
+   |
+   |---> 
+   
+   serializer.jar
+   |
+   |---> 
+   
+   servlet-api.jar
+   |
+   |---> 
+   
+   tm-extractors-1.0.jar
+   |
+   |---> 
+   
+   xercesImpl.jar
+   |
+   |---> 
+   
+   xml-apis.jar
+   |
+   |---> 
+   
+ 
+_________________________________________________________________________________
+ 
+ Lesser GPL      http://www.gnu.org/licenses/lgpl.html
+_________________________________________________________________________________
+  
+ Bean Shell ... bsh-2.0b4.jar
+
+ JFreeChart
+    jfreechart.jar   (http://www.jfree.org/jfreechart/)
+ 
+ 
+
+ 
