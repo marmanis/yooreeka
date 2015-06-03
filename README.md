@@ -13,8 +13,7 @@ ______________________________________________________________________________
         1.1  Make sure that you've placed all distribution files under a directory
              on your filesystem, say, "C:\code\yooreeka" on a Windows OS or /code/yooreeka
              on a Linux OS. You can call that directory whatever you want.
-	     
-	1.2  Create a new environment variable YOOREEKA_HOME with the above directory as its value
+        1.2  Create a new environment variable YOOREEKA_HOME with the above directory as its value
              
         1.3  Set the property yooreeka.home in the yooreeka.properties file, so that
              it points to the installation directory mentioned above. Make sure the rest 
