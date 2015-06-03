@@ -4,7 +4,7 @@ yooreeka
 This is the "official" clone of the Yooreeka project (originally hosted on Google Code). 
 
 ------------------------------------------------------------------------------
-Quick start for running the examples on Windows platform
+Quick start for running the examples
 ------------------------------------------------------------------------------
 
 ______________________________________________________________________________		
