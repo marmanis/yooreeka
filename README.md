@@ -30,7 +30,7 @@ ______________________________________________________________________________
         
                 If you get an error see step 2. Otherwise skip to step 3.
         
-______________________________________________________________________________		
+
 2. Configure your Java and Ant environment variables
 
 	You can skip this step, if you already have JDK and Ant configured on your 
@@ -57,7 +57,6 @@ ______________________________________________________________________________
     command line interpreter make sure that you perform steps 3 and 4 in 
     the same instance of interpreter.
 
-______________________________________________________________________________		
 3. Reset your CLASSPATH environment variable
 
 	Type the following command in your command prompt:
@@ -68,7 +67,6 @@ ______________________________________________________________________________
 	process to work. In other words, we assume a clean slate for the CLASSPATH 
 	environment variable.
  
-______________________________________________________________________________		
 4. Run ant build file for the project: 
 
 	Within the same command prompt execute the following two commands:
@@ -80,7 +78,6 @@ ______________________________________________________________________________
 	build file. It will build all source code and will prepare the 
 	'C:\code\yooreeka\deploy' directory. 
 
-______________________________________________________________________________		
 5. Start the BeanShell
 
 	Within the same command prompt execute:
@@ -89,7 +86,7 @@ ______________________________________________________________________________
 
 ______________________________________________________________________________		
 	
-You are ready to run book examples!!!	
+You are ready to run the examples!!!	
 
 Note: Within the BeanShell you will have command history. So, if you typed 
 something and you would like to repeat it the command with different argument
