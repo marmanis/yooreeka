@@ -118,7 +118,7 @@ public class DBSCANAlgorithm {
 		DBSCANAlgorithm dbscan = new DBSCANAlgorithm(elements, a, eps,
 				minPoints);
 		
-		printResults(dbscan.cluster(), eps,minPoints);
+		dbscan.printResults(dbscan.cluster());
 	}
 
 	/*
@@ -413,7 +413,7 @@ public class DBSCANAlgorithm {
 		}
 	}
 
-	public static void printResults(List<Cluster> allClusters, double eps, int minPoints) {
+	public void printResults(List<Cluster> allClusters) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("DBSCAN Clustering with NeighborThreshold=").append(eps);
 		sb.append(", minPoints=").append(minPoints).append("\n");
@@ -432,6 +432,7 @@ public class DBSCANAlgorithm {
 		sb.append("Noise Elements:\n ").append(noiseElements).append("\n");
 		P.println(sb.toString());
 	}
+
 	private boolean removePointFromCluster(DataPoint p, int clusterId) {
 		boolean removed = false;
 		Set<DataPoint> points = clusters.get(clusterId);
