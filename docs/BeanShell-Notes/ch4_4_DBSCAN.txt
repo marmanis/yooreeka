@@ -3,14 +3,14 @@
 // --------------------------------------------------------
 import *;
 
-MyDiggSpaceDataset ds = MyDiggSpaceData.createDataset(15);
+		MyDiggSpaceDataset ds = MyDiggSpaceData.createDataset(15);
 
-DataPoint[] dps = ds.getData();
+		DataPoint[] dps = ds.getData();
 
-CosineDistance cosD = new CosineDistance();
+		CosineDistance cosD = new CosineDistance();
 
-DBSCANAlgorithm dbscan = new DBSCANAlgorithm(dps, cosD, 0.8, 2, true);
+		DBSCANAlgorithm dbscan = new DBSCANAlgorithm(dps, cosD, 0.8, 2, true);
 
-dbscan.cluster();
-
+		List<Cluster> clusters = dbscan.cluster();
+		dbscan.printResults(clusters);
 
