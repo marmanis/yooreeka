@@ -109,14 +109,16 @@ public class DBSCANAlgorithm {
 		elements[3] = new DataPoint("D", new double[] {});
 		elements[4] = new DataPoint("E", new double[] {});
 
-		double[][] a = new double[][] { { 0, 0, 0, 0, 1 }, { 0, 0, 0, 0, 2 },
-				{ 2, 2, 2, 11, 31 }, { 2, 2, 2, 10, 30 }, { 60, 60, 60, 0, 0 } };
+		double[][] a = new double[][] { { 0, 0, 0, 0, 1 }, 
+				                        { 0, 0, 0, 0, 2 },
+				                        { 2, 2, 2, 11, 31 }, 
+				                        { 2, 2, 2, 10, 30 }, 
+				                        { 60, 60, 60, 0, 0 } };
 
 		double eps = 0.5;
-		int minPoints = 2;
+		int minPoints = 3;
 
-		DBSCANAlgorithm dbscan = new DBSCANAlgorithm(elements, a, eps,
-				minPoints);
+		DBSCANAlgorithm dbscan = new DBSCANAlgorithm(elements, a, eps, minPoints);
 		
 		dbscan.printResults(dbscan.cluster());
 	}
@@ -141,12 +143,12 @@ public class DBSCANAlgorithm {
 	/*
 	 * Identifies a set of Noise points.
 	 */
-	private static int CLUSTER_ID_NOISE = -1;
+	public static final int CLUSTER_ID_NOISE = -1;
 
 	/*
 	 * Identifies a set of Unclassified points.
 	 */
-	private int CLUSTER_ID_UNCLASSIFIED = 0;
+	public static final int CLUSTER_ID_UNCLASSIFIED = 0;
 
 	/*
 	 * Sequence that is used to generate next cluster id.
@@ -219,7 +221,7 @@ public class DBSCANAlgorithm {
 		} else {
 			if (clusterId != CLUSTER_ID_UNCLASSIFIED) {
 				throw new RuntimeException(
-						"Trying to move point that has already been"
+						"Trying to move point that has already been "
 								+ "assigned to some other cluster. Point: " + p
 								+ ", clusterId=" + clusterId);
 			} else {
