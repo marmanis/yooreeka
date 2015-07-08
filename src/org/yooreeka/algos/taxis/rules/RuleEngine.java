@@ -23,18 +23,6 @@ public class RuleEngine {
 	public RuleEngine(String rulesFile) throws RuleEngineException {
 
 		try {
-			// TODO: Remove. This is the old code that corresponded to Drools
-			// 4.x
-			// Reader source = new InputStreamReader(
-			// new BufferedInputStream(new FileInputStream(rulesFile)));
-			//
-			// // switch to JANINO compiler
-			// Properties properties = new Properties();
-			// properties.setProperty( "drools.dialect.java.compiler",
-			// "JANINO" );
-			// PackageBuilderConfiguration cfg =
-			// new PackageBuilderConfiguration( properties );
-
 			/*
 			 * A <tt>KnowledgeBuilder</tt> is used to turn a DRL source file
 			 * into <tt>Package</tt> objects which the Knowledge Base can
