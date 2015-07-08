@@ -2,7 +2,7 @@ echo off
 
 title Bean Shell
 
-set Y_HOME=C:\code\GoogleSVN\iWeb2
+set Y_HOME=..\..
 set Y_LIBS=%Y_HOME%\lib
 set Y_DROOLS_LIBS=%Y_LIBS%\drools
 set Y_CRAWL_LIBS=%Y_LIBS%\crawler4j-libs
