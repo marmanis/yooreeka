@@ -277,7 +277,7 @@ public class KMeansAlgorithm {
 
 		System.out.println("Clusters:");
 		for (Cluster c : clusters) {
-			System.out.println(c.getElementsAsString());
+			System.out.println(c.getElementsAsString()+"\n");
 		}
 	}
 
@@ -286,7 +286,7 @@ public class KMeansAlgorithm {
 		Cluster[] clusters = this.getAllClusters();
 		System.out.println("Clusters:");
 		for (Cluster c : clusters) {
-			System.out.println(c.getElementsAsString());
+			System.out.print(c.getElementsAsString()+"\n");
 		}
 		System.out
 				.println("___________________________________________________");

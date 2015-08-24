@@ -49,10 +49,8 @@ public class ROCKAlgorithm {
 		// Define data
 		DataPoint[] elements = new DataPoint[4];
 		elements[0] = new DataPoint("Doc1", new String[] { "book" });
-		elements[1] = new DataPoint("Doc2", new String[] { "water", "sun",
-				"sand", "swim" });
-		elements[2] = new DataPoint("Doc3", new String[] { "water", "sun",
-				"swim", "read" });
+		elements[1] = new DataPoint("Doc2", new String[] { "water", "sun", "sand", "swim" });
+		elements[2] = new DataPoint("Doc3", new String[] { "water", "sun", "swim", "read" });
 		elements[3] = new DataPoint("Doc4", new String[] { "read", "sand" });
 
 		int k = 1;
