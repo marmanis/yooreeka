@@ -99,7 +99,7 @@ public class TestSandbox {
 
 		XyLogGui g = new org.yooreeka.util.gui.XyLogGui ("Generalized Fibonacci",gX,gY);
 		
-		while (eval < 15) {
+		while (eval < --maxOrder) {
 		
 			eval++;
 			
