@@ -49,6 +49,7 @@ import org.yooreeka.algos.search.lucene.LuceneIndexBuilder;
 import org.yooreeka.algos.search.ranking.Rank;
 import org.yooreeka.algos.taxis.bayesian.NaiveBayes;
 import org.yooreeka.algos.taxis.core.intf.Concept;
+import org.yooreeka.util.P;
 import org.yooreeka.util.internet.behavior.UserClick;
 import org.yooreeka.util.internet.behavior.UserQuery;
 
@@ -59,12 +60,13 @@ public class MySearcher {
 	 */
 	public static final double EPSILON = 0.0001;
 
-	private static final String PRETTY_LINE = "_______________________________________________________________________";
+	private static final String PRETTY_LINE = "-----------------------------------------------------------------------";
 
 	private File indexFile;
 	private NaiveBayes learner = null;
 
 	private boolean verbose = true;
+	private boolean showTitle = false;
 
 	public MySearcher(String indexDir) {
 		indexFile = new File(indexDir);
@@ -113,7 +115,7 @@ public class MySearcher {
 				pw.print(PRETTY_LINE);
 			}
 
-			System.out.println(sw.toString());
+			P.println(sw.toString());
 		}
 	}
 
@@ -138,7 +140,7 @@ public class MySearcher {
 			is = new IndexSearcher(dirReader);
 
 		} catch (IOException ioX) {
-			System.out.println("ERROR: " + ioX.getMessage());
+			P.println("ERROR: " + ioX.getMessage());
 		}
 
 		StandardQueryParser queryParserHelper = new StandardQueryParser();
@@ -177,8 +179,8 @@ public class MySearcher {
 			e.printStackTrace();
 		}
 
-		String header = "Search results using Lucene index scores:";
-		boolean showTitle = true;
+		String header = PRETTY_LINE+"\nSearch results using Lucene index scores:";
+
 		printResults(header, "Query: " + query, docResults, showTitle);
 
 		return docResults;
@@ -224,7 +226,7 @@ public class MySearcher {
 		SearchResult.sortByScore(docResults);
 
 		String header = "Search results using combined Lucene scores and page rank scores:";
-		boolean showTitle = false;
+
 		printResults(header, "Query: " + query, docResults, showTitle);
 
 		return docResults;
@@ -252,10 +254,7 @@ public class MySearcher {
 	 */
 	public SearchResult[] search(UserQuery uQuery, int numberOfMatches, Rank pR) {
 
-		SearchResult[] docResults = search(uQuery.getQueryString(),
-				numberOfMatches);
-
-		String url;
+		SearchResult[] docResults = search(uQuery.getQueryString(),	numberOfMatches);
 
 		int docN = docResults.length;
 
@@ -264,10 +263,6 @@ public class MySearcher {
 			int loop = (docN < numberOfMatches) ? docN : numberOfMatches;
 
 			for (int i = 0; i < loop; i++) {
-
-				url = docResults[i].getUrl();
-
-				UserClick uClick = new UserClick(uQuery, url);
 
 				/**
 				 * TODO: 2.6 -- Weighing the scores to meet your needs (Book
@@ -285,14 +280,21 @@ public class MySearcher {
 				 * appropriate for your own site.
 				 * 
 				 */
+				
+				UserClick uClick = new UserClick(uQuery, docResults[i].getUrl());
+
 				double indexScore = docResults[i].getScore();
 
-				double pageRankScore = pR.getPageRank(url);
+				double pageRankScore = pR.getPageRank(docResults[i].getUrl());
 
 				double userClickScore = 0.0;
-
+				
 				for (Concept bC : learner.getTset().getConceptSet()) {
-					if (bC.getName().equalsIgnoreCase(url)) {
+					
+					String bCN =  bC.getName();
+										
+					if (bCN.equalsIgnoreCase(docResults[i].getUrl())) {
+						
 						userClickScore = learner.getProbability(bC, uClick);
 					}
 				}
@@ -316,18 +318,19 @@ public class MySearcher {
 				 * Uncomment this block to show the various scores in the
 				 * BeanShell
 				 */ 
-				
-//				 StringBuilder b = new StringBuilder();
-//				  
-//				 b.append("Document      : ").append(docResults[i].getUrl()).append("\n");
-//				 b.append("UserClick URL :").append(uClick.getUrl()).append("\n"); b.append("\n");
-//				 b.append("Index score: ").append(indexScore).append(", ");
-//				 b.append("PageRank score: ").append(pageRankScore).append(", ");
-//				 b.append("User click score: ").append(userClickScore);
-//				 
-//				 P.hline();
-//				 P.println(b.toString());
-//				 P.hline();
+/*				
+				 StringBuilder b = new StringBuilder();
+				  
+				 b.append("Document      : ").append(docResults[i].getUrl()).append("\n");
+				 b.append("UserClick URL :").append(uClick.getUrl()).append("\n"); b.append("\n");
+				 b.append("Index score: ").append(indexScore).append(", ");
+				 b.append("PageRank score: ").append(pageRankScore).append(", ");
+				 b.append("User click score: ").append(userClickScore);
+				 
+				 P.hline();
+				 P.println(b.toString());
+				 P.hline();
+*/
 			}
 		}
 
@@ -338,7 +341,7 @@ public class MySearcher {
 				+ "page rank scores and user clicks:";
 		String query = "Query: user=" + uQuery.getUid() + ", query text="
 				+ uQuery.getQueryString();
-		boolean showTitle = false;
+
 		printResults(header, query, docResults, showTitle);
 
 		return docResults;

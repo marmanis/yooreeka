@@ -58,6 +58,8 @@ public class FileTransport implements Transport {
 	public static final String FILE_URL_PREFIX = "file:/";
 	private static final int FILE_URL_PREFIX_INDEX = 6;
 
+	private boolean verbose = false;
+	
 	private FetchedDocsDB db;
 	
 	public FileTransport() {
@@ -88,7 +90,8 @@ public class FileTransport implements Transport {
 			
 			if (f.isDirectory()) {
 				
-				P.println("Found a directory, descending recursively ...");
+				if (verbose)
+					P.println("Found a directory, descending recursively ...");
 
 				doc.setDocumentId(documentId);
 				doc.setContentType(ProcessedDocument.TYPE_DIRECTORY);
@@ -108,8 +111,12 @@ public class FileTransport implements Transport {
 					} catch (MalformedURLException urlX) {
 						throw new FileTransportException(urlX.getMessage());
 					}
-					P.println("Target URL: "+documentUrl);
-					P.println("  File URL: "+fileURL);					
+					
+					if (verbose) {
+						P.println("Target URL: "+documentUrl);
+						P.println("  File URL: "+fileURL);
+					}
+					
 					fetch(fileURL, groupId, docSequenceInGroup++);
 				}
 			} else {
@@ -140,12 +147,13 @@ public class FileTransport implements Transport {
 				doc.setContentCharset(DEFAULT_CONTENT_CHARSET);
 				doc.setDocumentContent(data);
 				doc.setDocumentMetadata(new HashMap<String, String>());
-				doc.print();
 
-				P.println("Calling fetchedDocsDB.saveDocument(doc);");
-
+				if (verbose) {
+					doc.print();
+					P.println("Calling fetchedDocsDB.saveDocument(doc);");
+				}
+				
 				db.saveDocument(doc);
-
 			}
 		} else {
 			throw new FileTransportException("There is something wrong with this URL: "+documentUrl);
@@ -159,7 +167,8 @@ public class FileTransport implements Transport {
 
 	private byte[] loadData(File f, int maxLength) throws IOException {
 
-		P.println("Loading data from file: "+f.getAbsolutePath());
+		if (verbose)
+			P.println("Loading data from file: "+f.getAbsolutePath());
 		
 		byte[] data = new byte[(int) f.length()];
 

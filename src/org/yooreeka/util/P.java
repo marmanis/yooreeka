@@ -31,6 +31,7 @@
 package org.yooreeka.util;
 
 import java.nio.charset.Charset;
+import java.nio.file.Path;
 
 /**
  * 
@@ -103,6 +104,11 @@ public class P {
 	
 	public static void println(String s) {
 		System.out.println(s);
+	}
+	
+	public static void println(String s, Path path) {
+		System.out.format(s, path);
+		System.out.println();
 	}
 
 	public static void println(double[] x, boolean withIndex) {

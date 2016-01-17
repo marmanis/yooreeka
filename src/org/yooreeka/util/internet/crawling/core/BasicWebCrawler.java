@@ -31,9 +31,8 @@
 package org.yooreeka.util.internet.crawling.core;
 
 import java.util.List;
+import java.util.logging.Logger;
 
-import org.apache.log4j.Logger;
-import org.yooreeka.util.P;
 import org.yooreeka.util.internet.crawling.db.FetchedDocsDB;
 import org.yooreeka.util.internet.crawling.db.KnownUrlDB;
 import org.yooreeka.util.internet.crawling.db.ProcessedDocsDB;
@@ -101,7 +100,7 @@ public class BasicWebCrawler {
 
 	public void fetchAndProcess(int maxDepth, int maxDocs) {
 
-		log.debug("fetchAndProcess(int maxDepth:"+maxDepth+", int maxDocs"+maxDocs+")");
+		log.fine("fetchAndProcess(int maxDepth:"+maxDepth+", int maxDocs"+maxDocs+")");
 		
 		boolean maxUrlsLimitReached = false;
 		int documentGroup = 1;
@@ -195,7 +194,7 @@ public class BasicWebCrawler {
 				
 				for (String url : urlGroup.getUrls()) {
 					
-					P.println("fetchPages with URL: "+url);
+					log.fine("fetchPages with URL: "+url);
 					
 					try {
 						
@@ -203,7 +202,7 @@ public class BasicWebCrawler {
 					
 						if (doc.getContentType().endsWith(ProcessedDocument.TYPE_DIRECTORY)) {
 						
-							P.println("Not saving information about directory: "+doc.getDocumentURL());
+							log.warning("Not saving information about directory: "+doc.getDocumentURL());
 
 						} else {
 
@@ -217,11 +216,11 @@ public class BasicWebCrawler {
 						}
 					} catch (TransportException tX) {
 						//We failed to retrieve the document, log the fact and just skip that file
-						P.println(tX.getMessage());
+						log.warning(tX.getMessage());
 						
 					} catch (Exception e) {
 						e.printStackTrace();
-						P.println("Failed to fetch document from url: '"
+						log.warning("Failed to fetch document from url: '"
 										+ url + "'.\n" + e.getMessage());
 						crawlData.getKnownUrlsDB().updateUrlStatus(url,
 								KnownUrlEntry.STATUS_PROCESSED_ERROR);
@@ -269,7 +268,7 @@ public class BasicWebCrawler {
 		URLNormalizer urlNormalizer = new URLNormalizer();
 		if (urlFilter == null) {
 			urlFilter = new URLFilter();
-			P.println("Using default URLFilter configuration that only accepts 'file://' urls");
+			log.warning("Using default URLFilter configuration that only accepts 'file://' urls");
 		}
 
 		List<String> docIds = parsedDocs.getDocumentIds(groupId);
@@ -307,21 +306,19 @@ public class BasicWebCrawler {
 
 				String contentType = doc.getContentType();
 
+				/*
 				 StringBuilder msg = new StringBuilder("Now processing:\n");
 				 msg.append(doc.getDocumentURL()).append("\n");
 				 P.hline();
 				 P.println(msg.toString());
 				 P.hline();
-				 
+				 */
+				
 				DocumentParser docParser = null;
 				try {
 					docParser = DocumentParserFactory.getInstance().getDocumentParser(contentType);
 				} catch (DocumentParserException e) {
 					
-					// DEBUG
-					P.println(docParser.toString());
-					P.println(doc.toString());
-
 					e.printStackTrace();
 				}
 
@@ -332,10 +329,6 @@ public class BasicWebCrawler {
 					
 				} catch (DocumentParserException e) {
 
-					// DEBUG
-					P.println(docParser.toString());
-					P.println(doc.toString());
-					
 					e.printStackTrace();
 				}
 
