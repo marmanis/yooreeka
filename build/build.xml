@@ -57,7 +57,8 @@
 		<include name="secondstring-20120620.jar"/>
 		<include name="serializer.jar"/>
 		<include name="super-csv-2.1.0.jar"/>
-		<include name="tika-app-1.6.jar"/>
+		<include name="tika-app-1.11.jar"/>
+		<include name="tika-server-1.11.jar"/>
 		<include name="tm-extractors-1.0.jar"/>
 		<include name="xercesImpl.jar"/>
 		<include name="xml-apis.jar"/>
@@ -84,8 +85,6 @@
 		<include name="je-4.0.92.jar"/>
 		<include name="metadata-extractor-2.4.0-beta-1.jar"/>
 		<include name="tagsoup-1.2.1.jar"/>
-		<include name="tika-core-1.0.jar"/>
-		<include name="tika-parsers-1.0.jar"/>
 	</patternset>
 
 	<!-- Compilation Classpath -->
