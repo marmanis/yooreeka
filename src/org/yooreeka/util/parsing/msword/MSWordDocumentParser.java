@@ -181,6 +181,7 @@ public class MSWordDocumentParser implements DocumentParser {
 // 
 //        }
 //        
+        we.close();
         return paragraphs;
     }
  
