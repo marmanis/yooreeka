@@ -51,7 +51,7 @@
 		<include name="lucene-queryparser-4.4.0.jar"/>
 		
 		<include name="nekohtml.jar"/>
-		<include name="poi-3.9-20121203.jar"/>
+		<include name="poi-3.14-20160307.jar"/>
 		<include name="resolver.jar"/>
 		<include name="rooster.jar"/>
 		<include name="secondstring-20120620.jar"/>

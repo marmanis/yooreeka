@@ -29,7 +29,7 @@ set LIBJARS=%LIBJARS%;%Y_LIBS%\lucene-queryparser-4.4.0.jar
 
 set LIBJARS=%LIBJARS%;%Y_LIBS%\nekohtml.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\ojalgo-34.0.jar
-set LIBJARS=%LIBJARS%;%Y_LIBS%\poi-3.9-20121203.jar
+set LIBJARS=%LIBJARS%;%Y_LIBS%\poi-3.14-20160307.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\resolver.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\rooster.jar
 

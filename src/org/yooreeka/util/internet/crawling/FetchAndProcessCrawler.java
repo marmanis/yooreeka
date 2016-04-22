@@ -78,6 +78,14 @@ public class FetchAndProcessCrawler {
 
 	URLFilter urlFilter;
 
+	/**
+	 * This class fetches data from the Internet or local storage and processes them appropriately
+	 * so that they can be indexed and mined.
+	 * 
+	 * @param dir the directory where we want to store the data that will be retrieved
+	 * @param maxDepth the maximum traversal depth from the original page
+	 * @param maxDocs the maximum number of pages that will be fetched at each depth
+	 */
 	public FetchAndProcessCrawler(String dir, int maxDepth, int maxDocs) {
 
 		log.fine("Creating FetchAndProcessCrawler(String dir: "+dir
