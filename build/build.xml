@@ -177,7 +177,7 @@
 			<manifest>
 				<section name="common">
 					<attribute name="Implementation-Title" value="Yooreeka"/>
-					<attribute name="Implementation-Version" value="2.0.0.0 ${TODAY}"/>
+					<attribute name="Implementation-Version" value="2.2.0.0 ${TODAY}"/>
 					<attribute name="Implementation-Vendor" value="Marmanis Group LLC"/>
 				</section>
 			</manifest>

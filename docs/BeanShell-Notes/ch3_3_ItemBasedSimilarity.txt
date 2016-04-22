@@ -8,7 +8,7 @@ String yHome = YooreekaConfigurator.getHome();
 //
 // Load the dataset that we created before
 //
-BaseDataset ds = BaseDataset.load(yHome+"/data/ch03/dataset_script_3.ser");
+BaseDataset ds = BaseDataset.load(yHome+"/data/ch03/dataset_script_2.ser");
 
 //
 // use Delphi with ITEM_BASED similarity

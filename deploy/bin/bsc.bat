@@ -16,7 +16,6 @@ set LIBJARS=%LIBJARS%;%Y_LIBS%\jcommon-1.0.20.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\jfreechart-1.0.16.jar
 
 set LIBJARS=%LIBJARS%;%Y_LIBS%\jigg-0.1.jar
-set LIBJARS=%LIBJARS%;%Y_LIBS%\jsr173_1.0_api.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\junit-4.1.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\juniversalchardet-1.0.3.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\log4j-1.2.17.jar
