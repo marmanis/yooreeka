@@ -33,6 +33,7 @@ package org.yooreeka.util.internet.crawling.core;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.yooreeka.util.P;
 import org.yooreeka.util.internet.crawling.db.FetchedDocsDB;
 import org.yooreeka.util.internet.crawling.db.KnownUrlDB;
 import org.yooreeka.util.internet.crawling.db.ProcessedDocsDB;
@@ -302,54 +303,53 @@ public class BasicWebCrawler {
 			
 //			try {
 				doc = fetchedDocsDB.getDocument(id);
-				String url = doc.getDocumentURL();
-
-				String contentType = doc.getContentType();
-
-				/*
-				 StringBuilder msg = new StringBuilder("Now processing:\n");
-				 msg.append(doc.getDocumentURL()).append("\n");
-				 P.hline();
-				 P.println(msg.toString());
-				 P.hline();
-				 */
 				
-				DocumentParser docParser = null;
-				try {
-					docParser = DocumentParserFactory.getInstance().getDocumentParser(contentType);
-				} catch (DocumentParserException e) {
+				if (doc != null) {
+					String url = doc.getDocumentURL();
+	
+					if (!url.startsWith("http://goo.gl")) {
+
+						String contentType = doc.getContentType();
+		
+//						 P.println("Now processing: "+url);
+//						 P.println("Content Type: "+contentType);
+//						 P.hline();
+						
+						 DocumentParser docParser = null;
+						 try {
+								
+							 docParser = DocumentParserFactory.getInstance().getDocumentParser(contentType);
+							
+						 } catch (DocumentParserException e) {
+								
+							 P.error(e.getLocalizedMessage());
+						 }
 					
-					e.printStackTrace();
+						 ProcessedDocument parsedDoc = null;
+						 try {
+								
+							 parsedDoc = docParser.parse(doc);
+								
+						 } catch (DocumentParserException e) {
+			
+							 P.error(e.getLocalizedMessage());
+						 }
+			
+						 //DEBUG
+						 /*
+						 P.hline();
+						 P.println(parsedDoc.getContent().substring(0, 10000));
+						 P.hline();
+						 */
+						 
+						 parsedDocsService.saveDocument(parsedDoc);
+						 
+						 crawlData.getKnownUrlsDB().updateUrlStatus(url,	KnownUrlEntry.STATUS_PROCESSED_SUCCESS);
+						}
+					}
 				}
-
-				ProcessedDocument parsedDoc = null;
-				try {
-					
-					parsedDoc = docParser.parse(doc);
-					
-				} catch (DocumentParserException e) {
-
-					e.printStackTrace();
-				}
-
-				//DEBUG
-//				P.hline();
-//				P.println(parsedDoc.getContent().substring(0, 10000));
-//				P.hline();
-				
-				parsedDocsService.saveDocument(parsedDoc);
-
-//				if (doc.getContentType().equals(ProcessedDocument.TYPE_MSWORD)  ||
-//					doc.getContentType().equals(ProcessedDocument.TYPE_PDF)     ||
-//					doc.getContentType().equals(ProcessedDocument.TYPE_TEXT))    {
-//				
-//					String fixedUrl = FileTransport.FILE_URL_PREFIX+url;
-//					crawlData.getKnownUrlsDB().updateUrlStatus(fixedUrl, KnownUrlEntry.STATUS_PROCESSED_SUCCESS);
-//				} else {
-					crawlData.getKnownUrlsDB().updateUrlStatus(url,	KnownUrlEntry.STATUS_PROCESSED_SUCCESS);
-//				}
-		}
-	}
+			}
+		
 
 	private List<String> selectNextBatchOfUrlsToCrawl(int maxBatchSize,
 			int depth) {
