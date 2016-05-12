@@ -41,7 +41,7 @@ import java.nio.file.Path;
 public class P {
 	
 	public final static String HLINE = "---------- ---------- ---------- ---------- ---------- ----------";
-	public final static String ERROR = "Error: ";
+	public final static String ERROR = "ERROR: ";
 	
 	/**
 	 * Print errors
