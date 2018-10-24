@@ -106,40 +106,15 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>properties-maven-plugin</artifactId>
-                <version>1.0.0</version>
-                <executions>
-                    <!--                    <execution>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>read-project-properties</goal>
-                        </goals>
-                        <configuration>
-                            <files>
-                                <file>deploy/conf/yooreeka.properties</file>
-                            </files>
-                        </configuration>
-                    </execution>-->
-<!--                    <execution>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>set-system-properties</goal>
-                        </goals>
-                        <configuration>
-                            <properties>
-                                <yooreeka.home>/home/slavb/work/yooreeka</yooreeka.home>
-                                <yooreeka.data.dir>/home/slavb/work/yooreeka/data</yooreeka.data.dir>
-                                <yooreeka.crawl.dir>/home/slavb/work/yooreeka/data/crawls</yooreeka.crawl.dir>
-                                <yooreeka.crawl.dudfile>/home/slavb/work/yooreeka/data/EmptyFile.txt</yooreeka.crawl.dudfile>
-                                <yooreeka.temp.dir>/home/slavb/work/yooreeka/deploy/temp</yooreeka.temp.dir>
-                                <yooreeka.movielens.data.dir>/home/slavb/work/yooreeka/data/ch03/MovieLens</yooreeka.movielens.data.dir>
-                                <yooreeka.movielenstest.data.dir>/home/slavb/work/yooreeka/data/ch03/MovieLens/test</yooreeka.movielenstest.data.dir>
-                            </properties>
-                        </configuration>
-                    </execution>-->
-
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.1</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <yooreeka.home>${basedir}</yooreeka.home>
+                        <yooreeka.configuration>${basedir}/deploy/conf/yooreeka.properties</yooreeka.configuration>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
         </plugins>
     </build>
