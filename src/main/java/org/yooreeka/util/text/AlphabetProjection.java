@@ -32,16 +32,13 @@ package org.yooreeka.util.text;
 
 import java.util.logging.Logger;
 
+import org.apache.commons.text.similarity.JaccardDistance;
+
 import org.yooreeka.config.YooreekaConfigurator;
 import org.yooreeka.util.C;
 import org.yooreeka.util.P;
 import org.yooreeka.util.metrics.EuclideanDistance;
 
-import com.wcohen.ss.JaroWinkler;
-import com.wcohen.ss.Level2Jaro;
-import com.wcohen.ss.MongeElkan;
-import com.wcohen.ss.NeedlemanWunsch;
-import com.wcohen.ss.api.StringDistance;
 
 /**
  * 
@@ -72,24 +69,14 @@ public class AlphabetProjection {
 	public static final char[] DEFAULT_CHARACTER_BASIS = { 'e', 't', 'a', 'o', 'n', 'r', 'i', 's',
 			'h', 'd', 'l', 'f', 'c', 'm', 'u', 'g', 'y', 'p', 'w', 'b', 'v',
 			'k', 'x', 'j', 'q', 'z' };
+	
 	private char[] characterBasis;
 	
 	private String[] projectionBasis = null;
 
-	//TODO: These should be passed to the projection class. Take them out and define an 
-	//      appropriate encapsulation
-	
-	// String Edit Distance Metrics
-	private NeedlemanWunsch needlemanWunch;
-	private JaroWinkler jaroWinkler;
-	private Level2Jaro level2Jaro;
-	private MongeElkan mongeElkan;
 
 	// String Distances
-	private StringDistance needlemanWunchDistance = null;
-	private StringDistance jaroWinklerDistance    = null;
-    private StringDistance level2JaroDistance     = null;
-    private StringDistance mongeElkanDistance     = null;
+	private JaccardDistance jaccardDistance = null;
     
 	// --------------------------------------------------------------------------------
 	// CONSTRUCTORS
@@ -141,10 +128,8 @@ public class AlphabetProjection {
 	}
 	
 	private void initMetrics() {
-		needlemanWunch = new NeedlemanWunsch();
-		jaroWinkler    = new JaroWinkler();
-		level2Jaro     = new Level2Jaro();
-		mongeElkan     = new MongeElkan();		
+		jaccardDistance = new JaccardDistance();
+		
 	}
 	
 
@@ -170,52 +155,18 @@ public class AlphabetProjection {
 
 		target.toLowerCase();
 		
-		jaroWinklerDistance    = jaroWinkler.getDistance();
-	    level2JaroDistance     = level2Jaro.getDistance();
-	    mongeElkanDistance     = mongeElkan.getDistance();
-		needlemanWunchDistance = needlemanWunch.getDistance();
-
 	    double p = 0;
 	    
 		for (int i = 0; i < dimensionality; i++) {
 
-			p=jaroWinklerDistance.score(projectionBasis[i], target);
-			p += level2JaroDistance.score(projectionBasis[i], target);
-			p += mongeElkanDistance.score(projectionBasis[i], target);
-			p += needlemanWunchDistance.score(projectionBasis[i], target);
-			
-			projections[i] = p*0.25;
+			p=jaccardDistance.apply(projectionBasis[i], target);
+						
+			projections[i] = p;  //p*0.25;
 		}
 
 		return projections;
 	}
 
-	/**
-	 * 
-	 * @param target
-	 *            the String that we want to project onto the base vectors
-	 * @param projections
-	 *            of the <CODE>target</CODE> onto each one of the base vectors.
-	 * 
-	 * 
-	 */
-	public double[] project(String target, StringDistance d) throws IllegalArgumentException {
-
-		double[] projections = new double[dimensionality];
-
-		if (target == null) {
-			target = C.EMPTY_STRING;
-		}
-
-		target.toLowerCase();
-		
-		for (int i = 0; i < dimensionality; i++) {
-
-			projections[i] = d.score(projectionBasis[i], target);
-		}
-
-		return projections;
-	}
 
 	// --------------------------------------------------------------------------------
 	// AUXILIARY METHODS
@@ -269,6 +220,7 @@ public class AlphabetProjection {
 
 		P.println("d[T1,T2] = "
 				+ aProjection.distance(TEST_STRING_1, TEST_STRING_2));
+		
 		P.println("d[T1,T3] = "
 				+ aProjection.distance(TEST_STRING_1, TEST_STRING_3));
 	}
@@ -294,7 +246,11 @@ public class AlphabetProjection {
 	}
 
 	public void setDimensionality(int dimensionality) {
+		
 		this.dimensionality = dimensionality;
+		
+		//A change in dimensionality requires to reset the base projections
+		initProjection();
 	}
 
 	/**

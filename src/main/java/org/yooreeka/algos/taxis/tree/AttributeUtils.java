@@ -39,7 +39,7 @@ public class AttributeUtils {
 		} else if (o instanceof String) {
 			result = Double.parseDouble((String) o);
 		} else if (o instanceof Integer) {
-			result = new Double((Integer) o);
+			result = Double.valueOf((Integer) o);
 		}
 
 		return result;

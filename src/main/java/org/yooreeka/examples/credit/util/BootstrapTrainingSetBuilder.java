@@ -107,7 +107,7 @@ public class BootstrapTrainingSetBuilder {
 
 			// center the distribution to be N/2 left and right of the center
 			// with almost certainty
-			selectedInstanceId = new Double(center + rnd.nextGaussian() * scale)
+			selectedInstanceId = Double.valueOf(center + rnd.nextGaussian() * scale)
 					.intValue();
 
 			// do not break the loop unless we found a valid instance

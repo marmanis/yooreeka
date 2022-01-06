@@ -30,13 +30,7 @@
  */
 package org.yooreeka.test;
 
-import org.yooreeka.math.Fibonacci;
-import org.yooreeka.math.MyFibonacci;
-import org.yooreeka.util.C;
 import org.yooreeka.util.P;
-import org.yooreeka.util.gui.XyLogGui;
-
-
 
 /**
  * 
@@ -53,6 +47,37 @@ public class TestSandbox {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
+		
+		final double mass = 0.02254;
+		final double stringRadious = 1.0;
+		
+		final double c1 = 4.0d * Math.PI * Math.PI * stringRadious;		
+
+		double[] timePerRevolution = {21.69/20.0, 17.46/20.0, 10.47/20.0};
+		
+		double[] frequency = new double[3];
+		
+		double[] acceleration = new double[3];
+		
+		double[] force = new double[3];
+		
+		double[] velocity = new double[3];
+				
+		for(int i=0; i < 3; i++) {
+			
+			frequency[i] = 1.0 / timePerRevolution[i];
+			acceleration[i] = c1 * frequency[i] * frequency[i];
+			force[i] = mass * acceleration[i];
+			velocity[i] = Math.sqrt(stringRadious*acceleration[i]);
+
+			P.println("f [Hz]   : "+frequency[i]);
+			P.println("a [m/s^2]: "+acceleration[i]);
+			P.println("F [N]    : "+force[i]);
+			P.println("V [m/s]  : "+velocity[i]);
+			P.hline();
+		}
+		
+		
 		
 /*		int maxOrder = 16;
 		int numberOfPoints = 16;

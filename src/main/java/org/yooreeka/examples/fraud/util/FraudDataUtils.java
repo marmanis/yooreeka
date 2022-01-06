@@ -37,6 +37,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -116,7 +117,7 @@ public class FraudDataUtils {
 		} while (amt <= 0.0);
 
 		BigDecimal db = new BigDecimal(amt);
-		db = db.setScale(2, BigDecimal.ROUND_HALF_UP);
+		db = db.setScale(2, RoundingMode.HALF_UP);
 		return db.doubleValue();
 	}
 

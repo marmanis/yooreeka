@@ -31,11 +31,12 @@
 package org.yooreeka.math;
 
 import static org.junit.Assert.fail;
-import junit.framework.Assert;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.yooreeka.util.C;
+
 
 /**
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>

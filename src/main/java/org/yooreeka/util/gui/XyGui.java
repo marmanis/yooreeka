@@ -45,6 +45,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 import org.yooreeka.util.C;
+import org.yooreeka.util.P;
 
 /**
  * 
@@ -72,6 +73,22 @@ public class XyGui extends ApplicationFrame {
 	private StringBuilder errMsg;
 	private int loopInt;
 
+	public static void main(String[] args) {
+		int n=64;
+				
+		double[] x = new double[n];
+		double[] y = new double[n];
+
+		for (int i=0; i<n; i++) {
+			x[i] = (double) 2+(i*5000000);
+			y[i] = (double) x[i] / Math.log(x[i]); 
+			P.println("  "+x[i]+" , "+y[i]+" , "+(y[i]/x[i]));
+		}
+
+		XyGui gui = new XyGui("Quick X-Y plot", x, y);
+		gui.plot();
+	}
+	
 	public XyGui(String title, double[] x) {
 
 		super(title);

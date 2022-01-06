@@ -12,8 +12,8 @@
 	<property name="y.deploy" value="${y.root}/deploy"/>
 	<property name="y.javadoc" value="${y.root}/docs/javadoc"/>
 	<property name="y.lib" value="${y.root}/lib"/>
-	<property name="y.src" value="${y.root}/src"/>
-	<property name="y.test" value="${y.root}/test"/>
+	<property name="y.src" value="${y.root}/src/main/java"/>
+	<property name="y.test" value="${y.root}/src/test/java"/>
 	<property name="y.tools" value="${y.root}/tools"/>
 
 	<property name="y.build.bytecode" value="${y.build}/bytecode"/>

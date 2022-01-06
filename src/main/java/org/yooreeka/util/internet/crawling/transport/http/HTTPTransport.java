@@ -44,12 +44,12 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.CookieStore;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.protocol.ClientContext;
+import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
@@ -73,7 +73,7 @@ public class HTTPTransport implements Transport {
 	 */
 	public static final int MAX_DOCUMENT_LENGTH = 8 * 1024 * 1024; // 2Mb
 
-	HttpClient httpclient = null;
+	CloseableHttpClient httpclient = null;
 	CookieStore cookieStore = null;
 	HttpContext localContext = null;
 
@@ -223,7 +223,12 @@ public class HTTPTransport implements Transport {
 				// When HttpClient instance is no longer needed,
 				// shut down the connection manager to ensure
 				// immediate deallocation of all system resources
-				httpclient.getConnectionManager().shutdown();
+				try {
+					httpclient.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 	
 			db.saveDocument(doc);
@@ -235,7 +240,7 @@ public class HTTPTransport implements Transport {
 
 		P.println("Initializing HTTPTransport ...");
 
-		httpclient = new DefaultHttpClient();
+		httpclient = HttpClientBuilder.create().build();
 
 		// Create a local instance of cookie store
 		cookieStore = new BasicCookieStore();
@@ -244,22 +249,8 @@ public class HTTPTransport implements Transport {
 		localContext = new BasicHttpContext();
 
 		// Bind custom cookie store to the local context
-		localContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
+		localContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
 
-		// httpclient.getHttpConnectionManager().getParams().setConnectionTimeout(30000);
-		// httpclient.getHttpConnectionManager().getParams().setSoTimeout(30000);
-		// httpclient.setState(initialState);
-		// httpclient.getParams().setCookiePolicy(CookiePolicy.BROWSER_COMPATIBILITY);
-		//
-		// //httpclient.getParams().setParameter(HttpClientParams.ALLOW_CIRCULAR_REDIRECTS,
-		// Boolean.TRUE);
-		//
-		// // Set default number of connections per host to 1
-		// httpclient.getHttpConnectionManager().
-		// getParams().setMaxConnectionsPerHost(
-		// HostConfiguration.ANY_HOST_CONFIGURATION, 1);
-		// // Set max for total number of connections
-		// httpclient.getHttpConnectionManager().getParams().setMaxTotalConnections(10);
 	}
 
 	public boolean pauseRequired() {

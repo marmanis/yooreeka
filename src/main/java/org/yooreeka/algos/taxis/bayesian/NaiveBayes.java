@@ -131,7 +131,7 @@ public class NaiveBayes implements Classifier {
 				}
 			}
 
-			conceptPriors.put(c, new Double(totalConceptCount));
+			conceptPriors.put(c, Double.valueOf(totalConceptCount));
 		}
 	}
 
