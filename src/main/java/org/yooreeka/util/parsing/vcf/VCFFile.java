@@ -44,6 +44,8 @@ import org.yooreeka.util.parsing.common.DataType;
 import org.yooreeka.util.parsing.csv.CSVFile;
 import org.yooreeka.util.parsing.csv.CSVSchema;
 
+import jakarta.mail.MessagingException;
+
 /**
  * 
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
@@ -127,7 +129,27 @@ public class VCFFile {
 								System.exit(0);
 								
 							}
+							
+							content = fix(content, "ADR HOME ENCODING=QUOTED-PRINTABLE:");
+							
+							content = fix(content, "ADR ENCODING=QUOTED-PRINTABLE:");
+
 						} else {
+							
+							
+							if (rawText.length()>6 && 
+									rawText.charAt(0) == '=' && 
+									rawText.charAt(3) == '=' && 
+									rawText.charAt(6) == '=') {
+								
+								try {
+									rawText = d.decode(rawText, "UTF-8", "quoted-printable", "UTF-8");
+								} catch (MessagingException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+							}
+							rawText.replaceAll("ADR HOME ENCODING=QUOTED-PRINTABLE:", "\n");
 							content = rawText.replaceAll("\"", " ").replaceAll(";+", " ").trim();
 						}
 						
@@ -231,6 +253,27 @@ public class VCFFile {
 			}
 		}
 		P.println("Found "+nullCount+" null entries!");		
+	}
+	
+	private String fix(String content, String val) {
+		
+		String newContent;
+		
+		int beginIdx = content.indexOf(val);
+		
+		if (beginIdx > 0) {
+			
+			int endIdx = beginIdx + val.length();
+			
+			String firstHalf = content.substring(0, beginIdx);
+			String secondHalf = content.substring(endIdx);
+			
+			newContent = firstHalf + "\n"+ secondHalf;
+		} else {
+			newContent = content;
+		}
+		
+		return newContent;
 	}
 	
 	/**
