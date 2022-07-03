@@ -47,10 +47,6 @@ import org.yooreeka.util.parsing.csv.CSVSchema;
 import jakarta.mail.MessagingException;
 
 /**
- * This is a class that can read and extract information from a VCF file.
- * A VCF file is a standard file format for storing contact information for one or more persons 
- * or a business. It typically includes a name, address, phone number, email address, and other 
- * contact information. VCF files also support custom fields, images, and other types of media.
  * 
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
  * 

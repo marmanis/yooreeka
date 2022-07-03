@@ -51,7 +51,9 @@ import org.yooreeka.util.parsing.common.ProcessedDocument;
 public class VCFParser implements DocumentParser {
 
 	private VCFFile vcfFile;
-	private boolean verbose=false;
+	
+	private boolean verbose=false;	
+
 	private long contactsParsed = 0;
 	private long linesRead = 0;
 	private int lines2Skip=0;
