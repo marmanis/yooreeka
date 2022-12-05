@@ -30,6 +30,7 @@
  */
 package org.yooreeka.util;
 
+import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 
@@ -98,10 +99,13 @@ public class P {
 		println("" + P.class.getName());
 	}
 
-	public static void print(String s) {
-		System.out.print(s);
+	public static void print(BigInteger r) {
+		System.out.print(r);
 	}
 	
+	public static void print(String r) {
+		System.out.print(r);
+	}
 	public static void println(String s) {
 		System.out.println(s);
 	}
