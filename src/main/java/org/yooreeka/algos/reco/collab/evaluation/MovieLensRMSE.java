@@ -44,6 +44,7 @@ import org.yooreeka.config.YooreekaConfigurator;
  * 
  * @deprecated use <code>RMSEEstimator</code> instead.
  */
+@Deprecated
 public class MovieLensRMSE {
 
 	public double[] calculate() {

@@ -33,9 +33,11 @@
 		<include name="commons-cli-1.2.jar"/>
 		<include name="commons-lang3-3.1.jar"/>
 		<include name="commons-logging-1.1.1.jar"/>
-		<include name="httpclient-4.2.2.jar"/>
-		<include name="httpcore-4.2.2.jar"/>
+		<include name="commons-text-1.10.0.jar"/>
+		<include name="httpclient5-5.2.1.jar"/>
+		<include name="httpcore5-5.2.jar"/>
 		
+		<include name="jakarta.mail-2.0.2.jar"/>
 		<include name="jcommon-1.0.20.jar"/>
 		<include name="jfreechart-1.0.16.jar"/>
 		

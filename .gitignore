@@ -1,3 +1,7 @@
 /target/
 /data/
 /deploy/temp/
+
+*.class
+
+build/dist/yooreeka-2.2.jar
