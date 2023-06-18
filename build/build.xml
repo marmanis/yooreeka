@@ -36,6 +36,7 @@
 		<include name="commons-text-1.10.0.jar"/>
 		<include name="httpclient5-5.2.1.jar"/>
 		<include name="httpcore5-5.2.jar"/>
+		<include name="httpcore5-h2-5.2.jar"/>
 		
 		<include name="jakarta.mail-2.0.2.jar"/>
 		<include name="jcommon-1.0.20.jar"/>
@@ -144,8 +145,6 @@
 
 	</target>
 
-
-
 	<!-- Build everything from scratch.  -->
 	<target name="all" depends="dist,docs">
 		<echo message="All the source code has been compiled and the javadocs were created." />
@@ -164,7 +163,6 @@
 			<classpath refid="compile.classpath"/>
 		</javac>
 	</target>
-
 
 	<target name="tc" depends="tidy,dist" description="Clean up everything before compiling"/>
 
@@ -241,8 +239,7 @@
 		</delete>
 		<delete includeemptydirs="true">
 		    <fileset dir="${y.data}" defaultexcludes="false">
-		       <include name="**/crawl-*/**" />
-		       <include name="**/lucene-index*/**" />
+ 				<include name="ch02/crawl-*/**" />
 		    	<include name="ch03/dataset_script_2.ser" />
 		    	<include name="ch05/MyNeuralClassifier" />
 		    </fileset>
@@ -314,8 +311,8 @@
       errorProperty="test.failed"
       failureProperty="test.failed"
       reloading="false">
-		<jvmarg value="-Xms1024M"/>
-		<jvmarg value="-Xmx1024M"/>
+		<jvmarg value="-Xms2048M"/>
+		<jvmarg value="-Xmx2048M"/>
 		<jvmarg value="-Dyooreeka.home=${y.root}"/>
 		<sysproperty key="data.dir" file="${y.data}"/>
 		<sysproperty key="temp.dir" file="${y.build.temp}"/>

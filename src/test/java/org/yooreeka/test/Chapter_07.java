@@ -49,18 +49,20 @@ import org.yooreeka.util.P;
  */
 public class Chapter_07 {
 
-	private long t=0;
+	private long t;
 
-	String yHome = YooreekaConfigurator.getHome();
-
-	String rootDir = YooreekaConfigurator.getProperty(YooreekaConfigurator.CRAWL_DATA_DIR);
-
+	private String yHome;
+	private String rootDir;
 
 	/**
 	 * 
 	 */
 	public Chapter_07() {
-		// TODO Auto-generated constructor stub
+		
+		t = System.currentTimeMillis();
+		
+		yHome = YooreekaConfigurator.getHome();
+		rootDir = YooreekaConfigurator.getProperty(YooreekaConfigurator.CRAWL_DATA_DIR);
 	}
 
 	/**
@@ -69,12 +71,8 @@ public class Chapter_07 {
 	 */
 	public void run() throws IOException {
 
-		init();
-		
-		t = System.currentTimeMillis();
-		
 		// Crawling for News
-		script_07_01("http://www.marmanis.com/");
+		script_07_01("https://marmanis.com/");
 		
 		//  Run indexing and search on the default pages(no crawling) 
 		script_07_02();
@@ -86,10 +84,6 @@ public class Chapter_07 {
 		script_07_04();
 
 		P.timePassedSince(t);
-	}
-
-	private void init() {
-		//
 	}
 	
 	private void script_07_01(String seedUrl) {

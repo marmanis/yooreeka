@@ -57,66 +57,65 @@ public class MySearcher {
 
 	private File indexFile;
 	private NaiveBayes learner = null;
-	
+
 	/**
-	 * The weights for the composite relevance score.
-	 * The values for these will depend on the formula and your normalization
+	 * The weights for the composite relevance score. The values for these will
+	 * depend on the formula and your normalization
 	 */
-	private double[] w = new double[3];
-	
+	private double[] searchWeights = new double[3];
+
 	private boolean verbose = true;
 	private boolean showTitle = false;
-	
 
 	public MySearcher(String indexDir) {
 		indexFile = new File(indexDir);
+
+		this.setTfidfWeight(0.05);
+		this.setPageRankWeight(0.45);
+		this.setPersonalWeight(0.5);
 	}
 
 	public boolean isVerbose() {
 		return verbose;
 	}
 
-	private void printResults(String header, String query,
-			SearchResult[] values, boolean showDocTitle) {
+	private void printResults(String header, String query, SearchResult[] values, boolean showDocTitle) {
 
-		if (verbose) {
-			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter(sw);
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
 
-			boolean printEntrySeparator = false;
-			if (showDocTitle) { // multiple lines per entry
-				printEntrySeparator = true;
-			}
-
-			pw.print("\n");
-			pw.println(header);
-			if (query != null) {
-				pw.println(query);
-			}
-			pw.print("\n");
-			for (int i = 0, n = values.length; i < n; i++) {
-				if (values[i] != null) {
-					if (showDocTitle) {
-						pw.printf("Document Title: %s\n", values[i].getTitle());
-					}
-					pw.printf(
-							"Document URL: %-46s  -->  Relevance Score: %.15f\n",
-							values[i].getUrl(), values[i].getScore());
-					if (printEntrySeparator) {
-						pw.printf(P.HLINE);
-						pw.printf("\n");
-					}
-				} else {
-					pw.printf("Document: %s\n",
-							"Not available, values[i] is NULL");
-				}
-			}
-			if (!printEntrySeparator) {
-				pw.print(P.HLINE);
-			}
-
-			P.println(sw.toString());
+		boolean printEntrySeparator = false;
+		if (showDocTitle) { // multiple lines per entry
+			printEntrySeparator = true;
 		}
+
+		pw.print("\n");
+		pw.println(header);
+		if (query != null) {
+			pw.println(query);
+		}
+		pw.print("\n");
+		for (int i = 0, n = values.length; i < n; i++) {
+			if (values[i] != null) {
+				if (showDocTitle) {
+					pw.printf("Document Title: %s\n", values[i].getTitle());
+				}
+				pw.printf("Document URL: %-46s  -->  Relevance Score: %.15f\n", values[i].getUrl(),
+						values[i].getScore());
+				if (printEntrySeparator) {
+					pw.printf(P.HLINE);
+					pw.printf("\n");
+				}
+			} else {
+				pw.printf("Document: %s\n", "Not available, values[i] is NULL");
+			}
+		}
+		if (!printEntrySeparator) {
+			pw.print(P.HLINE);
+		}
+
+		P.println(sw.toString());
+
 	}
 
 	public SearchResult[] search(String query, int numberOfMatches) {
@@ -148,8 +147,7 @@ public class MySearcher {
 
 		try {
 
-			q = queryParserHelper.parse(query,
-					LuceneIndexBuilder.INDEX_FIELD_CONTENT);
+			q = queryParserHelper.parse(query, LuceneIndexBuilder.INDEX_FIELD_CONTENT);
 
 		} catch (QueryNodeException e) {
 			e.printStackTrace();
@@ -165,8 +163,7 @@ public class MySearcher {
 
 				Document hitDoc = is.doc(hits.scoreDocs[i].doc);
 
-				docResults[i] = new SearchResult(hitDoc.get("docid"),
-						hitDoc.get("doctype"), hitDoc.get("title"),
+				docResults[i] = new SearchResult(hitDoc.get("docid"), hitDoc.get("doctype"), hitDoc.get("title"),
 						hitDoc.get("url"), hits.scoreDocs[i].score);
 			}
 
@@ -179,7 +176,7 @@ public class MySearcher {
 			e.printStackTrace();
 		}
 
-		String header = P.HLINE+"\nSearch results using Lucene index scores:";
+		String header = P.HLINE + "\nSearch results using Lucene index scores:";
 
 		printResults(header, "Query: " + query, docResults, showTitle);
 
@@ -187,8 +184,8 @@ public class MySearcher {
 	}
 
 	/**
-	 * A method that combines the score of an index based search and the score
-	 * of the PageRank algorithm to achieve better relevance results.
+	 * A method that combines the score of an index based search and the score of
+	 * the PageRank algorithm to achieve better relevance results.
 	 */
 	public SearchResult[] search(String query, int numberOfMatches, Rank pR) {
 
@@ -201,9 +198,9 @@ public class MySearcher {
 		/**
 		 * TODO: 2.3 -- The PageRank scaling factor m (Book Section 2.3)
 		 * 
-		 * When the number of pages in your graph are few, the PageRank values
-		 * need some boosting. As the number of pages increases m approaches the
-		 * value 1 quickly because 1/n goes to zero.
+		 * When the number of pages in your graph are few, the PageRank values need some
+		 * boosting. As the number of pages increases m approaches the value 1 quickly
+		 * because 1/n goes to zero.
 		 */
 		double m = 1 - (double) 1 / n;
 
@@ -213,7 +210,7 @@ public class MySearcher {
 		while (i < docResults.length && docResults[i] != null) {
 
 			url = docResults[i].getUrl();
-			
+
 			double hScore = docResults[i].getScore() * Math.pow(pR.getPageRank(url), m);
 
 			// Update the score of the results
@@ -233,28 +230,24 @@ public class MySearcher {
 	}
 
 	/**
-	 * A method that combines the score of an index based search and the score
-	 * of the PageRank algorithm to achieve better relevance results, while
-	 * personalizing the result set based on past user clicks on the same or
-	 * similar queries.
+	 * A method that combines the score of an index based search and the score of
+	 * the PageRank algorithm to achieve better relevance results, while
+	 * personalizing the result set based on past user clicks on the same or similar
+	 * queries.
 	 * 
 	 * NOTE: You would typically refactor all these search methods in order to
-	 * consider it production quality code. Here, we repeat the code of the
-	 * previous method, so that it is easier to read.
+	 * consider it production quality code. Here, we repeat the code of the previous
+	 * method, so that it is easier to read.
 	 * 
-	 * @param userID
-	 *            identifies the person who issues the query
-	 * @param query
-	 *            is the whole query
-	 * @param numberOfMatches
-	 *            defines the maximim number of desired matches
-	 * @param pR
-	 *            the PageRank vector
+	 * @param userID          identifies the person who issues the query
+	 * @param query           is the whole query
+	 * @param numberOfMatches defines the maximim number of desired matches
+	 * @param pR              the PageRank vector
 	 * @return the result set
 	 */
 	public SearchResult[] search(UserQuery uQuery, int numberOfMatches, Rank pR) {
 
-		SearchResult[] docResults = search(uQuery.getQueryString(),	numberOfMatches);
+		SearchResult[] docResults = search(uQuery.getQueryString(), numberOfMatches);
 
 		int docN = docResults.length;
 
@@ -265,82 +258,78 @@ public class MySearcher {
 			for (int i = 0; i < loop; i++) {
 
 				/**
-				 * TODO: 2.6 -- Weighing the scores to meet your needs (Book
-				 * Section 2.4.2)
+				 * TODO: 2.6 -- Weighing the scores to meet your needs (Book Section 2.4.2)
 				 * 
-				 * At this point, we have three scores of relevance. The
-				 * relevance score that is based on the index search, the
-				 * PageRank score, and the score that is based on the user's
-				 * prior selections. There is no golden formula for everybody.
-				 * Below we are selecting a formula that we think would make
-				 * sense for most people.
+				 * At this point, we have three scores of relevance. The relevance score that is
+				 * based on the index search, the PageRank score, and the score that is based on
+				 * the user's prior selections. There is no golden formula for everybody. Below
+				 * we are selecting a formula that we think would make sense for most people.
 				 * 
-				 * Feel free to change the formula, experiment with different
-				 * weighting factors, to find out the choices that are most
-				 * appropriate for your own site.
+				 * Feel free to change the formula, experiment with different weighting factors,
+				 * to find out the choices that are most appropriate for your own site.
 				 * 
 				 */
-				
+
 				String docResultURL = docResults[i].getUrl();
-				
+
 				UserClick uClick = new UserClick(uQuery, docResultURL);
 
 				double indexScore = docResults[i].getScore();
 
-				
 				double pageRankScore = pR.getPageRank(docResultURL);
 
 				double userClickScore = 0.0;
-				
+
 				for (Concept bC : learner.getTset().getConceptSet()) {
-					
-					String bCN =  bC.getName();
-					
-					//DEBUG
-//					P.println("bCN: "+bCN);
-//					P.println(docResultURL);
-					
+
+					String bCN = bC.getName();
+
+					// DEBUG
+					// P.print("bCN: "+bCN+", ");
+					// P.print(docResultURL+", ");
+
 					if (bCN.equalsIgnoreCase(docResultURL)) {
-						
+
 						userClickScore = learner.getProbability(bC, uClick);
+						// DEBUG
+						// P.println("Probability: "+userClickScore);
 					}
 				}
 
 				// Create the final score
 				double hScore;
-		
-				hScore = w[0]*indexScore + 
-						 w[1]*pageRankScore + 
-						 w[2]*userClickScore;
+
+				hScore = searchWeights[0] * indexScore + searchWeights[1] * pageRankScore
+						+ searchWeights[2] * userClickScore;
 
 				// Update the score of the results
 				docResults[i].setScore(hScore);
 
 				/*
-				 * Uncomment this block to show the various scores in the
-				 * BeanShell
-				 */ 
-				 StringBuilder b = new StringBuilder();
-				  
-				 b.append("Document      : ").append(docResultURL).append("\n");
-				 b.append("UserClick URL :").append(uClick.getUrl()).append("\n"); b.append("\n");
-				 b.append("Index score: ").append(indexScore).append(", ");
-				 b.append("PageRank score: ").append(pageRankScore).append(", ");
-				 b.append("User click score: ").append(userClickScore);
-				 
-				 P.hline();
-				 P.println(b.toString());
-				 P.hline();
+				 * Uncomment this block to show the various scores in the BeanShell
+				 */
+				if (verbose) {
+					StringBuilder b = new StringBuilder();
+
+					b.append("Document      : ").append(docResultURL).append("\n");
+					b.append("UserClick URL :").append(uClick.getUrl()).append("\n");
+					b.append("\n");
+					b.append("Index score: ").append(indexScore).append(", ");
+					b.append("PageRank score: ").append(pageRankScore).append(", ");
+					b.append("User click score: ").append(userClickScore);
+
+					P.hline();
+					P.println(b.toString());
+					P.hline();
+				}
 			}
 		}
 
 		// Sort array of results
 		SearchResult.sortByScore(docResults);
 
-		String header = "Search results using combined Lucene scores, "
-				+ "page rank scores and user clicks:";
-		String query = "Query: user=" + uQuery.getUid() + ", query text="
-				+ uQuery.getQueryString();
+		String header = "Search results using combined Lucene scores, " + "page rank scores and user clicks:";
+		String query = "Query: user=" + uQuery.getUid() + ", query text=" + uQuery.getQueryString();
 
 		printResults(header, query, docResults, showTitle);
 
@@ -351,21 +340,20 @@ public class MySearcher {
 	 * @return the w
 	 */
 	public double[] getW() {
-		return w;
+		return searchWeights;
 	}
 
 	public void setTfidfWeight(double v) {
-		w[0] = v;
-	}
-	
-	public void setPageRankWeight(double v) {
-		w[1] = v;
-	}
-	
-	public void setPersonalWeight(double v) {
-		w[2] = v;
+		searchWeights[0] = v;
 	}
 
+	public void setPageRankWeight(double v) {
+		searchWeights[1] = v;
+	}
+
+	public void setPersonalWeight(double v) {
+		searchWeights[2] = v;
+	}
 
 	public void setUserLearner(NaiveBayes nb) {
 		learner = nb;

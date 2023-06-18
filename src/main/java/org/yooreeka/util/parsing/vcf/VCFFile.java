@@ -37,12 +37,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import org.yooreeka.examples.fraud.data.Transaction;
 import org.yooreeka.util.P;
-import org.yooreeka.util.parsing.common.DataField;
-import org.yooreeka.util.parsing.common.DataType;
-import org.yooreeka.util.parsing.csv.CSVFile;
-import org.yooreeka.util.parsing.csv.CSVSchema;
 
 import jakarta.mail.MessagingException;
 
@@ -172,7 +167,6 @@ public class VCFFile {
 				
 				} else {
 				
-					
 					writer.write(b.toString());
 					writer.write("\n");
 				}
@@ -202,6 +196,7 @@ public class VCFFile {
 		
 	}
 
+	@SuppressWarnings("unused")
 	private void printContacts(VCFDocument d) {
 		int nullCount=0;
 		

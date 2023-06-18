@@ -49,7 +49,6 @@ import javax.net.ssl.SSLContext;
 
 import org.apache.hc.client5.http.ContextBuilder;
 import org.apache.hc.client5.http.DnsResolver;
-import org.apache.hc.client5.http.HttpRoute;
 import org.apache.hc.client5.http.SystemDefaultDnsResolver;
 import org.apache.hc.client5.http.auth.CredentialsProvider;
 import org.apache.hc.client5.http.auth.StandardAuthScheme;
@@ -71,7 +70,6 @@ import org.apache.hc.client5.http.socket.PlainConnectionSocketFactory;
 import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.HttpEntity;
-import org.apache.hc.core5.http.HttpHost;
 import org.apache.hc.core5.http.config.Registry;
 import org.apache.hc.core5.http.config.RegistryBuilder;
 import org.apache.hc.core5.http.io.SocketConfig;
@@ -220,7 +218,7 @@ public class HTTPTransport implements Transport {
         // that can be kept in the pool or leased by the connection manager.
         connManager.setMaxTotal(100);
         connManager.setDefaultMaxPerRoute(10);
-        connManager.setMaxPerRoute(new HttpRoute(new HttpHost("somehost", 80)), 20);
+//        connManager.setMaxPerRoute(new HttpRoute(new HttpHost("somehost", 80)), 20);
         
         
         // Use custom cookie store if necessary.
@@ -341,7 +339,6 @@ public class HTTPTransport implements Transport {
                 .setConnectionManager(connManager)
                 .setDefaultCookieStore(cookieStore)
                 .setDefaultCredentialsProvider(credentialsProvider)
-                .setProxy(new HttpHost("myproxy", 8080))
                 .setDefaultRequestConfig(defaultRequestConfig)
                 .build()) {
             final HttpGet httpget = new HttpGet(documentUrl);

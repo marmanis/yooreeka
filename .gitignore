@@ -5,3 +5,7 @@
 *.class
 
 build/dist/yooreeka-2.2.jar
+
+build/ant.test.log
+
+deploy/lib/yooreeka-2.2.jar

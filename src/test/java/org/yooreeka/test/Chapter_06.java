@@ -16,7 +16,7 @@ import org.yooreeka.util.P;
 public class Chapter_06 {
 
 	private UserDataset ds;
-	private long t=0;
+	private long t;
 	
 	public Chapter_06() {
 		

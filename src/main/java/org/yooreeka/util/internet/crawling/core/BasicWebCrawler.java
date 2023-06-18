@@ -201,15 +201,21 @@ public class BasicWebCrawler {
 						
 						FetchedDocument doc = t.fetch(url,groupId,docSequenceInGroup);
 					
-						if (doc.getContentType().endsWith(ProcessedDocument.TYPE_DIRECTORY)) {
-						
-							log.warning("Not saving information about directory: "+doc.getDocumentURL());
-
+						if (doc != null) { 
+							if (doc.getContentType().endsWith(ProcessedDocument.TYPE_DIRECTORY)) {
+							
+								log.warning("Not saving information about directory: "+doc.getDocumentURL());
+	
+							} else {
+	
+								String documentId = DocumentIdUtils.getDocumentId(groupId, docSequenceInGroup);
+	                            doc.setDocumentId(documentId);
+	                            fetchedDocsDB.saveDocument(doc);
+							}
 						} else {
-
-							String documentId = DocumentIdUtils.getDocumentId(groupId, docSequenceInGroup);
-                            doc.setDocumentId(documentId);
-                            fetchedDocsDB.saveDocument(doc);
+							P.hline();
+							P.error("Attempt to fetch: "+url+" FAILED because doc was NULL");
+							P.hline();
 						}
 						
 						if (t.pauseRequired()) {
@@ -243,7 +249,7 @@ public class BasicWebCrawler {
 	}
 
 	private Transport getTransport(String protocol) {
-		if ("http".equalsIgnoreCase(protocol)) {
+		if ("http".equalsIgnoreCase(protocol) || "https".equalsIgnoreCase(protocol)) {
 			return new HTTPTransport();
 		} else if ("file".equalsIgnoreCase(protocol)) {
 			return new FileTransport();
@@ -344,7 +350,7 @@ public class BasicWebCrawler {
 						 
 						 parsedDocsService.saveDocument(parsedDoc);
 						 
-						 crawlData.getKnownUrlsDB().updateUrlStatus(url,	KnownUrlEntry.STATUS_PROCESSED_SUCCESS);
+						 crawlData.getKnownUrlsDB().updateUrlStatus(url, KnownUrlEntry.STATUS_PROCESSED_SUCCESS);
 						}
 					}
 				}

@@ -54,11 +54,13 @@ import org.yooreeka.algos.reco.collab.recommender.Delphi;
 import org.yooreeka.algos.reco.content.digg.DiggService;
 import org.yooreeka.algos.reco.content.digg.DiggStoryItem;
 import org.yooreeka.algos.reco.content.digg.DiggUser;
+import org.yooreeka.util.P;
 
 public class DiggData {
 
 	public static List<DiggUser> allUsers = new ArrayList<DiggUser>();
 	public static List<DiggStoryItem> allStories = new ArrayList<DiggStoryItem>();
+	private static boolean verbose=false;
 
 	private static final String[] CSV_ITEM_HEADERS = new String[] { "id",
 			"username", "title", "category", "topic", "description", "link",
@@ -122,7 +124,8 @@ public class DiggData {
 		}
 
 		for (DiggStoryItem item : allStories) {
-			System.out.println("Description:" + item.getDescription());
+			if (verbose)
+				System.out.println("Description:" + item.getDescription());
 			ds.addItem(item);
 		}
 
@@ -212,9 +215,9 @@ public class DiggData {
 			}
 		}
 
-		System.out.println("From file: " + filename);
-		System.out.println("Loaded " + allUsers.size() + " users.");
-		System.out.println("Loaded " + allStories.size() + " stories (items).");
+		P.println("DiggData.loadData from file: " + filename);
+		P.println("DiggData.loadData loaded " + allUsers.size() + " users.");
+		P.println("DiggData.loadData loaded " + allStories.size() + " stories (items).");
 
 		return DiggData.createDataset();
 	}
@@ -262,18 +265,19 @@ public class DiggData {
 					allStories.add(i);
 					allKnownStories.add(i.getId());
 				} else {
-					System.out.println("Duplicate story: id=" + i.getId()
-							+ ", name=" + i.getName());
+					if (verbose)
+						P.println("Duplicate story: id=" + i.getId() + ", name=" + i.getName());
 				}
 				// adding item content to the user
 				user.addUserContent(i.getItemContent());
 			}
 		}
-		System.out.println("From Digg:");
-		System.out.println("Loaded " + allUsers.size() + " users.");
-		System.out.println("Loaded " + allStories.size() + " stories (items).");
+		P.println("DiggData.loadDataFromDigg loaded " + allUsers.size() + " users.");
+		P.println("DiggData.loadDataFromDigg loaded " + allStories.size() + " stories (items).");
 
 		DiggData.saveData(filename);
+		P.println("DiggData.loadDataFromDigg saved to: "+filename);
+
 		return DiggData.createDataset();
 	}
 
@@ -343,17 +347,16 @@ public class DiggData {
 			}
 		}
 
-		System.out.println("Saved data into file: " + filename);
-		System.out.println("saved " + allUsers.size() + " users.");
-		System.out.println("saved " + allStories.size() + " stories (items).");
+		P.println("Saved data into file: " + filename);
+		P.println("saved " + allUsers.size() + " users.");
+		P.println("saved " + allStories.size() + " stories (items).");
 
 	}
 
-	public static void showUsers() {
-		System.out.println("All Users:");
+	public static void printUsers() {
+		P.println("All Users:");
 		for (DiggUser user : allUsers) {
-			System.out.println("User id:" + user.getId() + ", name: "
-					+ user.getName());
+			P.println("User id:" + user.getId() + ", name: " + user.getName());
 		}
 
 	}

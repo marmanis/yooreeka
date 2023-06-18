@@ -263,6 +263,7 @@ public class KnownUrlDB {
 				KnownUrlEntry.STATUS_PROCESSED_ERROR.equalsIgnoreCase(status)) {
 			
 			KnownUrlEntry r = unprocessedURLs.remove(url);
+			
 			if (r != null) {
 				r.setStatus(status);
 			} else {
