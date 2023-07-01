@@ -27,7 +27,7 @@
 
 	<property environment="env"/>
 
-	<!-- list of all jars that are currently used in iweb2 app -->
+	<!-- list of all jars that are currently used in Yooreeka -->
 	<patternset id="thirdparty.jars">
 		<include name="bsh-2.0b4.jar"/>
 		<include name="commons-cli-1.2.jar"/>
@@ -325,9 +325,11 @@
 			<path refid="compile.classpath"/>
 		</classpath>
 		<formatter type="brief" usefile="false"/>
+		
 		<batchtest if="test">
-			<fileset dir="${y.build.bytecode}" includes="org/yooreeka/test/beanshellscripts/**/${test}.class"/>
+			<fileset dir="${y.build.bytecode}" includes="org/yooreeka/test/beanshellscripts/**/${test}.class" />
 		</batchtest>
+		
 		<batchtest unless="test">
 			<fileset dir="${y.build.bytecode}" includes="org/yooreeka/test/beanshellscripts/**/*Test.class"/>
 		</batchtest>

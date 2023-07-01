@@ -87,6 +87,6 @@ ECHO:
 ECHO ==================================================================================
 ECHO:
 ECHO To run the build file go to %YOOREEKA_HOME%\build and run: ant
-ECHO to run the tests run: ant tests
+ECHO to run the tests run: ant test
 ECHO:
 ECHO ==================================================================================
