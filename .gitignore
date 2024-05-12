@@ -13,3 +13,7 @@ deploy/lib/yooreeka-2.2.jar
 .idea/
 
 yooreeka.iml
+
+build/dist/
+
+deploy/lib/yooreeka-2.3.jar
