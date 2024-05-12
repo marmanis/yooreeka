@@ -30,6 +30,7 @@
  */
 package org.yooreeka.util.parsing.vcf;
 
+import org.yooreeka.util.P;
 import org.yooreeka.util.parsing.common.DataEntry;
 
 /**
@@ -66,12 +67,13 @@ public class VCFEntry extends DataEntry {
 	 *   20 --> Organization    ("ORG;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:)
 	 *   21 --> Note            (NOTE:)
 	 *   22 --> Telephone Pager (TEL;PAGER:)
-	 *   23 --> Telephone       (TEL;:)	 
+	 *   23 --> Telephone       (TEL;:)
+	 *   24 --> Birthday       (BDAY:)
 	 *   
 	 *   Clearly not the best way to go about this but it works for now
 	 *   TODO: Create a cleaner implementation
 	 */
-	private String[] data = new String[24];
+	private String[] data = new String[25];
 	
 	private long id;
 
@@ -87,7 +89,7 @@ public class VCFEntry extends DataEntry {
 
 	public void store(VCFToken v) {
 		
-		// P.println("Storing "+v.toString().trim());
+		P.println("Storing "+v.toString().trim());
 		data[v.getIndex()] = v.getVal();		
 	}
 	
@@ -286,7 +288,14 @@ public class VCFEntry extends DataEntry {
 			vcfToken.setToken(true);
 			vcfToken.setIndex(23);
 			vcfToken.setVal(s.substring("TEL;:".length()).trim());
-			
+
+		} else if (s.startsWith("BDAY:")) {
+			vcfToken.setEntry(s);
+			vcfToken.setToken(true);
+			vcfToken.setIndex(24);
+			vcfToken.setVal(s.substring("BDAY:".length()).trim());
+
+
 		} else if (s.startsWith("END:VCARD")) {
 			vcfToken.setEntry(s);
 			vcfToken.setToken(true);

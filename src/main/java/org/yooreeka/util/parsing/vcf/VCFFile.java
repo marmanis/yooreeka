@@ -187,13 +187,18 @@ public class VCFFile {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
-		VCFFile f = new VCFFile(args[0]);
+
+		// VCFFile f = new VCFFile(args[0]);
+
+		String file2parse="C:\\Users\\micro\\Downloads\\Contacts.vcf";
+		VCFFile f = new VCFFile(file2parse);
 
 		VCFDocument d = f.read();
 		// f.printContacts(d);
 		
-		f.saveAsCsv(d, args[0]+".csv");
-		
+		// f.saveAsCsv(d, args[0]+".csv");
+		f.saveAsCsv(d, file2parse+".csv");
+
 	}
 
 	@SuppressWarnings("unused")
@@ -206,7 +211,7 @@ public class VCFFile {
 			b.append(e.getId()).append("]: \n");
 			
 			int nullValueCount=0;
-			for(int i=1; i<24; i++) {
+			for(int i=1; i<25; i++) {
 				if (e.getData()[i] != null) {
 					b.append("  > ");
 					b.append(d.getVCFEntryLabel(i)).append(": ");

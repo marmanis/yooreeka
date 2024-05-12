@@ -32,7 +32,6 @@ package org.yooreeka.test.beanshellscripts;
 
 import org.yooreeka.algos.reco.collab.data.BaseDataset;
 import org.yooreeka.algos.reco.collab.data.ContentItem;
-import org.yooreeka.algos.reco.collab.data.DiggData;
 import org.yooreeka.algos.reco.collab.data.MovieLensData;
 import org.yooreeka.algos.reco.collab.data.MovieLensDataset;
 import org.yooreeka.algos.reco.collab.data.MusicData;
@@ -43,7 +42,6 @@ import org.yooreeka.algos.reco.collab.data.NewsUser;
 import org.yooreeka.algos.reco.collab.evaluation.RMSEEstimator;
 import org.yooreeka.algos.reco.collab.model.RecommendationType;
 import org.yooreeka.algos.reco.collab.recommender.Delphi;
-import org.yooreeka.algos.reco.collab.recommender.DiggDelphi;
 import org.yooreeka.algos.reco.collab.recommender.MovieLensDelphi;
 import org.yooreeka.config.YooreekaConfigurator;
 import org.yooreeka.util.P;
@@ -61,7 +59,13 @@ public class Ch3BeanShellScriptsTest extends TestCase {
 
 		t = System.currentTimeMillis();
 		yHome = YooreekaConfigurator.getHome();
+		
+/**
+  * All Digg related classes and tests are deprecated
+  * 
+
 		DiggData.loadData(yHome + "/data/ch03/digg_stories.csv");
+  */
 
 		// The static method createDataset will create random ratings
 		// for all the users, pick 75% of all the songs and assign ratings.
@@ -70,17 +74,16 @@ public class Ch3BeanShellScriptsTest extends TestCase {
 		// Users whose name starts from E to Z should have ratings between 1 and 3
 		//
 		musicDataset = MusicData.createDataset();
-
 	}
 
 	public void test_evalCh3Scripts() throws Exception {
 		// ScriptEvalUtils.runScripts("ch3");
-		test_Ch3_0();
+		test_Ch3_0();  // Digg related and deprecated
 		test_Ch3_1();
 		test_Ch3_2();
 		test_Ch3_3();
 		test_Ch3_4();
-		test_Ch3_5();
+		test_Ch3_5();  // Digg related and deprecated
 		test_Ch3_6();
 		test_Ch3_7();
 
@@ -88,6 +91,10 @@ public class Ch3BeanShellScriptsTest extends TestCase {
 	}
 
 	public void test_Ch3_0() {
+
+/**
+  * All Digg related classes and tests are deprecated
+  * 
 
 		BaseDataset ds = DiggData.createDataset();
 
@@ -108,6 +115,7 @@ public class Ch3BeanShellScriptsTest extends TestCase {
 		Delphi delphiUIC = new Delphi(ds, RecommendationType.USER_ITEM_CONTENT_BASED);
 		delphiUIC.setVerbose(true);
 		delphiUIC.recommend(user);
+*/
 	}
 
 	public void test_Ch3_1() {
@@ -262,6 +270,11 @@ public class Ch3BeanShellScriptsTest extends TestCase {
 	}
 
 	public void test_Ch3_5() {
+		
+/**
+  * All Digg related classes and tests are deprecated
+  * 
+		
 		// Load data from Digg and save them in a file
 		// BaseDataset ds =
 		// DiggData.loadDataFromDigg(yHome+"/data/ch03/digg_stories.csv");
@@ -289,6 +302,7 @@ public class Ch3BeanShellScriptsTest extends TestCase {
 		// org.yooreeka.algos.reco.collab.model.User u3 = ds.findUserByName("amipress");
 		// delphi.findSimilarUsers(u3);
 		// delphi.recommend(u3);
+*/
 	}
 
 	public void test_Ch3_6() {

@@ -39,8 +39,6 @@ import org.yooreeka.algos.clustering.model.DataPoint;
 import org.yooreeka.algos.clustering.model.Dendrogram;
 import org.yooreeka.algos.clustering.partitional.KMeansAlgorithm;
 import org.yooreeka.algos.clustering.rock.ROCKAlgorithm;
-import org.yooreeka.algos.clustering.test.MyDiggSpaceData;
-import org.yooreeka.algos.clustering.test.MyDiggSpaceDataset;
 import org.yooreeka.algos.clustering.test.SFData;
 import org.yooreeka.algos.clustering.test.SFDataset;
 import org.yooreeka.algos.clustering.utils.SortedArrayClustering;
@@ -51,10 +49,8 @@ import junit.framework.TestCase;
 
 public class Ch4BeanShellScriptsTest extends TestCase {
 
-	private MyDiggSpaceDataset diggDataset;
 	private SFDataset employeeData;
     private DataPoint[] employeeDataPoints;
-    private DataPoint[] diggDataPoints;
 	private long t;
     
 	public Ch4BeanShellScriptsTest(String name) {
@@ -62,11 +58,9 @@ public class Ch4BeanShellScriptsTest extends TestCase {
         
         t= System.currentTimeMillis();
         
-		diggDataset = MyDiggSpaceData.createDataset(15);
-		employeeData = SFData.createDataset();
+        employeeData = SFData.createDataset();
 
-		diggDataPoints = diggDataset.getData();
-		employeeDataPoints = employeeData.getData();
+        employeeDataPoints = employeeData.getData();
     }
     
     public void test_evalCh4Scripts() throws Exception {
@@ -121,7 +115,7 @@ public class Ch4BeanShellScriptsTest extends TestCase {
 
 		CosineDistance cosD = new CosineDistance();
 
-		DBSCANAlgorithm dbscan = new DBSCANAlgorithm(diggDataPoints, cosD, 0.8, 2, true);
+		DBSCANAlgorithm dbscan = new DBSCANAlgorithm(employeeDataPoints, cosD, 0.8, 2, true);
 
 		dbscan.printResults(dbscan.cluster());
 
@@ -129,7 +123,7 @@ public class Ch4BeanShellScriptsTest extends TestCase {
 	
 	public void test_Ch4_5() {
 
-		ROCKAlgorithm rock = new ROCKAlgorithm(diggDataPoints, 5, 0.2);
+		ROCKAlgorithm rock = new ROCKAlgorithm(employeeDataPoints, 5, 0.2);
 
 		Dendrogram dnd = rock.cluster();
 
