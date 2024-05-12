@@ -104,7 +104,7 @@ public class VCFFile {
 				b.append(e.getId()).append(", \"");
 				
 				int nullValueCount=0;
-				for(int i=1; i<24; i++) {
+				for(int i=1; i<VCFEntry.NUMBER_OF_ATTRIBUTES; i++) {
 					if (e.getData()[i] != null) {
 						// b.append("  > ");
 						// b.append(d.getVCFEntryLabel(i)).append(": ");
@@ -211,7 +211,7 @@ public class VCFFile {
 			b.append(e.getId()).append("]: \n");
 			
 			int nullValueCount=0;
-			for(int i=1; i<25; i++) {
+			for(int i=1; i<VCFEntry.NUMBER_OF_ATTRIBUTES; i++) {
 				if (e.getData()[i] != null) {
 					b.append("  > ");
 					b.append(d.getVCFEntryLabel(i)).append(": ");

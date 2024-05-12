@@ -91,6 +91,8 @@ public class VCFDocument extends ProcessedDocument {
 				 break;
 		case 23: label = "Telephone (Unspecified)";
 				 break;
+		case 24: label = "Birthday";
+				 break;
 		default: 
 			throw new IllegalArgumentException("Unknown semantics for index: "+i);
 		}

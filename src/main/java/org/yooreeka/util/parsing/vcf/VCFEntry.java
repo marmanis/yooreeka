@@ -73,7 +73,9 @@ public class VCFEntry extends DataEntry {
 	 *   Clearly not the best way to go about this but it works for now
 	 *   TODO: Create a cleaner implementation
 	 */
-	private String[] data = new String[25];
+	final public static int NUMBER_OF_ATTRIBUTES = 25;
+	
+	private String[] data = new String[NUMBER_OF_ATTRIBUTES];
 	
 	private long id;
 
