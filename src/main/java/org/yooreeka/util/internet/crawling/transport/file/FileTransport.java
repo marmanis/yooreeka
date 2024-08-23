@@ -184,7 +184,8 @@ public class FileTransport implements Transport {
 				in = new BufferedInputStream(new FileInputStream(f));
 			} catch (Exception eX) {
 				P.println(eX.getMessage());
-				fixDud(in);
+				// TODO HttpTransport issue
+				// fixDud(in);
 			} 
 						
 			if (in != null) {

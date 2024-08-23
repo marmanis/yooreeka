@@ -43,8 +43,6 @@
 	<classpathentry kind="lib" path="lib/serializer.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="lib/super-csv-2.1.0.jar"/>
-	<classpathentry kind="lib" path="lib/tika-app-1.11.jar"/>
-	<classpathentry kind="lib" path="lib/tika-server-1.11.jar"/>
 	<classpathentry kind="lib" path="lib/tm-extractors-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="lib/crawler4j-libs/apache-mime4j-core-0.7.jar"/>
@@ -72,5 +70,7 @@
 	<classpathentry kind="lib" path="lib/httpcore5-h2-5.2.jar"/>
 	<classpathentry kind="lib" path="lib/jakarta.mail-2.0.2.jar"/>
 	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
+	<classpathentry kind="lib" path="C:/Code/GitHub/yooreeka/lib/tika-app-2.9.2.jar"/>
+	<classpathentry kind="lib" path="C:/Code/GitHub/yooreeka/lib/tika-server-standard-2.9.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
