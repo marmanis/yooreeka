@@ -51,13 +51,10 @@ public class User implements java.io.Serializable {
 	 * user B.
 	 */
 	public static Integer[] getSharedItems(User x, User y) {
-		List<Integer> sharedItems = new ArrayList<Integer>();
-		for (Rating r : x.getAllRatings()) {
-			if (y.getItemRating(r.getItemId()) != null) {
-				sharedItems.add(r.getItemId());
-			}
-		}
-		return sharedItems.toArray(new Integer[sharedItems.size()]);
+		return x.getAllRatings().stream()
+				.map(Rating::getItemId)
+				.filter(itemId -> y.getItemRating(itemId) != null)
+				.toArray(Integer[]::new);
 	}
 	int id;
 
@@ -101,13 +98,10 @@ public class User implements java.io.Serializable {
 	}
 
 	public double getAverageRating() {
-		double allRatingsSum = 0.0;
-		Collection<Rating> allUserRatings = getAllRatings();
-		for (Rating rating : allUserRatings) {
-			allRatingsSum += rating.getRating();
-		}
-		return allUserRatings.size() > 0 ? allRatingsSum
-				/ allUserRatings.size() : 2.5;
+		return getAllRatings().stream()
+				.mapToInt(Rating::getRating)
+				.average()
+				.orElse(2.5);
 	}
 
 	public int getId() {
@@ -126,17 +120,17 @@ public class User implements java.io.Serializable {
 	 * Utility method to extract array of ratings based on array of item ids.
 	 */
 	public double[] getRatingsForItemList(Integer[] itemIds) {
-		double[] ratings = new double[itemIds.length];
-		for (int i = 0, n = itemIds.length; i < n; i++) {
-			Rating r = getItemRating(itemIds[i]);
-			if (r == null) {
-				throw new IllegalArgumentException(
-						"User doesn't have specified item id (" + "userId="
-								+ getId() + ", itemId=" + itemIds[i]);
-			}
-			ratings[i] = r.getRating();
-		}
-		return ratings;
+		return java.util.Arrays.stream(itemIds)
+				.mapToDouble(itemId -> {
+					Rating r = getItemRating(itemId);
+					if (r == null) {
+						throw new IllegalArgumentException(
+								"User doesn't have specified item id (" + "userId="
+										+ getId() + ", itemId=" + itemId);
+					}
+					return r.getRating();
+				})
+				.toArray();
 	}
 
 	public List<Content> getUserContent() {
@@ -144,14 +138,10 @@ public class User implements java.io.Serializable {
 	}
 
 	public Content getUserContent(String contentId) {
-		Content matchedContent = null;
-		for (Content c : userContent) {
-			if (c.getId().equals(contentId)) {
-				matchedContent = c;
-				break;
-			}
-		}
-		return matchedContent;
+		return userContent.stream()
+				.filter(c -> c.getId().equals(contentId))
+				.findFirst()
+				.orElse(null);
 	}
 
 	public void setRatings(List<Rating> ratings) {

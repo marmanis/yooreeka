@@ -35,7 +35,6 @@ import java.util.Map;
 
 import org.yooreeka.algos.taxis.core.intf.Concept;
 import org.yooreeka.algos.taxis.core.intf.Instance;
-import org.yooreeka.util.C;
 
 public class ConceptMajorityVoter {
 
@@ -52,11 +51,9 @@ public class ConceptMajorityVoter {
 		Integer conceptVoteCount = votes.get(c);
 
 		if (conceptVoteCount == null) {
-			
-			conceptVoteCount = Integer.valueOf(C.ONE_INT); 
-			
+			conceptVoteCount = 1;
 		} else {
-			conceptVoteCount = conceptVoteCount + C.ONE_INT;
+			conceptVoteCount = conceptVoteCount + 1;
 
 		}
 		votes.put(c, conceptVoteCount);

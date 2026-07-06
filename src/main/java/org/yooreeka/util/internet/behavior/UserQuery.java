@@ -55,8 +55,9 @@ public class UserQuery {
 		setUid(uid);
 		setQueryString(q);
 
-		PhraseQuery query = new PhraseQuery();
-		query.add(new Term("content", q));
+		PhraseQuery.Builder builder = new PhraseQuery.Builder();
+		builder.add(new Term("content", q));
+		PhraseQuery query = builder.build();
 
 		Term[] terms = query.getTerms();
 		queryTerms = new String[terms.length];

@@ -9,8 +9,8 @@
  *   (Manning 2009). Although the term "Web" prevailed in the title, in essence, the algorithms 
  *   are valuable in any software application.
  *  
- *   Copyright (c) 2007-2009    Haralambos Marmanis & Dmitry Babenko
- *   Copyright (c) 2009-2014 Marmanis Group LLC and individual contributors as indicated by the @author tags.  
+ *   Copyright (c) 2007-2009 Haralambos Marmanis & Dmitry Babenko
+ *   Copyright (c) 2009-${year} Marmanis Group LLC and individual contributors as indicated by the @author tags.  
  * 
  *   Certain library functions depend on other Open Source software libraries, which are covered 
  *   by different license agreements. See the NOTICE file distributed with this work for additional 
@@ -26,17 +26,16 @@
  *   the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
  *   either express or implied. See the License for the specific language governing permissions and
  *   limitations under the License.
- *
+ *   
  */
 package org.yooreeka.math;
 
 import static org.junit.Assert.fail;
-
 import org.junit.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.yooreeka.util.C;
-
 
 /**
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
@@ -56,7 +55,8 @@ public class FibonacciTest {
 	 */
 	@Test
 	public void testFibonacci() {
-		fail("Not yet implemented"); // TODO
+		Fibonacci fib = new Fibonacci(2, 10);
+		Assert.assertNotNull(fib);
 	}
 
 	/**
@@ -64,7 +64,13 @@ public class FibonacciTest {
 	 */
 	@Test
 	public void testGet() {
-		fail("Not yet implemented"); // TODO
+		Fibonacci fib = new Fibonacci(2, 10);
+		Assert.assertEquals(0, fib.get(0));
+		Assert.assertEquals(1, fib.get(1));
+		Assert.assertEquals(1, fib.get(2));
+		Assert.assertEquals(2, fib.get(3));
+		Assert.assertEquals(3, fib.get(4));
+		Assert.assertEquals(5, fib.get(5));
 	}
 
 	/**
@@ -72,7 +78,8 @@ public class FibonacciTest {
 	 */
 	@Test
 	public void testRecursive() {
-		fail("Not yet implemented"); // TODO
+		Fibonacci fib = new Fibonacci(2, 10);
+		Assert.assertEquals(5, fib.recursive(2, 5));
 	}
 
 	/**

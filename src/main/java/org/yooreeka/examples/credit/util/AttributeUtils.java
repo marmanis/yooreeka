@@ -40,7 +40,7 @@ public class AttributeUtils {
 	private static Map<String, AttributeInfo> attributeInfoMap = new HashMap<String, AttributeInfo>();
 
 	static {
-		AttributeInfo ai = null;
+		AttributeInfo ai;
 
 		ai = new AttributeInfo(CreditInstance.ATTR_NAME_AGE, 1, 10);
 		attributeInfoMap.put(ai.getName(), ai);

@@ -39,7 +39,7 @@ import java.util.Set;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.store.SimpleFSDirectory;
+import org.apache.lucene.store.FSDirectory;
 import org.yooreeka.algos.search.lucene.analyzer.TextDocumentTerms;
 import org.yooreeka.util.internet.crawling.core.CrawlDataProcessor;
 import org.yooreeka.util.parsing.common.ProcessedDocument;
@@ -64,13 +64,14 @@ public class DocRankMatrixBuilder implements CrawlDataProcessor {
 
 		PageRankMatrixH docMatrix = new PageRankMatrixH(allDocs.size());
 
+		var storedFields = idxR.storedFields();
 		for (int i = 0, n = allDocs.size(); i < n; i++) {
 
 			for (int j = 0, k = allDocs.size(); j < k; j++) {
 
 				double similarity = 0.0d;
 
-				Document docX = idxR.document(i);
+				Document docX = storedFields.document(i);
 				String xURL = docX.get("url");
 
 				if (i == j) {
@@ -83,7 +84,7 @@ public class DocRankMatrixBuilder implements CrawlDataProcessor {
 					TextDocumentTerms xDocumentTerms = new TextDocumentTerms(
 							docX.get("content"));
 
-					Document docY = idxR.document(j);
+					Document docY = storedFields.document(j);
 					TextDocumentTerms yDocumentTerms = new TextDocumentTerms(
 							docY.get("content"));
 
@@ -147,9 +148,10 @@ public class DocRankMatrixBuilder implements CrawlDataProcessor {
 	 */
 	private List<Integer> getProcessedDocs(IndexReader idxR) throws IOException {
 		List<Integer> docs = new ArrayList<Integer>();
+		var storedFields = idxR.storedFields();
 		for (int i = 0, n = idxR.maxDoc(); i < n; i++) {
 			if (idxR.hasDeletions() == false) {
-				Document doc = idxR.document(i);
+				Document doc = storedFields.document(i);
 				if (eligibleForDocRank(doc.get("doctype"))) {
 					docs.add(i);
 				}
@@ -178,8 +180,8 @@ public class DocRankMatrixBuilder implements CrawlDataProcessor {
 
 	public void run() {
 		try {
-			DirectoryReader idxR = DirectoryReader.open(new SimpleFSDirectory(
-					new File(indexDir)));
+			DirectoryReader idxR = DirectoryReader.open(FSDirectory.open(
+					new File(indexDir).toPath()));
 			matrixH = buildMatrixH(idxR);
 		} catch (Exception e) {
 			throw new RuntimeException("Error while building matrix: ", e);

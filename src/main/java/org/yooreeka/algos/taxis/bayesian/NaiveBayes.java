@@ -47,7 +47,6 @@ import org.yooreeka.util.P;
 
 /**
  * A basic implementation of the Naive Bayes algorithm.
- * 
  * The emphasis is on teaching the algorithm, not optimizing its performance.
  * 
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
@@ -108,7 +107,7 @@ public class NaiveBayes implements Classifier {
 		this.name = name;
 		tSet = set;
 
-		conceptPriors = new HashMap<Concept, Double>(tSet.getNumberOfConcepts());
+		conceptPriors = new HashMap<>(tSet.getNumberOfConcepts());
 		verbose = false;
 	}
 
@@ -131,13 +130,13 @@ public class NaiveBayes implements Classifier {
 				}
 			}
 
-			conceptPriors.put(c, Double.valueOf(totalConceptCount));
+			conceptPriors.put(c, (double) totalConceptCount);
 		}
 	}
 
 	protected void calculateConditionalProbabilities() {
 
-		p = new HashMap<Concept, Map<Attribute, AttributeValue>>();
+		p = new HashMap<>();
 
 		for (Instance i : tSet.getInstances().values()) {
 
@@ -169,10 +168,14 @@ public class NaiveBayes implements Classifier {
 
 	public Concept classify(Instance instance) {
 
+		if (instance == null) {
+			throw new IllegalArgumentException("Instance to classify cannot be null.");
+		}
+
 		Concept bestConcept = null;
 		double bestP = 0.0;
 
-		if (tSet == null || tSet.getConceptSet().size() == 0) {
+		if (tSet == null || tSet.getConceptSet().isEmpty()) {
 			throw new IllegalStateException("You have to train classifier first.");
 		}
 
@@ -182,7 +185,7 @@ public class NaiveBayes implements Classifier {
 			
 			double p = getProbability(c, instance);
 			
-			LOG.fine(MessageFormat.format("P(%s|%s) = %.15f\n", c.getName(), instance.toString(), p));
+			LOG.finest(MessageFormat.format("P(%s|%s) = %.15f\n", c.getName(), instance.toString(), p));
 			
 			if (p >= bestP) {
 				bestConcept = c;
@@ -197,6 +200,37 @@ public class NaiveBayes implements Classifier {
 	 */
 	public String getName() {
 		return name;
+	}
+
+	private boolean useLaplacianSmoothing = false;
+	private boolean useLogSum = false;
+
+	public boolean isUseLaplacianSmoothing() {
+		return useLaplacianSmoothing;
+	}
+
+	public void setUseLaplacianSmoothing(boolean useLaplacianSmoothing) {
+		this.useLaplacianSmoothing = useLaplacianSmoothing;
+	}
+
+	public boolean isUseLogSum() {
+		return useLogSum;
+	}
+
+	public void setUseLogSum(boolean useLogSum) {
+		this.useLogSum = useLogSum;
+	}
+
+	private int getVocabularySize(String attributeName) {
+		java.util.Set<Object> uniqueValues = new java.util.HashSet<>();
+		for (Instance inst : tSet.getInstances().values()) {
+			for (Attribute attr : inst.getAtrributes()) {
+				if (attr != null && attributeName.equals(attr.getName())) {
+					uniqueValues.add(attr.getValue());
+				}
+			}
+		}
+		return Math.max(1, uniqueValues.size());
 	}
 
 	public double getProbability(Concept c) {
@@ -221,16 +255,23 @@ public class NaiveBayes implements Classifier {
 	 */
 	public double getProbability(Concept c, Instance i) {
 
-		double cP = 0;
+		double cP;
 
 		if (tSet.getConceptSet().contains(c)) {
-
-			cP = (getProbability(i, c) * getProbability(c)) / getProbability(i);
-
+			if (useLogSum) {
+				double prior = Math.max(getProbability(c), 1e-15);
+				cP = getProbability(i, c) + Math.log(prior);
+			} else {
+				cP = (getProbability(i, c) * getProbability(c)) / getProbability(i);
+			}
 		} else {
 			// We have never seen this concept before
 			// assign to it a "reasonable" value
-			cP = 1 / (tSet.getNumberOfConcepts() + 1.0);
+			if (useLogSum) {
+				cP = Math.log(1.0 / (tSet.getNumberOfConcepts() + 1.0));
+			} else {
+				cP = 1.0 / (tSet.getNumberOfConcepts() + 1.0);
+			}
 		}
 
 		return cP;
@@ -239,8 +280,8 @@ public class NaiveBayes implements Classifier {
 	/**
 	 * This method calculates the denumerator of Bayes theorem
 	 * 
-	 * @param <CODE>Instance</CODE> i
-	 * @return the probability of observing <CODE>Instance</CODE> i
+	 * @param i the instance whose probability of occurrence we seek
+	 * @return the probability of observing <tt>Instance</tt> i
 	 */
 	public double getProbability(Instance i) {
 
@@ -255,6 +296,30 @@ public class NaiveBayes implements Classifier {
 
 	public double getProbability(Instance i, Concept c) {
 
+		if (useLogSum) {
+			double logSum = 0.0;
+			for (Attribute a : i.getAtrributes()) {
+				if (a != null && attributeList.contains(a.getName())) {
+					Map<Attribute, AttributeValue> aMap = p.get(c);
+					AttributeValue aV = (aMap != null) ? aMap.get(a) : null;
+					double count = (aV != null) ? aV.getCount() : 0.0;
+					double prob;
+					if (useLaplacianSmoothing) {
+						int vocabularySize = getVocabularySize(a.getName());
+						prob = (count + 1.0) / (conceptPriors.get(c) + vocabularySize);
+					} else {
+						if (aV == null) {
+							prob = ((double) 1 / (tSet.getSize() + 1));
+						} else {
+							prob = (count / conceptPriors.get(c));
+						}
+					}
+					logSum += Math.log(Math.max(prob, 1e-15));
+				}
+			}
+			return logSum;
+		}
+
 		double cP = 1;
 
 		for (Attribute a : i.getAtrributes()) {
@@ -262,16 +327,20 @@ public class NaiveBayes implements Classifier {
 			if (a != null && attributeList.contains(a.getName())) {
 
 				Map<Attribute, AttributeValue> aMap = p.get(c);
-				AttributeValue aV = aMap.get(a);
-				if (aV == null) {
-					// the specific attribute value is not present for the
-					// current concept.
-					// Can you justify the following estimate?
-					// Can you think of a better choice?
-					cP *= ((double) 1 / (tSet.getSize() + 1));
+				AttributeValue aV = (aMap != null) ? aMap.get(a) : null;
+				double count = (aV != null) ? aV.getCount() : 0.0;
+				double prob;
+				if (useLaplacianSmoothing) {
+					int vocabularySize = getVocabularySize(a.getName());
+					prob = (count + 1.0) / (conceptPriors.get(c) + vocabularySize);
 				} else {
-					cP *= (aV.getCount() / conceptPriors.get(c));
+					if (aV == null) {
+						prob = ((double) 1 / (tSet.getSize() + 1));
+					} else {
+						prob = (count / conceptPriors.get(c));
+					}
 				}
+				cP *= prob;
 			}
 		}
 
@@ -295,7 +364,7 @@ public class NaiveBayes implements Classifier {
 
 		boolean hasTrained = false;
 
-		if (attributeList == null || attributeList.size() == 0) {
+		if (attributeList == null || attributeList.isEmpty()) {
 
 			String msg = "Can't train the classifier without specifying the attributes"+
 						 " for training!\n"+
@@ -320,7 +389,7 @@ public class NaiveBayes implements Classifier {
 	public void trainOnAttribute(String aName) {
 
 		if (attributeList == null) {
-			attributeList = new ArrayList<String>();
+			attributeList = new ArrayList<>();
 		}
 
 		attributeList.add(aName);

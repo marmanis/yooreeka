@@ -90,71 +90,7 @@ public class PredictedItemRating {
 	 *            list to sort.
 	 */
 	public static void sort(List<PredictedItemRating> values) {
-		Collections.sort(values, new Comparator<PredictedItemRating>() {
-
-			public int compare(PredictedItemRating f1, PredictedItemRating f2) {
-
-				int result = 0;
-				if (f1.getRating() < f2.getRating()) {
-					result = 1; // reverse order
-				} else if (f1.getRating() > f2.getRating()) {
-					result = -1;
-				} else {
-					result = 0;
-				}
-				return result;
-			}
-
-			@Override
-			public Comparator<PredictedItemRating> reversed() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public Comparator<PredictedItemRating> thenComparing(
-					Comparator<? super PredictedItemRating> other) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public <U> Comparator<PredictedItemRating> thenComparing(
-					Function<? super PredictedItemRating, ? extends U> keyExtractor,
-					Comparator<? super U> keyComparator) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public <U extends Comparable<? super U>> Comparator<PredictedItemRating> thenComparing(
-					Function<? super PredictedItemRating, ? extends U> keyExtractor) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public Comparator<PredictedItemRating> thenComparingInt(
-					ToIntFunction<? super PredictedItemRating> keyExtractor) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public Comparator<PredictedItemRating> thenComparingLong(
-					ToLongFunction<? super PredictedItemRating> keyExtractor) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public Comparator<PredictedItemRating> thenComparingDouble(
-					ToDoubleFunction<? super PredictedItemRating> keyExtractor) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-		});
+		values.sort(Comparator.comparingDouble((PredictedItemRating r) -> r.getRating()).reversed());
 	}
 
 	private int userId;

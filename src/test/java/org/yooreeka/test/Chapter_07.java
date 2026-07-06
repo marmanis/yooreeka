@@ -9,8 +9,8 @@
  *   (Manning 2009). Although the term "Web" prevailed in the title, in essence, the algorithms 
  *   are valuable in any software application.
  *  
- *   Copyright (c) 2007-2009    Haralambos Marmanis & Dmitry Babenko
- *   Copyright (c) 2009-2013 Marmanis Group LLC and individual contributors as indicated by the @author tags.  
+ *   Copyright (c) 2007-2009 Haralambos Marmanis & Dmitry Babenko
+ *   Copyright (c) 2009-${year} Marmanis Group LLC and individual contributors as indicated by the @author tags.  
  * 
  *   Certain library functions depend on other Open Source software libraries, which are covered 
  *   by different license agreements. See the NOTICE file distributed with this work for additional 
@@ -26,7 +26,7 @@
  *   the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
  *   either express or implied. See the License for the specific language governing permissions and
  *   limitations under the License.
- *
+ *   
  */
 package org.yooreeka.test;
 
@@ -49,20 +49,18 @@ import org.yooreeka.util.P;
  */
 public class Chapter_07 {
 
-	private long t;
+	private long t=0;
 
-	private String yHome;
-	private String rootDir;
+	String yHome = YooreekaConfigurator.getHome();
+
+	String rootDir = YooreekaConfigurator.getProperty(YooreekaConfigurator.CRAWL_DATA_DIR);
+
 
 	/**
 	 * 
 	 */
 	public Chapter_07() {
-		
-		t = System.currentTimeMillis();
-		
-		yHome = YooreekaConfigurator.getHome();
-		rootDir = YooreekaConfigurator.getProperty(YooreekaConfigurator.CRAWL_DATA_DIR);
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -71,8 +69,12 @@ public class Chapter_07 {
 	 */
 	public void run() throws IOException {
 
+		init();
+		
+		t = System.currentTimeMillis();
+
 		// Crawling for News
-		script_07_01("https://marmanis.com/");
+		script_07_01("https://www.npr.org/");
 		
 		//  Run indexing and search on the default pages(no crawling) 
 		script_07_02();
@@ -85,12 +87,17 @@ public class Chapter_07 {
 
 		P.timePassedSince(t);
 	}
+
+	private void init() {
+		//
+	}
 	
 	private void script_07_01(String seedUrl) {
 
 		NewsCrawler crawler = new NewsCrawler(rootDir, 2, 100);
 
-		crawler.addSeedUrl(seedUrl);
+		crawler.setOffline(true);
+		crawler.setAllSeedUrls();
 
 		crawler.run();		
 	}

@@ -38,6 +38,8 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +93,7 @@ public class HTMLDocumentParser implements DocumentParser {
 			url = baseUrl + href;
 		} else if (href.startsWith("/")) {
 			try {
-				URL docUrl = new URL(documentUrl);
+				URL docUrl = new URI(documentUrl.replace('\\', '/')).toURL();
 				if (docUrl.getPort() == -1) {
 					url = docUrl.getProtocol() + "://" + docUrl.getHost()
 							+ href;
@@ -99,7 +101,7 @@ public class HTMLDocumentParser implements DocumentParser {
 					url = docUrl.getProtocol() + "://" + docUrl.getHost() + ":"
 							+ docUrl.getPort() + href;
 				}
-			} catch (MalformedURLException e) {
+			} catch (MalformedURLException | URISyntaxException e) {
 				url = null;
 			}
 		} else {

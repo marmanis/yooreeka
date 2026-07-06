@@ -30,6 +30,7 @@
  */
 package org.yooreeka.util.internet.crawling.core;
 
+import java.net.URI;
 import java.net.URL;
 
 /**
@@ -47,7 +48,7 @@ public class URLNormalizer {
 	 */
 	private String normalizeFileUrl(String fileUrl) {
 		try {
-			URL url = new URL(fileUrl);
+			URL url = new URI(fileUrl.replace('\\', '/')).toURL();
 			return url.toExternalForm();
 		} catch (Exception e) {
 			throw new RuntimeException("URL Normalization error: ", e);

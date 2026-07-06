@@ -9,8 +9,8 @@
  *   (Manning 2009). Although the term "Web" prevailed in the title, in essence, the algorithms 
  *   are valuable in any software application.
  *  
- *   Copyright (c) 2007-2009    Haralambos Marmanis & Dmitry Babenko
- *   Copyright (c) 2009-2014 Marmanis Group LLC and individual contributors as indicated by the @author tags.  
+ *   Copyright (c) 2007-2009 Haralambos Marmanis & Dmitry Babenko
+ *   Copyright (c) 2009-${year} Marmanis Group LLC and individual contributors as indicated by the @author tags.  
  * 
  *   Certain library functions depend on other Open Source software libraries, which are covered 
  *   by different license agreements. See the NOTICE file distributed with this work for additional 
@@ -26,16 +26,15 @@
  *   the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
  *   either express or implied. See the License for the specific language governing permissions and
  *   limitations under the License.
- *
+ *   
  */
 package org.yooreeka.util.system;
 
-import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.yooreeka.util.P;
@@ -84,41 +83,47 @@ public class Sysbench {
 		options.addOption(debug);
 	}
 
-	@SuppressWarnings("static-access")
 	private void initArgOptions() {
-		Option logFile = OptionBuilder.withArgName("file")
-				                      .hasArg()
-				                      .withDescription("use given file for log")
-				                      .create("logfile");
+		Option logFile = Option.builder("logfile")
+				.argName("file")
+				.hasArg()
+				.desc("use given file for log")
+				.build();
 
-		Option logger = OptionBuilder.withArgName("classname")
-				                     .hasArg()
-				                     .withDescription("the class which it to perform logging")
-				                     .create("logger");
+		Option logger = Option.builder("logger")
+				.argName("classname")
+				.hasArg()
+				.desc("the class which it to perform logging")
+				.build();
 
-		Option testFile = OptionBuilder.withArgName("file")
-				                       .hasArg()
-				                       .withDescription("use given test file")
-				                       .create("testfile");
+		Option testFile = Option.builder("testfile")
+				.argName("file")
+				.hasArg()
+				.desc("use given test file")
+				.build();
 		options.addOption(logFile);
 		options.addOption(logger);
 		options.addOption(testFile);
 	}
 	
-	@SuppressWarnings("static-access")
 	private void initPropertyOptions() {
-		Option testType  = OptionBuilder.withArgName( "test=value" )
-                                        .hasArgs(2).isRequired()
-                                        .withValueSeparator()
-                                        .withDescription( "use value to set the appropriate test, e.g. cpu, mem, io" )
-                                        .create("T");
+		Option testType = Option.builder("T")
+				.argName("test=value")
+				.hasArgs()
+				.numberOfArgs(2)
+				.required()
+				.valueSeparator()
+				.desc("use value to set the appropriate test, e.g. cpu, mem, io")
+				.build();
 		options.addOption(testType);
 
-Option property  = OptionBuilder.withArgName( "property=value" )
-                                        .hasArgs(2)
-                                        .withValueSeparator()
-                                        .withDescription( "use value for given property" )
-                                        .create( "D" );
+		Option property = Option.builder("D")
+				.argName("property=value")
+				.hasArgs()
+				.numberOfArgs(2)
+				.valueSeparator()
+				.desc("use value for given property")
+				.build();
 		options.addOption(property);
 	}
 
@@ -133,7 +138,7 @@ Option property  = OptionBuilder.withArgName( "property=value" )
 			sysbench.help();
 		} else {
 			// create the parser
-			CommandLineParser parser = new BasicParser();
+			CommandLineParser parser = new DefaultParser();
 			try {
 				// parse the command line arguments
 				CommandLine line = parser.parse(sysbench.getOptions(), args);

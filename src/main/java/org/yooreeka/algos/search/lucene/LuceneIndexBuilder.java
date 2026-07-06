@@ -43,7 +43,6 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.Version;
 import org.yooreeka.util.internet.crawling.core.CrawlData;
 import org.yooreeka.util.internet.crawling.core.CrawlDataProcessor;
 import org.yooreeka.util.internet.crawling.db.ProcessedDocsDB;
@@ -96,9 +95,8 @@ public class LuceneIndexBuilder implements CrawlDataProcessor {
 	}
 
 	private IndexWriter getIndexWriter(File file) throws IOException {
-		FSDirectory dir = FSDirectory.open(file);
-		IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_44,
-				new StandardAnalyzer(Version.LUCENE_44));
+		FSDirectory dir = FSDirectory.open(file.toPath());
+		IndexWriterConfig config = new IndexWriterConfig(new StandardAnalyzer());
 		config.setOpenMode(OpenMode.CREATE_OR_APPEND);
 		config.setRAMBufferSizeMB(RamBufferSizeMB);
 		return new IndexWriter(dir, config);

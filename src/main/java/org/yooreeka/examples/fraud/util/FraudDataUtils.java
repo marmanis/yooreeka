@@ -46,18 +46,18 @@ import org.yooreeka.examples.fraud.data.Transaction;
 
 public class FraudDataUtils {
 
-	private static Random rnd = new Random();
+	private static final Random rnd = new Random();
 
-	private static Random txnAmountRnd = new Random();
+	private static final Random txnAmountRnd = new Random();
 
 	public static List<Transaction> loadTransactions(String filename) {
 		List<Transaction> txns = new ArrayList<Transaction>();
 		try {
 			FileReader fReader = new FileReader(filename);
 			BufferedReader reader = new BufferedReader(fReader);
-			String line = null;
+			String line;
 			while ((line = reader.readLine()) != null) {
-				if (line.trim().length() > 0) {
+				if (!line.trim().isEmpty()) {
 					Transaction txn = new Transaction();
 					txn.loadFromExternalString(line);
 					txns.add(txn);
@@ -78,18 +78,18 @@ public class FraudDataUtils {
 
 		List<String> descriptions = new ArrayList<String>();
 
-		FileReader fReader = null;
+		FileReader fReader;
 		try {
 			fReader = new FileReader(filename);
 		} catch (FileNotFoundException fnfX) {
-			fnfX.printStackTrace();
+			throw new RuntimeException(fnfX.getMessage() + "\n "+filename,fnfX);
 		}
 
 		try {
 			BufferedReader reader = new BufferedReader(fReader);
-			String line = null;
+			String line;
 			while ((line = reader.readLine()) != null) {
-				if (line.trim().length() > 0) {
+				if (!line.trim().isEmpty()) {
 					descriptions.add(line);
 				}
 			}
@@ -102,7 +102,7 @@ public class FraudDataUtils {
 		try {
 			fReader.close();
 		} catch (IOException ioX) {
-			ioX.printStackTrace();
+			throw new RuntimeException(ioX.getMessage() + "\n "+filename,ioX);
 		}
 
 		return descriptions.toArray(new String[descriptions.size()]);

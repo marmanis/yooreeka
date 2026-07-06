@@ -53,7 +53,6 @@ public class ProcessedDocument implements AbstractDocument {
 	public static final String TYPE_DIRECTORY = "FILE DIRECTORY";
 	
 	public static final String TEXT_ENDS_WITH = ".txt";
-	public static final String HTML_ENDS_WITH = ".html";
 	public static final String MSWORD_ENDS_WITH = ".doc";
 	public static final String PDF_ENDS_WITH = ".pdf";
 
@@ -65,7 +64,7 @@ public class ProcessedDocument implements AbstractDocument {
 	/*
 	 * All document outlinks (links that document has to other documents).
 	 */
-	private List<Outlink> outlinks = new ArrayList<Outlink>();
+	private List<Outlink> outlinks = new ArrayList<>();
 
 	/*
 	 * URL that was used to retrieve the document.
@@ -113,9 +112,9 @@ public class ProcessedDocument implements AbstractDocument {
 	 * This is a general utility method that attempts to detect the character set 
 	 * by reading a byte array. 
 	 * We rely on the <tt>org.mozilla.universalchardet.UniversalDetector</tt> class.
-	 * 
-	 * @param val
-	 * @return
+	 *
+	 * @param val is the byte array
+	 * @return the character set that was detected
 	 */
 	public String getContentCharset(byte[] val) {
 
@@ -133,8 +132,7 @@ public class ProcessedDocument implements AbstractDocument {
 				detector.handleData(buf, 0, nread);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		// (3)
 		detector.dataEnd();

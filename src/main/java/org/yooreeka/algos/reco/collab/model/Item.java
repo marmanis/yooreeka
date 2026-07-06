@@ -47,14 +47,10 @@ public class Item implements java.io.Serializable {
 	private static final long serialVersionUID = 6119040388138010186L;
 
 	public static Integer[] getSharedUserIds(Item x, Item y) {
-		List<Integer> sharedUsers = new ArrayList<Integer>();
-		for (Rating r : x.getAllRatings()) {
-			// same user rated the item
-			if (y.getUserRating(r.getUserId()) != null) {
-				sharedUsers.add(r.getUserId());
-			}
-		}
-		return sharedUsers.toArray(new Integer[sharedUsers.size()]);
+		return x.getAllRatings().stream()
+				.map(Rating::getUserId)
+				.filter(userId -> y.getUserRating(userId) != null)
+				.toArray(Integer[]::new);
 	}
 
 	/*
@@ -113,14 +109,10 @@ public class Item implements java.io.Serializable {
 	}
 
 	public double getAverageRating() {
-		double allRatingsSum = 0.0;
-		Collection<Rating> allItemRatings = ratingsByUserId.values();
-		for (Rating rating : allItemRatings) {
-			allRatingsSum += rating.getRating();
-		}
-		// use 2.5 if there are no ratings.
-		return allItemRatings.size() > 0 ? allRatingsSum
-				/ allItemRatings.size() : 2.5;
+		return ratingsByUserId.values().stream()
+				.mapToInt(Rating::getRating)
+				.average()
+				.orElse(2.5);
 	}
 
 	public int getId() {
@@ -139,18 +131,18 @@ public class Item implements java.io.Serializable {
 	 * Utility method to extract array of ratings based on array of user ids.
 	 */
 	public double[] getRatingsForItemList(Integer[] userIds) {
-		double[] ratings = new double[userIds.length];
-		for (int i = 0, n = userIds.length; i < n; i++) {
-			Rating r = getUserRating(userIds[i]);
-			if (r == null) {
-				throw new IllegalArgumentException(
-						"Item doesn't have rating by specified user id ("
-								+ "userId=" + userIds[i] + ", itemId="
-								+ getId());
-			}
-			ratings[i] = r.getRating();
-		}
-		return ratings;
+		return java.util.Arrays.stream(userIds)
+				.mapToDouble(userId -> {
+					Rating r = getUserRating(userId);
+					if (r == null) {
+						throw new IllegalArgumentException(
+								"Item doesn't have rating by specified user id ("
+										+ "userId=" + userId + ", itemId="
+										+ getId());
+					}
+					return r.getRating();
+				})
+				.toArray();
 	}
 
 	/**

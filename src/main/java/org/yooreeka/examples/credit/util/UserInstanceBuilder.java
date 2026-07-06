@@ -70,15 +70,15 @@ public class UserInstanceBuilder {
 
 		for (Attribute a : creditInstance.getAtrributes()) {
 			DoubleAttribute da = null;
-			if (a instanceof StringAttribute) {
-				String name = a.getName();
-				double value = Double.valueOf((String) a.getValue());
+			if (a instanceof StringAttribute sa) {
+				String name = sa.getName();
+				double value = Double.valueOf((String) sa.getValue());
 				// double normalizedValue = value;
 				double normalizedValue = AttributeUtils.getNormalizedValue(
 						name, value);
 				da = new DoubleAttribute(name, normalizedValue);
-			} else if (a instanceof DoubleAttribute) {
-				da = (DoubleAttribute) a;
+			} else if (a instanceof DoubleAttribute doubleAttr) {
+				da = doubleAttr;
 			} else {
 				throw new RuntimeException("Unexpected attribute type: "
 						+ a.getClass().getSimpleName() + ", attribute name: "

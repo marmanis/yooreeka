@@ -30,11 +30,10 @@
  */
 package org.yooreeka.util.parsing.csv;
 
-import java.util.ArrayList;
-import java.util.ListIterator;
-
 import org.yooreeka.util.P;
 import org.yooreeka.util.parsing.common.ProcessedDocument;
+
+import java.util.ArrayList;
 
 /**
  * A <tt>CSVDocument</tt> is an <tt>ArrayList</tt> of <tt>CSVEntry</tt>s
@@ -52,7 +51,7 @@ public class CSVDocument extends ProcessedDocument {
 	private CSVSchema schema;
 
 	public CSVDocument() {
-		csvData = new ArrayList<CSVEntry>();
+		csvData = new ArrayList<>();
 	}
 	
 	public CSVDocument(ArrayList<CSVEntry> data) {
@@ -71,6 +70,10 @@ public class CSVDocument extends ProcessedDocument {
 		hasHeaders = val;
 	}
 
+	public void addEntry(CSVEntry entry) {
+		csvData.add(entry);
+	}
+
 	/**
 	 * @return the csvData
 	 */
@@ -85,11 +88,9 @@ public class CSVDocument extends ProcessedDocument {
 		}
 		P.hline();
 
-		ListIterator<CSVEntry> elements = csvData.listIterator();
-		while (elements.hasNext()) {
-			CSVEntry e = elements.next();
-			P.println(e.toString(printSeparator));
-		}
+        for (CSVEntry e : csvData) {
+            P.println(e.toString(printSeparator));
+        }
 		P.hline();
 	}
 
@@ -113,4 +114,5 @@ public class CSVDocument extends ProcessedDocument {
 	public void setSchema(CSVSchema schema) {
 		this.schema = schema;
 	}
+
 }

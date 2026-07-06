@@ -111,34 +111,16 @@ public class YooreekaConfigurator {
 		if (logLevel == null)
 			logLevel = LOG_LEVEL_WARNING;
 
-		Level l = null;
-
-		switch (logLevel) {
-		case LOG_LEVEL_SEVERE:
-			l = Level.SEVERE;
-			break;
-		case LOG_LEVEL_WARNING:
-			l = Level.WARNING;
-			break;
-		case LOG_LEVEL_INFO:
-			l = Level.INFO;
-			break;
-		case LOG_LEVEL_CONFIG:
-			l = Level.CONFIG;
-			break;
-		case LOG_LEVEL_FINE:
-			l = Level.FINE;
-			break;
-		case LOG_LEVEL_FINER:
-			l = Level.FINER;
-			break;
-		case LOG_LEVEL_FINEST:
-			l = Level.FINEST;
-			break;
-		default:
-			l = Level.WARNING;
-			break;
-		}
+		Level l = switch (logLevel) {
+			case LOG_LEVEL_SEVERE -> Level.SEVERE;
+			case LOG_LEVEL_WARNING -> Level.WARNING;
+			case LOG_LEVEL_INFO -> Level.INFO;
+			case LOG_LEVEL_CONFIG -> Level.CONFIG;
+			case LOG_LEVEL_FINE -> Level.FINE;
+			case LOG_LEVEL_FINER -> Level.FINER;
+			case LOG_LEVEL_FINEST -> Level.FINEST;
+			default -> Level.WARNING;
+		};
 		return l;
 	}
 

@@ -86,70 +86,7 @@ public class SimilarUser {
 	}
 
 	public static void sort(List<SimilarUser> similarUsers) {
-
-		Collections.sort(similarUsers, new Comparator<SimilarUser>() {
-			public int compare(SimilarUser f1, SimilarUser f2) {
-				int result = 0;
-				if (f1.getSimilarity() < f2.getSimilarity()) {
-					result = 1; // reverse order
-				} else if (f1.getSimilarity() > f2.getSimilarity()) {
-					result = -1;
-				} else {
-					result = 0;
-				}
-				return result;
-			}
-
-			@Override
-			public Comparator<SimilarUser> reversed() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public Comparator<SimilarUser> thenComparing(
-					Comparator<? super SimilarUser> other) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public <U> Comparator<SimilarUser> thenComparing(
-					Function<? super SimilarUser, ? extends U> keyExtractor,
-					Comparator<? super U> keyComparator) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public <U extends Comparable<? super U>> Comparator<SimilarUser> thenComparing(
-					Function<? super SimilarUser, ? extends U> keyExtractor) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public Comparator<SimilarUser> thenComparingInt(
-					ToIntFunction<? super SimilarUser> keyExtractor) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public Comparator<SimilarUser> thenComparingLong(
-					ToLongFunction<? super SimilarUser> keyExtractor) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public Comparator<SimilarUser> thenComparingDouble(
-					ToDoubleFunction<? super SimilarUser> keyExtractor) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-		});
+		similarUsers.sort(Comparator.comparingDouble(SimilarUser::getSimilarity).reversed());
 	}
 
 	/*

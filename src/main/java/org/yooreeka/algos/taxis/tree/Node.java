@@ -30,6 +30,7 @@
  */
 package org.yooreeka.algos.taxis.tree;
 
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +44,8 @@ import org.yooreeka.algos.taxis.core.intf.Instance;
  */
 class Node implements java.io.Serializable {
 
-	private static final long serialVersionUID = -4282027910521283908L;
+	@Serial
+    private static final long serialVersionUID = -4282027910521283908L;
 
 	/**
 	 * Auxiliary variable for printing
@@ -93,7 +95,7 @@ class Node implements java.io.Serializable {
 	private transient List<Instance> nodeTrainingData;
 
 	public Node() {
-		childNodesByBranchName = new HashMap<String, Node>();
+		childNodesByBranchName = new HashMap<>();
 	}
 
 	public void addChild(String value, Node node) {
@@ -103,7 +105,7 @@ class Node implements java.io.Serializable {
 	public String classify(Instance i) {
 		Node subtree = this;
 
-		while (subtree.isLeaf() == false) {
+		while (!subtree.isLeaf()) {
 			Node childNode = subtree.selectChild(i);
 
 			if (childNode == null) {
@@ -114,7 +116,7 @@ class Node implements java.io.Serializable {
 			subtree = childNode;
 		}
 
-		String category = null;
+		String category;
 
 		if (subtree.isLeaf()) {
 			category = subtree.getConceptName();
@@ -248,9 +250,9 @@ class Node implements java.io.Serializable {
 		 * Evaluate current node (subtree)
 		 */
 
-		double leafErrorRate = 0.0;
-		double nodeErrorRate = 0.0;
-		double mostPopularSubtreeErrorRate = 0.0;
+		double leafErrorRate;
+		double nodeErrorRate;
+		double mostPopularSubtreeErrorRate;
 
 		/*
 		 * Estimate error rate for the case when we use the most frequent
@@ -329,7 +331,7 @@ class Node implements java.io.Serializable {
 
 		if (a != null) {
 
-			String branchName = null;
+			String branchName;
 
 			if (splitValue != null) {
 				Double attrValue = AttributeUtils.toDouble(a.getValue());
@@ -349,7 +351,7 @@ class Node implements java.io.Serializable {
 	}
 
 	/**
-	 * Selects child node (subtree) that is most frequent outcome of the current
+	 * Selects child node (subtree) that is the most frequent outcome of the current
 	 * node (has the most training samples).
 	 */
 	private Node selectMostFrequentSubtree() {

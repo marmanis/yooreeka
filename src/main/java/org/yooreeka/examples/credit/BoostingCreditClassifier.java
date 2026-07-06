@@ -28,6 +28,7 @@
  *   limitations under the License.
  *   
  */
+
 package org.yooreeka.examples.credit;
 
 import org.yooreeka.algos.taxis.boosting.BoostingARCX4Classifier;
@@ -76,31 +77,26 @@ public class BoostingCreditClassifier extends BoostingARCX4Classifier {
 	@Override
 	public Classifier getClassifierForTraining(TrainingSet set) {
 
-		Classifier baseClassifier = null;
-
-		switch (classifierType) {
-		case NEURAL_NETWORK:
-			NNCreditClassifier nnClassifier = new NNCreditClassifier(set);
-			nnClassifier.setLearningRate(0.01);
-			nnClassifier.useDefaultAttributes();
-			baseClassifier = nnClassifier;
-			break;
-		case DECISION_TREE:
-			DTCreditClassifier dtClassifier = new DTCreditClassifier(set);
-			dtClassifier.useDefaultAttributes();
-			dtClassifier.setPruneAfterTraining(true);
-			baseClassifier = dtClassifier;
-			break;
-		case NAIVE_BAYES:
-			NBCreditClassifier nbClassifier = new NBCreditClassifier(set);
-			nbClassifier.useDefaultAttributes();
-			baseClassifier = nbClassifier;
-			break;
-		default:
-			throw new RuntimeException("Invalid classifier member type!");
-		}
-
-		return baseClassifier;
+		return switch (classifierType) {
+			case NEURAL_NETWORK -> {
+				NNCreditClassifier nnClassifier = new NNCreditClassifier(set);
+				nnClassifier.setLearningRate(0.01);
+				nnClassifier.useDefaultAttributes();
+				yield nnClassifier;
+			}
+			case DECISION_TREE -> {
+				DTCreditClassifier dtClassifier = new DTCreditClassifier(set);
+				dtClassifier.useDefaultAttributes();
+				dtClassifier.setPruneAfterTraining(true);
+				yield dtClassifier;
+			}
+			case NAIVE_BAYES -> {
+				NBCreditClassifier nbClassifier = new NBCreditClassifier(set);
+				nbClassifier.useDefaultAttributes();
+				yield nbClassifier;
+			}
+			default -> throw new RuntimeException("Invalid classifier member type!");
+		};
 	}
 
 	/**

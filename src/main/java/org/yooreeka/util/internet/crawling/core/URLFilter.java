@@ -30,10 +30,16 @@
  */
 package org.yooreeka.util.internet.crawling.core;
 
+import org.yooreeka.algos.reco.collab.evaluation.RMSEEstimator;
+
+import java.util.logging.Logger;
+
 /**
  * Performs url filtering before url is registered in 'known urls' database.
  */
 public class URLFilter {
+
+	private static final Logger LOG = Logger.getLogger(URLFilter.class.getName());
 
 	private boolean allowFileUrls = true;
 	private boolean allowHttpUrls = false;
@@ -63,7 +69,7 @@ public class URLFilter {
 			acceptUrl = true;
 		} else {
 			acceptUrl = false;
-			System.out.println("DEBUG: Filtered url: '" + url + "'");
+			LOG.finest("URLFilter accepts only file urls and http urls. Filtered url: '\" + url + \"'\"");
 		}
 
 		return acceptUrl;

@@ -30,10 +30,7 @@
  */
 package org.yooreeka.util.parsing.csv;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 import org.yooreeka.util.C;
 import org.yooreeka.util.P;
@@ -123,6 +120,10 @@ public class CSVFile {
 		return doc;
 	}
 
+	public void setDoc(CSVDocument doc) {
+		this.doc = doc;
+	}
+
 	public CSVEntry query(int id) {
 		return doc.getCsvData().get(id);
 	}
@@ -160,10 +161,20 @@ public class CSVFile {
 	}
 
 	/**
-	 * @param separatorChar the separatorChar to set
+	 * @param val the separatorChar to set
 	 */
 	public void setSeparator(String val) {
 		separator = val;
+	}
+
+	public void write()
+		throws IOException {
+
+		PrintWriter writer = new PrintWriter(file);
+		for (CSVEntry e : doc.getCsvData()) {
+			writer.println(e.toString(separator));
+		}
+		writer.close();
 	}
 
 	/**

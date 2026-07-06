@@ -30,6 +30,7 @@
  */
 package org.yooreeka.util.parsing.csv;
 
+import org.yooreeka.util.P;
 import org.yooreeka.util.parsing.common.DataEntry;
 
 /**
@@ -42,9 +43,15 @@ import org.yooreeka.util.parsing.common.DataEntry;
 public class CSVEntry extends DataEntry {
 
 	public static final String DEFAULT_SEPARATOR = ",";
+	public static final String DEFAULT_QUOTE_CHARACTER = "\"";
+
 	private String separator;
 	
 	private String[] data;
+
+	public CSVEntry() {
+		// Empty constructor is used when we create entries instead of reading them
+	}
 
 	public CSVEntry(String csvLine) {
 		this(csvLine,null);
@@ -57,8 +64,20 @@ public class CSVEntry extends DataEntry {
 		} else {
 			setSeparator(sepChar);
 		}
-		
-		data = csvLine.trim().split(getSeparator());
+
+		// // Source - https://stackoverflow.com/a/45930514
+		//// Posted by Crysishy
+		//// Retrieved 2026-03-15, License - CC BY-SA 3.0
+		//
+		//    str.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+
+		String regex = getSeparator()+"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
+
+		data = csvLine.trim().split(regex);
+	}
+
+	public void setData(String[] data) {
+		this.data = data;
 	}
 
 	public String getEntryAt(int i) {
@@ -77,7 +96,6 @@ public class CSVEntry extends DataEntry {
 
 	@Override
 	public String toString() {
-
 		return toString(CSVEntry.DEFAULT_SEPARATOR);
 	}
 
@@ -108,5 +126,9 @@ public class CSVEntry extends DataEntry {
 	 */
 	public void setSeparator(String separatorChar) {
 		this.separator = separatorChar;
+	}
+
+	public void print() {
+		P.println(toString(CSVEntry.DEFAULT_SEPARATOR));
 	}
 }

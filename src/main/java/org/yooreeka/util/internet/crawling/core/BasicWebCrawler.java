@@ -44,6 +44,7 @@ import org.yooreeka.util.internet.crawling.transport.common.Transport;
 import org.yooreeka.util.internet.crawling.transport.common.TransportException;
 import org.yooreeka.util.internet.crawling.transport.file.FileTransport;
 import org.yooreeka.util.internet.crawling.transport.http.HTTPTransport;
+import org.yooreeka.util.internet.crawling.transport.playwright.PlaywrightTransport;
 import org.yooreeka.util.internet.crawling.util.DocumentIdUtils;
 import org.yooreeka.util.internet.crawling.util.UrlGroup;
 import org.yooreeka.util.internet.crawling.util.UrlUtils;
@@ -250,7 +251,7 @@ public class BasicWebCrawler {
 
 	private Transport getTransport(String protocol) {
 		if ("http".equalsIgnoreCase(protocol) || "https".equalsIgnoreCase(protocol)) {
-			return new HTTPTransport();
+			return new PlaywrightTransport();
 		} else if ("file".equalsIgnoreCase(protocol)) {
 			return new FileTransport();
 		} else {

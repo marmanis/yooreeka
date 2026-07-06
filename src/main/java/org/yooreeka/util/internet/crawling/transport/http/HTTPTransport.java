@@ -37,9 +37,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.http.*;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.http.protocol.HttpContext;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.protocol.HttpContext;
 import org.yooreeka.config.YooreekaConfigurator;
 import org.yooreeka.util.P;
 import org.yooreeka.util.internet.crawling.db.FetchedDocsDB;

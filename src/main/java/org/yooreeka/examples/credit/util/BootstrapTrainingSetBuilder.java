@@ -41,15 +41,13 @@ import org.yooreeka.algos.taxis.core.intf.Instance;
  */
 public class BootstrapTrainingSetBuilder {
 
-	private TrainingSet originalTrainingSet;
+	private final TrainingSet originalTrainingSet;
 
 	/**
 	 * 
 	 * @param originalTrainingSet
 	 *            bootstrap training sets will be derived from this training
 	 *            set.
-	 * @param bootstrapSampleSize
-	 *            size of bootstrap training sets that should be produced.
 	 */
 	public BootstrapTrainingSetBuilder(TrainingSet originalTrainingSet) {
 
@@ -89,9 +87,7 @@ public class BootstrapTrainingSetBuilder {
 			countN++;
 		}
 
-		TrainingSet tS = new TrainingSet(selectedInstances);
-
-		return tS;
+        return new TrainingSet(selectedInstances);
 	}
 
 	private int pickInstanceId(int N, int center) {
@@ -101,14 +97,13 @@ public class BootstrapTrainingSetBuilder {
 		int selectedInstanceId = -1;
 
 		// create the scale factor
-		double scale = (N / 2) / 4.0d;
+		double scale = (double) N / 8.0d;
 
 		while (loop) {
 
 			// center the distribution to be N/2 left and right of the center
 			// with almost certainty
-			selectedInstanceId = Double.valueOf(center + rnd.nextGaussian() * scale)
-					.intValue();
+			selectedInstanceId = Double.valueOf(center + rnd.nextGaussian() * scale).intValue();
 
 			// do not break the loop unless we found a valid instance
 			if (selectedInstanceId >= 0 && selectedInstanceId < N) {

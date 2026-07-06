@@ -447,28 +447,14 @@ public class Delphi implements Recommender {
 	}
 
 	public double predictRating(User user, Item item) {
-		switch (type) {
-		case USER_BASED:
-			return estimateUserBasedRating(user, item);
-		case IMPROVED_USER_BASED:
-			return estimateUserBasedRating(user, item);
-		case ITEM_BASED:
-			return estimateItemBasedRating(user, item);
-		case ITEM_PENALTY_BASED:
-			return estimateItemBasedRating(user, item);
-		case USER_CONTENT_BASED:
-			throw new IllegalStateException(
+		return switch (type) {
+			case USER_BASED, IMPROVED_USER_BASED -> estimateUserBasedRating(user, item);
+			case ITEM_BASED, ITEM_PENALTY_BASED -> estimateItemBasedRating(user, item);
+			case USER_CONTENT_BASED, ITEM_CONTENT_BASED -> throw new IllegalStateException(
 					"Not valid for current similarity type:" + type);
-		case ITEM_CONTENT_BASED:
-			throw new IllegalStateException(
-					"Not valid for current similarity type:" + type);
-		case USER_ITEM_CONTENT_BASED:
-			// Using similarity between User and Item
-			return MAX_RATING
+			case USER_ITEM_CONTENT_BASED -> MAX_RATING
 					* similarityMatrix.getValue(user.getId(), item.getId());
-		}
-
-		throw new RuntimeException("Unknown recommendation type:" + type);
+		};
 	}
 
 	public List<PredictedItemRating> recommend(Integer userId) {
@@ -485,31 +471,22 @@ public class Delphi implements Recommender {
 
 	public List<PredictedItemRating> recommend(User user, int topN) {
 
-		List<PredictedItemRating> recommendations = new ArrayList<PredictedItemRating>();
+		List<PredictedItemRating> recommendations = dataSet.getItems().stream()
+				.filter(item -> !skipItem(user, item))
+				.map(item -> {
+					double predictedRating = predictRating(user, item);
+					if (Double.isNaN(predictedRating)) {
+						return null;
+					}
+					return new PredictedItemRating(user.getId(), item.getId(), predictedRating);
+				})
+				.filter(java.util.Objects::nonNull)
+				.collect(java.util.stream.Collectors.toList());
 
-		double maxRating = -1.0d;
-
-		for (Item item : dataSet.getItems()) {
-
-			// only consider items that user hasn't rated yet or doesn't own the
-			// content
-			if (!skipItem(user, item)) {
-				double predictedRating = predictRating(user, item);
-
-				if (maxRating < predictedRating) {
-					maxRating = predictedRating;
-				}
-
-				if (!Double.isNaN(predictedRating)) {
-					recommendations.add(new PredictedItemRating(user.getId(),
-							item.getId(), predictedRating));
-				}
-			} else {
-				if (verbose) {
-					System.out.println("Skipping item:" + item.getName());
-				}
-			}
-		}
+		double maxRating = recommendations.stream()
+				.mapToDouble(PredictedItemRating::getRating)
+				.max()
+				.orElse(-1.0d);
 
 		this.maxPredictedRating.put(user.getId(), maxRating);
 

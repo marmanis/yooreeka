@@ -33,29 +33,21 @@ package org.yooreeka.algos.taxis.tree;
 public class AttributeUtils {
 
 	public static Double toDouble(Object o) {
-		Double result = null;
-		if (o instanceof Double) {
-			result = (Double) o;
-		} else if (o instanceof String) {
-			result = Double.parseDouble((String) o);
-		} else if (o instanceof Integer) {
-			result = Double.valueOf((Integer) o);
-		}
-
-		return result;
+		return switch (o) {
+			case Double d -> d;
+			case Integer i -> i.doubleValue();
+			case String s -> Double.valueOf(s);
+			case null, default -> null;
+		};
 	}
 
 	public static String toString(Object o) {
-		String result = null;
-		if (o instanceof Double) {
-			result = String.valueOf(o);
-		} else if (o instanceof String) {
-			result = (String) o;
-		} else if (o instanceof Integer) {
-			result = String.valueOf(o);
-		}
-
-		return result;
+		return switch (o) {
+			case Double d -> String.valueOf(d);
+			case String s -> s;
+			case Integer i -> String.valueOf(i);
+			case null, default -> null;
+		};
 	}
 
 }

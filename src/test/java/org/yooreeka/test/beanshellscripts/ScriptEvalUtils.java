@@ -53,19 +53,40 @@ class ScriptEvalUtils {
         }
     }
 
+    private static void setupImports(Interpreter i) throws Exception {
+        i.eval("import org.yooreeka.config.*;");
+        i.eval("import org.yooreeka.util.*;");
+        
+        File srcDir = new File("src/main/java/org/yooreeka");
+        if (srcDir.exists() && srcDir.isDirectory()) {
+            List<String> packages = new ArrayList<>();
+            findPackages(srcDir, "org.yooreeka", packages);
+            for (String pkg : packages) {
+                i.eval("import " + pkg + ".*;");
+            }
+        }
+    }
+
+    private static void findPackages(File dir, String currentName, List<String> packages) {
+        packages.add(currentName);
+        File[] subdirs = dir.listFiles(File::isDirectory);
+        if (subdirs != null) {
+            for (File subdir : subdirs) {
+                findPackages(subdir, currentName + "." + subdir.getName(), packages);
+            }
+        }
+    }
+
     public static void runDependentScripts(String[] scripts) {
         Interpreter i = new Interpreter();
-        try {
-            i.eval("import *;");
-        }
-        catch(Exception e) {
-            throw new RuntimeException("Failed to execute 'import *' : ", e);
-        }
         
         for(String name : scripts) {
             String script = getScript(name);
             try {
-                i.source(script);
+                setupImports(i);
+                String content = java.nio.file.Files.readString(java.nio.file.Path.of(script));
+                content = content.replace("import *;", "");
+                i.eval(content);
             }
             catch(Exception e) {
                 throw new RuntimeException("Failed to run script: " + script, e);
@@ -110,8 +131,10 @@ class ScriptEvalUtils {
     public static void runScript(String script) {
         Interpreter i = new Interpreter();
         try {
-        i.eval("import *;");
-        i.source(script);
+            setupImports(i);
+            String content = java.nio.file.Files.readString(java.nio.file.Path.of(script));
+            content = content.replace("import *;", "");
+            i.eval(content);
         }
         catch(Exception e) {
             throw new RuntimeException("Failed to run script: " + script, e);

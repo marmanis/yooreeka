@@ -31,6 +31,8 @@
 package org.yooreeka.util.internet.crawling.util;
 
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +46,7 @@ public class UrlUtils {
 		for (String url : urls) {
 			URL u = null;
 			try {
-				u = new URL(url);
+				u = new URI(url.replace('\\', '/')).toURL();
 				String protocol = u.getProtocol();
 				String host = u.getHost();
 				String key = protocol + "|" + host;
@@ -54,7 +56,7 @@ public class UrlUtils {
 					allGroups.put(key, urlGroup);
 				}
 				urlGroup.addUrl(url);
-			} catch (MalformedURLException e) {
+			} catch (MalformedURLException | URISyntaxException e) {
 				throw new RuntimeException("Invalid url format url: '" + url
 						+ "': ", e);
 			}

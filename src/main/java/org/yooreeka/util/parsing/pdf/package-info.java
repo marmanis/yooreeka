@@ -9,8 +9,8 @@
  *   (Manning 2009). Although the term "Web" prevailed in the title, in essence, the algorithms 
  *   are valuable in any software application.
  *  
- *   Copyright (c) 2007-2009    Haralambos Marmanis & Dmitry Babenko
- *   Copyright (c) 2009-2013 Marmanis Group LLC and individual contributors as indicated by the @author tags.  
+ *   Copyright (c) 2007-2009 Haralambos Marmanis & Dmitry Babenko
+ *   Copyright (c) 2009-${year} Marmanis Group LLC and individual contributors as indicated by the @author tags.  
  * 
  *   Certain library functions depend on other Open Source software libraries, which are covered 
  *   by different license agreements. See the NOTICE file distributed with this work for additional 
@@ -26,9 +26,10 @@
  *   the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
  *   either express or implied. See the License for the specific language governing permissions and
  *   limitations under the License.
- *
+ *   
  */
-/**
+
+/*
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
  *
  */

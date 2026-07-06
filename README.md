@@ -1,98 +1,89 @@
-yooreeka
-========
+# Yooreeka
 
 This is the "official" clone of the Yooreeka project (originally hosted on Google Code). 
 
-------------------------------------------------------------------------------
-Quick guide for running the examples
-------------------------------------------------------------------------------
+---
 
-______________________________________________________________________________		
-1. Verify your environment
+## 1. Prerequisites Verification
 
-        1.1  Make sure that you've placed all distribution files under a directory
-             on your filesystem, say, "C:\code\yooreeka" on a Windows OS or /code/yooreeka
-             on a Linux OS. You can call that directory whatever you want.
-             
-        1.2  Create a new environment variable YOOREEKA_HOME with the above directory as its value
-             
-        1.3  Set the property yooreeka.home in the yooreeka.properties file, so that
-             it points to the installation directory mentioned above. Make sure the rest 
-             of the properties are consistently pointing to the appropriate locations. 
-        
-        1.4  Start windows command line interpreter (cmd.exe) and confirm that you 
-             can run java and ant from the command line on your system. 
-        
-             Within a Windows command prompt, execute the following:
-        
-                 java -version
-                 ant -version
-        
-                If you get an error see step 2. Otherwise skip to step 3.
-        
+If you have just downloaded the repository, verify that your environment meets the minimum version requirements:
 
-2. Configure your Java and Ant environment variables
+*   **Java Development Kit (JDK 24+)**
+    Check your Java version:
+    ```bash
+    java -version
+    ```
+    *(Ensure the output shows Java 24 or later)*
 
-	You can skip this step, if you already have JDK and Ant configured on your 
-	system to run from command line. Assuming that java jdk is in C:\jdk1.7.0_10 
-	and Ant is in C:\apache-ant-1.7.0 use the following commands:
+*   **Apache Maven**
+    Check your Maven installation:
+    ```bash
+    mvn -version
+    ```
 
-		SET JAVA_HOME=C:\jdk1.7.0_10
-		SET ANT_HOME=C:\apache-ant-1.7.0
-		SET PATH=%JAVA_HOME%\bin;%ANT_HOME%\bin;%PATH%
-		
-		SET JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
-	
-	If your JDK or Ant are installed elsewhere, please, change the above values 
-	accordingly.
+---
 
-    The JAVA_TOOL_OPTIONS ensures that files containing UTF-8 characters 
-    will not cause the build to fail. Details about this environment variable
-    can be found here: 
-    
-    http://docs.oracle.com/javase/7/docs/platform/jvmti/jvmti.html#tooloptions
-    
-    At this point you should be able to run java and ant from command line 
-    without errors. If you've only configured environment for your current 
-    command line interpreter make sure that you perform steps 3 and 4 in 
-    the same instance of interpreter.
+## 2. Using Maven to Build and Run Tests
 
-3. Reset your CLASSPATH environment variable
+The build system has been migrated from Ant to Maven. You can use standard Maven goals for compiling and testing the application.
 
-	Type the following command in your command prompt:
-	
-		SET CLASSPATH=
+### Compilation
+To compile the project and download all dependencies from Maven Central:
+```bash
+mvn compile
+```
 
-	This command empties your classpath, which is required for the rest of the 
-	process to work. In other words, we assume a clean slate for the CLASSPATH 
-	environment variable.
- 
-4. Run ant build file for the project: 
+### Running All Tests
+To run the entire test suite:
+```bash
+mvn clean test
+```
+*(Note: Running this command also executes the custom `clean-tests` execution, which automatically removes transient files created during test executions upon successful completion).*
 
-	Within the same command prompt execute the following two commands:
+### Running Individual Chapter Tests
+To run tests for a specific chapter individually (saving time and system resources), use the `-Dtest` property:
 
-		cd /D C:\code\yooreeka\build
-		ant
+*   **Chapter 2**:
+    ```bash
+    mvn test -Dtest=Ch2BeanShellScriptsTest
+    ```
+*   **Chapter 3**:
+    ```bash
+    mvn test -Dtest=Ch3BeanShellScriptsTest
+    ```
+*   **Chapter 4**:
+    ```bash
+    mvn test -Dtest=Ch4BeanShellScriptsTest
+    ```
+*   **Chapter 5**:
+    ```bash
+    mvn test -Dtest=Ch5BeanShellScriptsTest
+    ```
+*   **Chapter 6**:
+    ```bash
+    mvn test -Dtest=Ch6BeanShellScriptsTest
+    ```
+*   **Chapter 7**:
+    ```bash
+    mvn test -Dtest=Ch7BeanShellScriptsTest
+    ```
+*   **Playwright Crawler Tests**:
+    ```bash
+    mvn test -Dtest=PlaywrightTransportTest
+    ```
+    *(Note: On the first run, Playwright will automatically download and cache its headless browser binaries).*
 
-	Ant will execute the default target from the C:\iWeb2\build\build.xml 
-	build file. It will build all source code and will prepare the 
-	'C:\code\yooreeka\deploy' directory. 
+---
 
-5. Start the BeanShell
+## 3. What's New in v3.0
 
-	Within the same command prompt execute:
+Version 3.0 represents a complete modernization of the Yooreeka codebase:
 
-		C:\code\yooreeka\deploy\bin\bsc.bat
-
-______________________________________________________________________________		
-	
-You are ready to run the examples!!!	
-
-Note: Within the BeanShell you will have command history. So, if you typed 
-something and you would like to repeat it the command with different argument
-values or type something else similar to the previous command, you can use the 
-UP / DOWN arrows to move up and down the history of the BeanShell commands,
-respectively.
-
-Enjoy! 
-______________________________________________________________________________		
+*   **JDK 24 Upgrade**: Full compatibility and compilation targeting Java 24 features (using `-release 24`).
+*   **Playwright for Java Crawler**: Replaced the legacy purged `HTTPTransport` implementation with a modern browser crawler powered by Microsoft Playwright. It fully supports rendering JavaScript and single-page applications (SPAs) during crawls.
+*   **Maven Build Migration**: Replaced the legacy Ant build configuration with a standard `pom.xml`, fetching all libraries from Maven Central.
+*   **Decoupled & Eliminated System Scope JARs**: Removed legacy, system-scoped libraries (`jigg`, `rooster`, and local `tm-extractors`). Defunct live Digg API integration has been removed, and `tm-extractors` is now resolved natively from Maven Central.
+*   **Upgraded Apache Lucene to 10.5.0**: Upgraded search capabilities to the latest stable Lucene version, refactoring indexers, query builders, and search modules to use modern `StoredFields` and `Builder` APIs. 
+*   **Upgraded Drools Engine**: Upgraded Drools dependencies to version `7.73.0.Final` to ensure runtime compatibility with JDK 24.
+*   **Automatic Test Cleanup (`clean-tests`)**: Bound a customized execution of the `maven-clean-plugin` to clean up all test-generated crawler folders (`data/ch02/crawl-*`, `data/crawls/`), serialized files, and Lucene indexes automatically upon successful test runs.
+*   **Clean Warnings**: Resolved deprecation warnings (e.g. `java.net.URL` constructors, Commons CLI `OptionBuilder`) and enabled optimal Vector API performance using `--add-modules jdk.incubator.vector`.

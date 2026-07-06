@@ -28,6 +28,7 @@
  *   limitations under the License.
  *   
  */
+
 package org.yooreeka.algos.reco.collab.data;
 
 import java.io.Serializable;

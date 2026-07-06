@@ -86,7 +86,11 @@ public class FileTransport implements Transport {
 		if (documentUrl.startsWith(FILE_URL_PREFIX)) {
 			
 			String docURL = documentUrl.substring(FILE_URL_PREFIX_INDEX);
-			f = Paths.get(docURL).toFile();
+			try {
+				f = Paths.get(docURL).toFile();
+			} catch (java.nio.file.InvalidPathException ipX) {
+				throw new FileTransportException("Invalid local path for URL: " + documentUrl, ipX);
+			}
 			
 			if (f.isDirectory()) {
 				
