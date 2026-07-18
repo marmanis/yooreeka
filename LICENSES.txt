@@ -3,14 +3,12 @@ ________________________________________________________________________________
            LICENSES OF THIRD PARTY LIBRARIES USED BY YOOREEKA
 _________________________________________________________________________________
 
-Yooreeka 2.x is licensed under the Apache 2.0 license
+Yooreeka 3.x is licensed under the Apache 2.0 license.
 
 Yooreeka leverages a number of other open source libraries for some functionality.
 Those other libraries are governed by their own licenses.
 
-The libraries here are categorized based on their license. For some of them, we 
-also show the specific classes that rely on a given library and what part of the 
-library they use.
+The libraries here are categorized based on their license.
 _________________________________________________________________________________
  
  APACHE LICENSE v2.0
@@ -19,145 +17,82 @@ ________________________________________________________________________________
 | http://www.apache.org/licenses/LICENSE-2.0.html                               |
 |_______________________________________________________________________________|
 
- 
-   super-csv-2.1.0.jar (http://supercsv.sourceforge.net/index.html)
-   |
-   |---> org.yooreeka.algos.reco.collab.data.DiggData
-   |---> org.yooreeka.algos.clustering.test.SFData
- 
-   Apache Commons
- 
-   commons-lang3-3.1.jar (http://commons.apache.org/proper/commons-lang/)
-   |
-   |---> org.yooreeka.algos.taxis.tree.Node
-         |
-         |-->  org.apache.commons.lang3.StringUtils
-   
-   
-   ----------------------------------------------------------------------------
-   commons-logging-1.1.1.jar | This is a runtime dependency for httpclient
-   ----------------------------------------------------------------------------
-   
-   httpclient-4.2.2.jar
-   |
-   |---> org.yooreeka.util.internet.crawling.transport.http.HTTPTransport
-         |
-         |--> org.apache.http.client.CookieStore;
-         |--> org.apache.http.client.HttpClient;
-         |--> org.apache.http.client.methods.HttpGet;
-         |--> org.apache.http.client.protocol.ClientContext;
-         |--> org.apache.http.cookie.Cookie;
-         |--> org.apache.http.impl.client.BasicCookieStore;
-         |--> org.apache.http.impl.client.DefaultHttpClient;
-   
-   httpcore-4.2.2.jar
-   |
-   |---> org.yooreeka.util.internet.crawling.transport.http.HTTPTransport
-         |
-         |--> org.apache.http.Header;
-         |--> org.apache.http.HttpEntity;
-         |--> org.apache.http.HttpResponse;
-         |--> org.apache.http.protocol.BasicHttpContext;
-         |--> org.apache.http.protocol.HttpContext;
-         |--> org.apache.http.util.EntityUtils;
+   Microsoft Playwright (com.microsoft.playwright:playwright:1.49.0)
+   Used for javascript-enabled headless browser crawling.
 
-      
-   jsr173_1.0_api.jar  (Streaming API for XML)
-   |
-   |---> 
-   
-   jigg-0.1.jar
-   |
-   |--->
-   
-   
-   junit-4.1.jar
-   |
-   |---> 
-   
-   juniversalchardet-1.0.3.jar
-   |
-   |---> 
-   
-   log4j-1.2.17.jar
-   |
-   |---> 
-   
-   lucene-analyzers-common-4.0.0-BETA.jar
-   |
-   |---> 
-   
-   lucene-core-4.0.0-BETA.jar
-   |
-   |---> 
-   
-   lucene-demo-4.0.0-BETA.jar
-   |
-   |---> 
-   
-   lucene-memory-4.0.0-BETA.jar
-   |
-   |---> 
-   
-   lucene-queryparser-4.0.0-BETA.jar
-   |
-   |---> 
-   
-   nekohtml.jar
-   |
-   |---> 
-   
-   ojalgo-34.0.jar
-   |
-   |---> 
-   
-   poi-3.0.2-FINAL-20080204.jar
-   |
-   |---> 
-   
-   resolver.jar
-   |
-   |---> 
-   
-   rooster.jar
-   |
-   |---> 
-   
-   secondstring-20070327.jar
-   |
-   |---> 
-   
-   serializer.jar
-   |
-   |---> 
-   
-   servlet-api.jar
-   |
-   |---> 
-   
-   tm-extractors-1.0.jar
-   |
-   |---> 
-   
-   xercesImpl.jar
-   |
-   |---> 
-   
-   xml-apis.jar
-   |
-   |---> 
-   
- 
+   Apache Lucene (org.apache.lucene:lucene-core, lucene-analysis-common, lucene-queryparser:10.5.0)
+   Used for search indexing and query processing.
+
+   Drools Rules Engine (org.drools:drools-core, drools-compiler, drools-mvel:7.73.0.Final)
+   Used for business rule classification logic.
+
+   Apache Commons (commons-lang3, commons-math3, commons-text, commons-cli, commons-logging, commons-io)
+   Used for string, math, CLI parser, filesystem utilities, and logging.
+
+   Apache HttpComponents Client (org.apache.httpcomponents.client5:httpclient5:5.4.1)
+   Used for HTTP connections and transport.
+
+   Apache Logging Log4j (org.apache.logging.log4j:log4j-api, log4j-core:2.24.1)
+   Used for application logging context.
+
+   Apache Tika (org.apache.tika:tika-core:2.9.2)
+   Used for content detection and extraction.
+
+   Apache POI (org.apache.poi:poi-ooxml, poi-scratchpad:5.3.0)
+   Used for reading Microsoft Office formats.
+
+   Super CSV (net.sf.supercsv:super-csv:2.4.0)
+   Used for parsing CSV data formats.
+
+   ojAlgo (org.ojalgo:ojalgo:56.0.0)
+   Used for matrix math operations.
+
+   BeanShell (org.apache-extras.beanshell:bsh:2.0b6)
+   Used for script evaluation.
+
+   NekoHTML (net.sourceforge.nekohtml:nekohtml:1.9.22)
+   Used for HTML parsing.
+
+   Crawler4j (edu.uci.ics:crawler4j:3.5)
+   Used for web crawling pipelines.
+
+   TextMining Extractors (org.textmining:tm-extractors:0.4)
+   Used for text content extraction.
+
+   MVEL (org.mvel:mvel2:2.5.2.Final)
+   Used for expressions in Drools.
+
 _________________________________________________________________________________
  
- Lesser GPL      http://www.gnu.org/licenses/lgpl.html
+ ECLIPSE PUBLIC LICENSE (EPL-2.0)
+ _______________________________________________________________________________
+|                                                                               |
+| https://www.eclipse.org/legal/epl-2.0/                                        |
+|_______________________________________________________________________________|
+
+   Jakarta Mail API (jakarta.mail:jakarta.mail-api:2.1.3)
+   Angus Jakarta Mail (org.eclipse.angus:jakarta.mail:2.0.3)
+   Used for email message handling and parsing support.
+
 _________________________________________________________________________________
-  
- Bean Shell ... bsh-2.0b4.jar
+ 
+ MOZILLA PUBLIC LICENSE (MPL-1.1 / MPL-2.0)
+ _______________________________________________________________________________
+|                                                                               |
+| https://www.mozilla.org/MPL/                                                  |
+|_______________________________________________________________________________|
 
- JFreeChart
-    jfreechart.jar   (http://www.jfree.org/jfreechart/)
- 
- 
+   JUniversalCharDet (com.github.albfernandez:juniversalchardet:2.5.0)
+   Used for text encoding detection.
 
+_________________________________________________________________________________
  
+ GNU LESSER GENERAL PUBLIC LICENSE (LGPL-2.1)
+ _______________________________________________________________________________
+|                                                                               |
+| http://www.gnu.org/licenses/lgpl.html                                         |
+|_______________________________________________________________________________|
+
+   JFreeChart (org.jfree:jfreechart:1.0.19)
+   JCommon (org.jfree:jcommon:1.0.24)
+   Used for generating visual charts and graphical plots.

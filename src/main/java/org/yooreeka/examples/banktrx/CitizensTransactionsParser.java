@@ -73,7 +73,7 @@ public class CitizensTransactionsParser extends TransactionsParser {
 	}
 
 	public static void main(String[] args) {
-		String f = "C:\\Users\\micro\\Downloads\\CITIZENS.csv";
+		String f = args[0];
 		CitizensTransactionsParser parser = new CitizensTransactionsParser(f);
 
 	}

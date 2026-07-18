@@ -64,7 +64,7 @@ public class BarclaysTransactionsParser extends TransactionsParser {
         csvFile = new CSVFile(fileName, true, csvSchema);
     }
     public static void main(String[] args) {
-        String f = "C:\\Users\\micro\\Downloads\\BARCLAYS.csv";
+        String f = args[0];
         BarclaysTransactionsParser parser = new BarclaysTransactionsParser(f);
     }
 }
